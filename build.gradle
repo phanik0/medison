@@ -1,16 +1,16 @@
 plugins {
     id 'java'
     id 'war'
-    id 'org.springframework.boot' version '3.3.1'
+    id 'org.springframework.boot' version '2.7.18'
     id 'io.spring.dependency-management' version '1.1.5'
 }
 
-group = 'com.medison'
+group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
@@ -25,13 +25,28 @@ repositories {
 }
 
 dependencies {
-    //implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // spring boot web
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    //java
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    //test
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    //data
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'com.oracle.database.jdbc:ojdbc8:21.3.0.0'
+
+    //jsp
+    implementation 'javax.servlet:jstl:1.2'
+    implementation 'taglibs:standard:1.1.2'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.87'
+
+
 }
 
 tasks.named('test') {
