@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Study {
 
     @Id
-    private long studykey;
+    private long studykey; // studykey
     private String pid;
     private String pname;
     private String modality;
