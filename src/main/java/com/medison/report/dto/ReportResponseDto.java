@@ -1,6 +1,7 @@
 package com.medison.report.dto;
 
-import com.medison.pacs.study.domain.Study;
+
+import com.medison.detail.domain.Study;
 import com.medison.report.domain.Report;
 import lombok.Getter;
 
