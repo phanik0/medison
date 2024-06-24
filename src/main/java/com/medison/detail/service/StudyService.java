@@ -16,4 +16,9 @@ public class StudyService {
         return studyRepository.findAll();
     }
 
+    public Study getStudyByStudyKey(long studyKey) {
+        return studyRepository.findById(studyKey).orElseThrow(
+                () -> new IllegalArgumentException("존재하지 않는 검사입니다.")
+        );
+    }
 }

@@ -2,8 +2,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: TJ
-  Date: 2024-06-21
-  Time: PM 4:13
+  Date: 2024-06-24
+  Time: AM 11:02
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -12,11 +12,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>CornerStone Sample</h1>
-<div id="content">
-
-<input id ="input" type="file" accept="application/dicom">
-</div>
-<script src="${pageContext.request.contextPath}/dist/bundle.js"></script>
+<c:out value="hello world"/>
 </body>
 </html>
