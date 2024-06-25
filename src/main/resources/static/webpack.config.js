@@ -10,20 +10,6 @@ module.exports = {
         modules: ['node_modules'],
         extensions: ['.ts', '.js', '.json', '.wasm']
         },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    },
-                },
-            },
-        ],
-    },
     cache: {
         type: 'filesystem',
         cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
