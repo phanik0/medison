@@ -26,9 +26,10 @@ module.exports = {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
     },
-    experiments: {
-        topLevelAwait: true
-    },
+    resolve: {
+        modules: ['node_modules'],
+        extensions: ['.ts', '.js', '.json', '.wasm']
+        },
     module: {
         rules: [
             {
@@ -43,4 +44,9 @@ module.exports = {
             },
         ],
     },
+    cache: {
+        type: 'filesystem',
+        cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
+    },
+    mode: 'development'
 };
