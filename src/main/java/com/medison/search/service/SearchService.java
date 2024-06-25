@@ -2,8 +2,8 @@ package com.medison.search.service;
 
 import com.medison.detail.domain.Study;
 import com.medison.detail.domain.StudyRepository;
-import com.medison.patient.domain.Patient;
-import com.medison.patient.domain.PatientRepository;
+import com.medison.mysql.patient.domain.Patient;
+import com.medison.mysql.patient.domain.PatientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +46,7 @@ public class SearchService {
         return studyRepository.findAll(finalSpec, pageable);
     }
 
-    public Patient getPatientByCode(int code) {
+    public Patient getPatientByCode(String code) {
         return patientRepository.findById(code).orElse(null);
     }
 

@@ -23,7 +23,6 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 class DetailDataSourceConfig {
 
-
     @Value("${spring.datasource.detail.driver-class-name}")
     private String driverClassName;
     @Value("${spring.datasource.detail.url}")
@@ -34,12 +33,12 @@ class DetailDataSourceConfig {
     private String password;
     @Bean(name = "detailDataSource")
     public DataSource dataSource() {
-       return DataSourceBuilder.create()
-               .driverClassName(driverClassName)
-               .url(url)
-               .username(username)
-               .password(password)
-               .build();
+        return DataSourceBuilder.create()
+                .driverClassName(driverClassName)
+                .url(url)
+                .username(username)
+                .password(password)
+                .build();
     }
 
     @Bean(name = "detailEntityManager")

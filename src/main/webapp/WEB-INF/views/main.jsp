@@ -6,10 +6,26 @@
     <meta charset="UTF-8">
     <title>Medison</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
+    <style>
+        /* 테이블 행에 마우스를 올렸을 때 스타일 */
+        tr.clickable:hover {
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+    </style>
     <script>
         function showPatientDetails(pid) {
+            if (!pid) {
+                console.error("PID가 설정되지 않았습니다.");
+                return;
+            }
             fetch(`/patient?pid=${pid}`)
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     const patientDetails = document.getElementById('patient-details');
                     patientDetails.innerHTML = `
@@ -26,6 +42,9 @@
                             <tr><th>등록일</th><td>${data.regDate}</td></tr>
                             <tr><th>수정일</th><td>${data.modDate}</td></tr>
                         </table>`;
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
                 });
         }
     </script>
@@ -72,7 +91,7 @@
             </thead>
             <tbody>
             <c:forEach var="study" items="${studies}">
-                <tr onclick="showPatientDetails('${study.pid}')">
+                <tr class="clickable" onclick="showPatientDetails('${study.pid}')">
                     <td>${study.pid}</td>
                     <td>${study.pname}</td>
                     <td>${study.modality}</td>
@@ -93,4 +112,12 @@
         <div class="pagination">
             <button onclick="location.href='/main?page=${currentPage - 1}'" <c:if test="${currentPage == 0}">disabled</c:if>>&lt;</button>
             <span>${currentPage + 1}</span> / <span>${totalPages}</span>
-            <button onclick="location.href='/main?page=${currentPage + 1}'"
+            <button onclick="location.href='/main?page=${currentPage + 1}'" <c:if test="${currentPage + 1 >= totalPages}">disabled</c:if>>&gt;</button>
+        </div>
+    </section>
+    <section id="patient-details" class="detail-section">
+
+    </section>
+</main>
+</body>
+</html>

@@ -2,11 +2,12 @@ package com.medison.search.controller;
 
 import com.medison.detail.domain.Study;
 import com.medison.search.service.SearchService;
-import com.medison.patient.domain.Patient;
+import com.medison.mysql.patient.domain.Patient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class SearchController {
         model.addAttribute("totalPages", studyPage.getTotalPages());
 
         if (patientCode != null && !patientCode.isEmpty()) {
-            Patient patient = searchService.getPatientByCode(Integer.parseInt(patientCode));
+            Patient patient = searchService.getPatientByCode(patientCode);
             if (patient != null) {
                 model.addAttribute("patient", patient);
             }
@@ -47,7 +48,15 @@ public class SearchController {
 
     @GetMapping("/patient")
     @ResponseBody
-    public Patient getPatient(@RequestParam String pid) {
-        return searchService.getPatientByCode(Integer.parseInt(pid));
+    public ResponseEntity<Patient> getPatient(@RequestParam(required = false) String pid) {
+        if (pid == null || pid.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        Patient patient = searchService.getPatientByCode(pid);
+        if (patient != null) {
+            return ResponseEntity.ok(patient);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
