@@ -15,8 +15,8 @@
 <h1>CornerStone Sample</h1>
 <div id="content">
 
-<input id ="input" type="file" accept="application/dicom">
 </div>
+<input id ="file" type="file" accept="application/dicom">
 <script src="${pageContext.request.contextPath}/dist/bundle.js"></script>
 </body>
 </html>
