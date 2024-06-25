@@ -1,7 +1,7 @@
 package com.medison.search.service;
 
-import com.medison.detail.domain.Study;
-import com.medison.detail.domain.StudyRepository;
+import com.medison.pacs.study.domain.Study;
+import com.medison.pacs.study.domain.StudyRepository;
 import com.medison.mysql.patient.domain.Patient;
 import com.medison.mysql.patient.domain.PatientRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,9 @@
-package com.medison.detail.controller;
+package com.medison.pacs.study.controller;
 
-import com.medison.detail.service.StudyService;
+import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 @RequiredArgsConstructor
 @Controller

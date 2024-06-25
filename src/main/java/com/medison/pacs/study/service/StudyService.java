@@ -1,7 +1,7 @@
-package com.medison.detail.service;
+package com.medison.pacs.study.service;
 
-import com.medison.detail.domain.Study;
-import com.medison.detail.domain.StudyRepository;
+import com.medison.pacs.study.domain.Study;
+import com.medison.pacs.study.domain.StudyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

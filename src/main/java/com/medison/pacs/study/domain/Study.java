@@ -1,6 +1,7 @@
-package com.medison.detail.domain;
+package com.medison.pacs.study.domain;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

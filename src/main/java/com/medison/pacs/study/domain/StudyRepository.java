@@ -1,4 +1,4 @@
-package com.medison.detail.domain;
+package com.medison.pacs.study.domain;
 
 
 import org.springframework.data.jpa.domain.Specification;

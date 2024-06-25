@@ -1,4 +1,4 @@
-package com.medison.detail.domain;
+package com.medison.pacs.image.domain;
 
 import lombok.Getter;
 

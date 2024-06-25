@@ -16,22 +16,22 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.medison.detail",
-        entityManagerFactoryRef = "detailEntityManager",
-        transactionManagerRef = "detailTransactionManager"
+        basePackages = "com.medison.pacs",
+        entityManagerFactoryRef = "pacsEntityManager",
+        transactionManagerRef = "pacsTransactionManager"
 )
 @EnableTransactionManagement
-class DetailDataSourceConfig {
+class PacsDataSourceConfig {
 
-    @Value("${spring.datasource.detail.driver-class-name}")
+    @Value("${spring.datasource.pacs.driver-class-name}")
     private String driverClassName;
-    @Value("${spring.datasource.detail.url}")
+    @Value("${spring.datasource.pacs.url}")
     private String url;
-    @Value("${spring.datasource.detail.username}")
+    @Value("${spring.datasource.pacs.username}")
     private String username;
-    @Value("${spring.datasource.detail.password}")
+    @Value("${spring.datasource.pacs.password}")
     private String password;
-    @Bean(name = "detailDataSource")
+    @Bean(name = "pacsDataSource")
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .driverClassName(driverClassName)
@@ -41,7 +41,7 @@ class DetailDataSourceConfig {
                 .build();
     }
 
-    @Bean(name = "detailEntityManager")
+    @Bean(name = "pacsEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -49,12 +49,12 @@ class DetailDataSourceConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.medison.detail");
+        factory.setPackagesToScan("com.medison.pacs");
         factory.setDataSource(dataSource());
         return factory;
     }
 
-    @Bean(name = "detailTransactionManager")
+    @Bean(name = "pacsTransactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 
         JpaTransactionManager txManager = new JpaTransactionManager();

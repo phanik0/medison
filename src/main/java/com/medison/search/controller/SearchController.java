@@ -1,6 +1,6 @@
 package com.medison.search.controller;
 
-import com.medison.detail.domain.Study;
+import com.medison.pacs.study.domain.Study;
 import com.medison.search.service.SearchService;
 import com.medison.mysql.patient.domain.Patient;
 import lombok.RequiredArgsConstructor;
