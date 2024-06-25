@@ -80,6 +80,7 @@
 import * as cornerstone from '@cornerstonejs/core';
 import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader';
 import * as dicomParser from 'dicom-parser';
+import {addTool, ToolGroupManager, WindowLevelTool, ZoomTool} from "@cornerstonejs/tools";
 
 const initRendering = async () => {
     const imageIds = await createImageIdsAndCacheMetaData({
@@ -169,3 +170,4 @@ const init = async () => {
 };
 
 init();
+
