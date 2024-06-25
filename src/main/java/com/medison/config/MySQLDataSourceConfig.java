@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -16,22 +17,23 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.medison.detail",
-        entityManagerFactoryRef = "detailEntityManager",
-        transactionManagerRef = "detailTransactionManager"
+        basePackages = "com.medison.mysql",
+        entityManagerFactoryRef = "mysqlEntityManager",
+        transactionManagerRef = "mysqlTransactionManager"
 )
 @EnableTransactionManagement
-class DetailDataSourceConfig {
+class MySQLDataSourceConfig {
 
-    @Value("${spring.datasource.detail.driver-class-name}")
+
+    @Value("${spring.datasource.mysql.driver-class-name}")
     private String driverClassName;
-    @Value("${spring.datasource.detail.url}")
+    @Value("${spring.datasource.mysql.url}")
     private String url;
-    @Value("${spring.datasource.detail.username}")
+    @Value("${spring.datasource.mysql.username}")
     private String username;
-    @Value("${spring.datasource.detail.password}")
+    @Value("${spring.datasource.mysql.password}")
     private String password;
-    @Bean(name = "detailDataSource")
+    @Bean(name = "mysqlDataSource")
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .driverClassName(driverClassName)
@@ -41,7 +43,8 @@ class DetailDataSourceConfig {
                 .build();
     }
 
-    @Bean(name = "detailEntityManager")
+    @Primary
+    @Bean(name = "mysqlEntityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -49,12 +52,13 @@ class DetailDataSourceConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.medison.detail");
+        factory.setPackagesToScan("com.medison.mysql");
         factory.setDataSource(dataSource());
         return factory;
     }
 
-    @Bean(name = "detailTransactionManager")
+    @Primary
+    @Bean(name = "mysqlTransactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 
         JpaTransactionManager txManager = new JpaTransactionManager();

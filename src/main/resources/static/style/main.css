@@ -1,41 +1,55 @@
-.container {
-    width: 80%;
-    margin: auto;
+body {
+    font-family: Arial, sans-serif;
 }
 
-h1 {
+header {
+    background-color: #f8f8f8;
+    color: white;
+    padding: 10px 0;
     text-align: center;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.search-section, .result-section, .detail-section {
+    width: 80%;
     margin-bottom: 20px;
 }
 
-.table {
+.search-section input, .search-section select, .search-section button {
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+    width: 15%;
+}
+
+.result-section table, .detail-section table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-.table th, .table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+.result-section th, .result-section td, .detail-section th, .detail-section td {
+    border: 1px solid #ccc;
+    padding: 10px;
     text-align: left;
-}
-
-.table th {
-    background-color: #f2f2f2;
-    font-weight: bold;
 }
 
 .pagination {
     text-align: center;
+    margin-top: 10px;
+}
+
+.chart {
     margin-top: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
-.pagination a {
-    margin: 0 5px;
-    text-decoration: none;
-    color: #007bff;
-}
-
-.pagination span {
-    margin: 0 5px;
+.chart h3 {
+    margin-top: 0;
 }
