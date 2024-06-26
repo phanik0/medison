@@ -46,6 +46,9 @@ dependencies {
     implementation 'javax.servlet:jstl:1.2'
     implementation 'taglibs:standard:1.1.2'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.87'
+
+    // JSON
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
 tasks.named('test') {
