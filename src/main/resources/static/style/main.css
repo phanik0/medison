@@ -3,7 +3,7 @@ body {
 }
 
 header {
-    background-color: #f8f8f8;
+    background-color: #0056b3;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -52,4 +52,19 @@ main {
 
 .chart h3 {
     margin-top: 0;
+}
+
+.details-container {
+    display: flex;
+    width: 80%;
+}
+
+.detail-section {
+    flex: 1;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin: 5px;
 }

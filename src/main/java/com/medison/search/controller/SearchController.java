@@ -1,5 +1,7 @@
 package com.medison.search.controller;
 
+import com.medison.mysql.report.domain.Report;
+import com.medison.mysql.report.service.ReportService;
 import com.medison.pacs.study.domain.Study;
 import com.medison.search.service.SearchService;
 import com.medison.mysql.patient.domain.Patient;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 @Controller
 public class SearchController {
-
     private final SearchService searchService;
+    private final ReportService reportService;
 
     @GetMapping("/main")
     public String getAllStudies(Model model,
@@ -43,7 +45,7 @@ public class SearchController {
             }
         }
 
-        return "main"; // src/main/webapp/WEB-INF/jsp/main.jsp 파일을 렌더링
+        return "main";
     }
 
     @GetMapping("/patient")
@@ -55,6 +57,20 @@ public class SearchController {
         Patient patient = searchService.getPatientByCode(pid);
         if (patient != null) {
             return ResponseEntity.ok(patient);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/report")
+    @ResponseBody
+    public ResponseEntity<Report> getReport(@RequestParam(defaultValue = "0") int studykey) {
+        if (studykey == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        Report report = reportService.getReportByStudyKey(studykey);
+        if (report != null) {
+            return ResponseEntity.ok(report);
         } else {
             return ResponseEntity.notFound().build();
         }
