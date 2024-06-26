@@ -22,6 +22,4 @@ public class Study {
     private long seriescnt;
     private long imagecnt;
     private long examstatus;
-
-
 }
