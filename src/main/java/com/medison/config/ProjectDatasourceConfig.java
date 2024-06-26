@@ -20,7 +20,7 @@ public class ProjectDatasourceConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.pacs.web.my");
+        factory.setPackagesToScan("com.medison.mysql");
         factory.setDataSource(dataSource());
 
         Map<String, Object> properties = new HashMap<>();

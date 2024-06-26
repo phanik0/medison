@@ -47,6 +47,9 @@ dependencies {
     implementation 'taglibs:standard:1.1.2'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.87'
 
+    // JSON
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+
     implementation 'com.itextpdf:itext7-core:7.2.0'
 }
 
