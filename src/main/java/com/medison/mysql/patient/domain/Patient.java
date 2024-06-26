@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import java.sql.Timestamp;
 
 @Getter
-@Table(name = "PATIENT")
+@Table(name = "patient")
 @Entity
 public class Patient {
     @Id
@@ -19,8 +19,8 @@ public class Patient {
     private String birth;
     private boolean smoking;
     private boolean drinking;
-    private String medicalHistory;
-    private String coaution;
+    private String history;
+    private String caution;
     private Timestamp regDate;
     private Timestamp modDate;
 }

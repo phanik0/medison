@@ -37,8 +37,6 @@ public class ProjectDatasourceConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver"); // 드라이버 클래스 이름 설정
         dataSource.setUrl("jdbc:mysql://medison.cdwuigqcuxke.ap-northeast-2.rds.amazonaws.com:3306/medison_db"); // 데이터베이스 URL 설정
-        dataSource.setUsername("newuser"); // 사용자 이름 설정
-        dataSource.setPassword("akjbrJNteXBOcp2"); // 비밀번호 설정
 
         return dataSource;
     }
