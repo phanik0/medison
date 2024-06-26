@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableJpaRepositories(
@@ -33,6 +35,8 @@ class MySQLDataSourceConfig {
     private String username;
     @Value("${spring.datasource.mysql.password}")
     private String password;
+
+    @Primary
     @Bean(name = "mysqlDataSource")
     public DataSource dataSource() {
         return DataSourceBuilder.create()
@@ -42,6 +46,7 @@ class MySQLDataSourceConfig {
                 .password(password)
                 .build();
     }
+
 
     @Primary
     @Bean(name = "mysqlEntityManager")
@@ -54,6 +59,13 @@ class MySQLDataSourceConfig {
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("com.medison.mysql");
         factory.setDataSource(dataSource());
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("hibernate.hbm2ddl.auto", "none");
+        properties.put("hibernate.physical_naming_strategy", "org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy");
+        properties.put("hibernate.implicit_naming_strategy", "org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy");
+        factory.setJpaPropertyMap(properties);
+
         return factory;
     }
 
