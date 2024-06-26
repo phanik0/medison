@@ -21,7 +21,7 @@ public class UserController {
 
     @PostMapping("/join")
     public ModelAndView save(@RequestBody UserRequestDto userRequestDto) {
-        System.out.println("de : "+userRequestDto.getDepartmentCode());
+        System.out.println("de : " + userRequestDto.getDepartmentCode());
         ModelAndView modelAndView = new ModelAndView("");
         UserResponseDto userResponseDto = userService.save(userRequestDto);
         JSONObject response = new JSONObject();
@@ -47,37 +47,40 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/login")
-    public boolean login(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request){
+    public boolean login(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if(userService.login(userRequestDto)){
+        if (userService.login(userRequestDto)) {
             session.setAttribute("user", userRequestDto.getId());
             return true;
-        }else
+        } else
             return false;
     }
 
     @ResponseBody
     @PostMapping("/logout")
-    public boolean logout(HttpServletRequest request){
+    public boolean logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("user");
-        if(session.getAttribute("user") != null){
+        if (session.getAttribute("user") != null) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }
 
     @ResponseBody
     @DeleteMapping("/delete")
-    public boolean delete(@RequestBody UserRequestDto userRequestDto){
+    public boolean delete(@RequestBody UserRequestDto userRequestDto) {
         return userService.delete(userRequestDto);
     }
 
     @ResponseBody
     @PutMapping("/update/me")
-    public boolean update(@RequestBody UserRequestDto userRequestDto,@RequestParam String currentPassword){
-        return userService.updateByTheUser(userRequestDto,currentPassword);
+    public boolean update(@RequestBody JSONObject reqObj) {
+        UserRequestDto userRequestDto = new UserRequestDto();
+        userRequestDto.setId(reqObj.get("id").toString());
+        userRequestDto.setPassword(reqObj.get("password").toString());
+        return userService.updateByTheUser(userRequestDto, reqObj.get("currentPassword").toString());
     }
 
 }
