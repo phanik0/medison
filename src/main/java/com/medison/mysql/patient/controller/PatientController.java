@@ -4,13 +4,11 @@ import com.medison.mysql.patient.domain.Patient;
 import com.medison.mysql.patient.domain.PatientRepository;
 
 import com.medison.mysql.patient.service.PatientService;
+import com.medison.search.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +18,7 @@ import java.util.Optional;
 public class PatientController {
 
     private final PatientService patientService;
+    private final SearchService searchService;
 
     @ResponseBody
     @GetMapping("/patients")
@@ -27,4 +26,5 @@ public class PatientController {
       List<Patient> result = patientService.findAll();
       return result;
  }
+
 }

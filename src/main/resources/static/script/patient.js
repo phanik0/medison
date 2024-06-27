@@ -7,21 +7,65 @@ function showPatientDetails(pid) {
             return response.json();
         })
         .then(patient => {
-            const patientDetails = document.getElementById('patient-details');
-            patientDetails.innerHTML = `
-                <h2>환자 정보</h2>
-                <table>
-                    <tr><th>코드</th><td>${patient.code}</td></tr>
-                    <tr><th>이름</th><td>${patient.name}</td></tr>
-                    <tr><th>성별</th><td>${patient.sex}</td></tr>
-                    <tr><th>생년월일</th><td>${patient.birth}</td></tr>
-                    <tr><th>흡연</th><td>${patient.smoking ? 'Yes' : 'No'}</td></tr>
-                    <tr><th>음주</th><td>${patient.drinking ? 'Yes' : 'No'}</td></tr>
-                    <tr><th>의료 이력</th><td>${patient.history}</td></tr>
-                    <tr><th>주의 사항</th><td>${patient.caution}</td></tr>
-                </table>`;
+            document.getElementById('patient-code').textContent = patient.code || '';
+            document.getElementById('patient-name').textContent = patient.name || '';
+            document.getElementById('patient-sex').textContent = patient.sex || '';
+            document.getElementById('patient-birth').textContent = patient.birth || '';
+            document.getElementById('patient-smoking').value = patient.smoking ? 'true' : 'false';
+            document.getElementById('patient-drinking').value = patient.drinking ? 'true' : 'false';
+            document.getElementById('patient-history').value = patient.history || '';
+            document.getElementById('patient-caution').value = patient.caution || '';
+
+            const saveButton = document.getElementById('save-button');
+            if (pid) {
+                saveButton.style.display = 'block';
+            } else {
+                saveButton.style.display = 'none';
+            }
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+function savePatientDetails() {
+    const pid = document.getElementById('patient-code').textContent;
+    const name = document.getElementById('patient-name').textContent;
+    const sex = document.getElementById('patient-sex').textContent;
+    const birth = document.getElementById('patient-birth').textContent;
+    const smoking = document.getElementById('patient-smoking').value === 'true';
+    const drinking = document.getElementById('patient-drinking').value === 'true';
+    const history = document.getElementById('patient-history').value;
+    const caution = document.getElementById('patient-caution').value;
+
+    const data = {
+        code: pid,
+        name,
+        sex,
+        birth,
+        smoking,
+        drinking,
+        history,
+        caution
+    };
+
+    fetch(`/patient/edit`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(result => {
+            alert(result);
+        })
+        .catch(error => {
+            console.error('저장 중 오류가 발생했습니다:', error);
         });
 }

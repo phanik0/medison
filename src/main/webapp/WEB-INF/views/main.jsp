@@ -26,8 +26,8 @@
         <form id="searchForm" action="/main" method="get">
             <input type="text" name="patientCode" id="patient-id" placeholder="환자 아이디">
             <input type="text" name="patientName" id="patient-name" placeholder="환자 이름">
-            <select name="modality" id="test-equipment">
-                <option value="">검사 장비</option>
+            <select name="modality" id="test-equipment" required>
+                <option value="" disabled selected>검사 장비</option>
                 <option value="CR">CR</option>
                 <option value="CT">CT</option>
                 <option value="DR">DR</option>
@@ -37,14 +37,16 @@
                 <option value="US">US</option>
                 <option value="XA">XA</option>
             </select>
-            <select name="reportStatus" id="test-status">
-                <option value="">판독 상태</option>
+
+            <select name="reportStatus" id="test-status" required>
+                <option value="" disabled selected>판독 상태</option>
                 <option value="3">읽지않음</option>
                 <option value="5">예비판독</option>
                 <option value="6">판독완료</option>
             </select>
-            <select name="examStatus" id="verify">
-                <option value="">Verify</option>
+
+            <select name="examStatus" id="verify" required>
+                <option value="" disabled selected>Verify</option>
                 <option value="1">Y</option>
                 <option value="0">N</option>
             </select>
@@ -97,31 +99,41 @@
         <section id="patient-details" class="detail-section">
             <h2>환자 정보</h2>
             <table>
-                <tr><th>코드</th><td></td></tr>
-                <tr><th>이름</th><td></td></tr>
-                <tr><th>성별</th><td></td></tr>
-                <tr><th>생년월일</th><td></td></tr>
-                <tr><th>흡연</th><td></td></tr>
-                <tr><th>음주</th><td></td></tr>
-                <tr><th>의료 이력</th><td></td></tr>
-                <tr><th>주의 사항</th><td></td></tr>
-                <tr><th>등록일</th><td></td></tr>
-                <tr><th>수정일</th><td></td></tr>
+                <tr><th>코드</th><td id="patient-code"></td></tr>
+                <tr><th>이름</th><td id="patient-name"></td></tr>
+                <tr><th>성별</th><td id="patient-sex"></td></tr>
+                <tr><th>생년월일</th><td id="patient-birth"></td></tr>
+                <tr><th>흡연</th><td>
+                    <select id="patient-smoking">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </td></tr>
+                <tr><th>음주</th><td>
+                    <select id="patient-drinking">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </td></tr>
+                <tr><th>의료 이력</th><td><input type="text" id="patient-history"></td></tr>
+                <tr><th>주의 사항</th><td><input type="text" id="patient-caution"></td></tr>
             </table>
+            <button id="save-button" style="display: none;" onclick="savePatientDetails()">저장</button>
         </section>
         <section id="report-details" class="detail-section">
             <h2>검사 리포트</h2>
             <table>
-                <tr><th>예비판독의</th><td></td></tr>
-                <tr><th>판독의</th><td></td></tr>
-                <tr><th>최종 판독의</th><td></td></tr>
-                <tr><th>환자코드</th><td></td></tr>
-                <tr><th>기존 판독 상태</th><td></td></tr>
-                <tr><th>판독 상태</th><td></td></tr>
-                <tr><th>코멘트</th><td></td></tr>
-                <tr><th>검사소견</th><td></td></tr>
-                <tr><th>향후 치료 의견</th><td></td></tr>
+                <tr><th>예비판독의</th><td id="preDoctor"></td></tr>
+                <tr><th>판독의</th><td id="doctor"></td></tr>
+                <tr><th>최종 판독의</th><td id="finalDoctor"></td></tr>
+                <tr><th>환자코드</th><td id="report-patientCode"></td></tr>
+                <tr><th>판독 상태</th><td id="status"></td></tr>
+                <tr><th>코멘트</th><td><input type="text" id="comments"></td></tr>
+                <tr><th>검사소견</th><td><input type="text" id="finding"></td></tr>
+                <tr><th>향후 치료 의견</th><td><input type="text" id="futureComment"></td></tr>
             </table>
+            <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
+            <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
         </section>
     </section>
 </main>
