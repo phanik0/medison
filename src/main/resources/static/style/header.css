@@ -1,0 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #004AAD;
+    color: #f9f9f9;
+    padding: 20px; /* 헤더 높이를 키우기 위해 패딩을 더 크게 설정 */
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 36px; /* 텍스트 크기를 더 크게 설정 */
+}
+
+header h1 a {
+    color: #f9f9f9;
+    text-decoration: none;
+}
+
+header .logout-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #004AAD;
+    color: #f9f9f9;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+header .logout-button:hover {
+    background-color: #003080;
+}
