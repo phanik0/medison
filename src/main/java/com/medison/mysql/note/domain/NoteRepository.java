@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface NoteRepository extends JpaRepository<Note, Long> {
 
     Note findByStudykey(Long studykey);
+
 }
