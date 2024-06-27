@@ -42,6 +42,20 @@ public class User extends Timestamped {
     }
 
     public void updateByTheUser(UserRequestDto userRequestDto) {
-        this.password = userRequestDto.getPassword();
+        if(!userRequestDto.getPassword().isEmpty()) {
+            this.password = userRequestDto.getPassword();
+        }
+    }
+
+    public void updateByTheAdmin(UserRequestDto userRequestDto) {
+        if (userRequestDto.getDepartmentCode() != 0) {
+            this.departmentCode = userRequestDto.getDepartmentCode();
+        }
+        if (!userRequestDto.getPosition().isEmpty()) {
+            this.position = userRequestDto.getPosition();
+        }
+        if (!userRequestDto.getPhone().isEmpty()) {
+            this.phone = userRequestDto.getPhone();
+        }
     }
 }
