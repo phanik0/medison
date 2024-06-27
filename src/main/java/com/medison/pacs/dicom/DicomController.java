@@ -24,7 +24,7 @@ public class DicomController {
         try {
             path = path.replace("%2F", "/").replace("%5C", "/").replace("%3A","/");
             System.out.println("path: " + path);
-            String basePath = "Z:/"; // 실제 파일이 저장된 경로로 변경 필요
+            String basePath = "Z:/";
             Resource file = new UrlResource("file:" + basePath + path);
             if (file.exists() || file.isReadable()) {
                 return ResponseEntity.ok()

@@ -43,7 +43,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/admin/manage")
     public ModelAndView getUsers() {
-        ModelAndView modelAndView = new ModelAndView("userManage");
+        ModelAndView modelAndView = new ModelAndView("user/userManage");
         List<UserResponseDto> userResponseDtos = userService.getUsers();
         modelAndView.addObject("infos", userResponseDtos);
         return modelAndView;
@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/user/login")
     public String login() {
-        return "login";
+        return "user/login";
     }
 
     @PostMapping("/user/login")
