@@ -15,7 +15,7 @@ public class Report {
     private int studykey;
     private String preDoctor;
     private String doctor;
-    private String finalDocotr;
+    private String finalDoctor;
     private String patientCode;
     private int existingStatus;
     private int status;

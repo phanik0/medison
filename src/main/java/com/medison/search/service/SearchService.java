@@ -20,7 +20,7 @@ public class SearchService {
     private final StudyRepository studyRepository;
     private final PatientRepository patientRepository;
 
-    public Page<Study> searchStudies(String patientCode, String patientName, String modality, Long reportStatus, Long examStatus, Pageable pageable) {
+    public Page<Study> searchStudies(String patientCode, String patientName, String modality, Long reportStatus, Long examStatus, String startDate, String endDate, Pageable pageable) {
         List<Specification<Study>> specs = new ArrayList<>();
         if (StringUtils.hasText(patientCode)) {
             specs.add(StudyRepository.hasPatientCode(patientCode));
@@ -34,8 +34,13 @@ public class SearchService {
         if (reportStatus != null) {
             specs.add(StudyRepository.hasReportStatus(reportStatus));
         }
+
         if (examStatus != null) {
             specs.add(StudyRepository.hasExamStatus(examStatus));
+        }
+
+        if (StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
+            specs.add(StudyRepository.hasStudyDateBetween(startDate, endDate));
         }
 
         Specification<Study> finalSpec = Specification.where(null);

@@ -16,4 +16,8 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    public void savePatient(Patient patient) {
+        patientRepository.save(patient);
+    }
+
 }

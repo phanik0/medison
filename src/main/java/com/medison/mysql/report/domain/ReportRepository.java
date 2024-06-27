@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Integer> {
-
-    public Report findByStudykey(int studykey);
+    Report findByStudykey(int studykey);
 }
