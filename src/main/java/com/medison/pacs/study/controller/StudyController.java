@@ -40,11 +40,14 @@ public class StudyController {
     }
 
 
-    public ModelAndView renderStudy(@PathVariable long studyKey){
-        List<Image> imageList =imageService.findImagesByStudyKey(studyKey);
-
+    @GetMapping("/study/{studyKey}")
+    public ModelAndView renderStudy(@PathVariable long studyKey) {
         ModelAndView modelAndView = new ModelAndView("study");
-        modelAndView.addObject("study", studyService.getStudyByStudyKey(studyKey));
+        modelAndView.addObject("study", studyKey);
+        List<Image> images = imageService.findImagesByStudyKey(studyKey);
+        if (!images.isEmpty()) {
+            modelAndView.addObject("dicomPath", images.get(0).getPath());
+        }
         return modelAndView;
     }
 }
