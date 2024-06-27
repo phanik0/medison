@@ -36,6 +36,12 @@ public class UserResponseDto {
             this.position = user.getPosition();
             this.name = user.getName();
             this.phone = user.getPhone();
+        }else if(action == ActionType.LOGIN){
+            this.id = user.getId();
+            this.name = user.getName();
+            this.position = user.getPosition();
+            this.admin = user.isAdmin();
+            this.departmentCode = user.getDepartmentCode();
         }
     }
 }

@@ -4,5 +4,6 @@ public enum ActionType {
     SAVE,
     UPDATE,
     DELETE,
-    VIEW
+    VIEW,
+    LOGIN
 }
