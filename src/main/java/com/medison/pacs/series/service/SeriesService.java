@@ -25,7 +25,7 @@ public class SeriesService {
         return series.get();
     }
     public List<Series> findSeriesByStudyKey(long studyKey){
-        List<Series>list = new ArrayList<Series>();
+        List<Series>list = new ArrayList<>();
         for(Series series : seriesRepository.findAll()){
             if(series.getStudykey().equals(studyKey)){
                 list.add(series);

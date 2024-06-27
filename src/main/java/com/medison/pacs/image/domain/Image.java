@@ -54,7 +54,7 @@ public class Image {
     private String transfersyntaxuid;
     private String sourceapplicationentitytitle;
     private String lossyimagecompression;
-    private Long samplesperpixel;
+    private Long sampleperpixel;
     private String photometricinterpretation;
     private Long bitsstored;
     private Long highbit;
@@ -109,7 +109,7 @@ public class Image {
     private String instancecreationdate;
     private String instancecreationtime;
     private String sourceaetitle;
-    private Double ai_score;
-    private Long ai_finding_count;
+    private Double aiScore;
+    private Long aiFinding_count;
     private String reportstatus;
 }
