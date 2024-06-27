@@ -12,15 +12,16 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-
+    @ResponseBody
     @PostMapping("/join")
-    public ModelAndView save(@RequestBody UserRequestDto userRequestDto) {
+    public ModelAndView save(@ModelAttribute UserRequestDto userRequestDto) {
         System.out.println("de : " + userRequestDto.getDepartmentCode());
         ModelAndView modelAndView = new ModelAndView("");
         UserResponseDto userResponseDto = userService.save(userRequestDto);
@@ -47,10 +48,11 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/login")
-    public boolean login(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request) {
+    public boolean login(@ModelAttribute UserRequestDto userRequestDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if (userService.login(userRequestDto)) {
-            session.setAttribute("user", userRequestDto.getId());
+        UserResponseDto result = userService.login(userRequestDto);
+        if (result != null) {
+            session.setAttribute("user", result);
             return true;
         } else
             return false;
@@ -70,17 +72,23 @@ public class UserController {
 
     @ResponseBody
     @DeleteMapping("/delete")
-    public boolean delete(@RequestBody UserRequestDto userRequestDto) {
+    public boolean delete(@ModelAttribute UserRequestDto userRequestDto) {
         return userService.delete(userRequestDto);
     }
 
     @ResponseBody
     @PutMapping("/update/me")
-    public boolean update(@RequestBody JSONObject reqObj) {
+    public boolean updateByTheUser(@RequestParam Map<String, String> reqObj) {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setId(reqObj.get("id").toString());
         userRequestDto.setPassword(reqObj.get("password").toString());
         return userService.updateByTheUser(userRequestDto, reqObj.get("currentPassword").toString());
+    }
+
+    @ResponseBody
+    @PutMapping("/update/admin")
+    public boolean updateByTheAdmin(@ModelAttribute UserRequestDto userRequestDto) {
+        return userService.updateByTheAdmin(userRequestDto);
     }
 
 }
