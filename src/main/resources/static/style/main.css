@@ -1,20 +1,22 @@
+/* main.css */
+
+/* 전체 바디 스타일 설정 */
 body {
     font-family: Arial, sans-serif;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto; /* 전체 스크롤만 활성화 */
 }
 
-header {
-    background-color: #004AAD;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-}
-
+/* 메인 섹션 스타일 설정 */
 main {
     display: flex;
     flex-direction: row;
-    height: 100vh;
+    min-height: 100vh; /* 최소 높이를 100vh로 설정하여 화면 전체를 차지하도록 함 */
 }
 
+/* 사이드바 스타일 설정 */
 .sidebar {
     width: 20%;
     padding: 20px;
@@ -24,11 +26,52 @@ main {
     background-color: #f9f9f9;
     margin-right: 20px;
     overflow: auto;
+    position: relative; /* 자식 요소 절대 위치 설정을 위한 상대 위치 설정 */
 }
 
-.sidebar {
-    margin-bottom: 20px;
+/* 회원 정보 섹션 스타일 설정 */
+.member-info {
+    width: 80%; /* 가로 폭을 사이드바에 맞춤 */
+    background-color: #e0e0e0; /* 회색 배경 */
+    padding: 10px; /* 패딩 조정 */
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center; /* 텍스트 가운데 정렬 */
+    position: absolute; /* 절대 위치 설정 */
+    bottom: 20px; /* 사이드바 맨 아래에 배치 */
 }
+
+.member-info .profile-image {
+    width: 40px; /* 프로필 이미지 크기 조정 */
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 5px; /* 마진 줄임 */
+}
+
+.member-info .member-id {
+    font-weight: bold;
+    margin-bottom: 5px; /* 마진 줄임 */
+    font-size: 14px; /* 폰트 크기 조정 */
+}
+
+.member-info .info-update {
+    width: 50%; /* 버튼 크기를 반으로 줄임 */
+    padding: 5px 10px; /* 패딩 조정 */
+    background-color: #004AAD;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px; /* 폰트 크기 조정 */
+    transition: background-color 0.3s, color 0.3s;
+    margin: 0 auto; /* 버튼을 가운데로 정렬 */
+}
+
+.member-info .info-update:hover {
+    background-color: #003080;
+}
+
 
 .sidebar input {
     width: 100%;
@@ -54,6 +97,7 @@ main {
     background-color: #003080;
 }
 
+/* 메인 콘텐츠 스타일 설정 */
 .main-content {
     width: 80%;
     display: flex;
@@ -61,7 +105,6 @@ main {
     align-items: center;
     padding: 20px;
     box-sizing: border-box;
-    overflow: auto;
 }
 
 .search-section, .result-section, .detail-section {
@@ -76,19 +119,62 @@ main {
     width: 15%;
 }
 
+/* 테이블 레이아웃을 고정으로 설정 */
 .result-section table, .detail-section table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정 */
 }
 
 .result-section th, .detail-section th, .result-section td, .detail-section td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
+    word-wrap: break-word; /* 긴 단어를 줄바꿈하여 셀 크기 고정 */
+}
+
+.result-section th, .detail-section th {
+    background-color: #f1f1f1;
 }
 
 .result-section tr:hover, .detail-section tr:hover {
     background-color: #f1f1f1;
+}
+
+/* 각 컬럼의 고정 너비를 설정 */
+.result-section th:nth-child(1), .result-section td:nth-child(1),
+.detail-section th:nth-child(1), .detail-section td:nth-child(1) {
+    width: 15%; /* 환자 코드 컬럼 */
+}
+
+.result-section th:nth-child(2), .result-section td:nth-child(2),
+.detail-section th:nth-child(2), .detail-section td:nth-child(2) {
+    width: 20%; /* 환자 이름 컬럼 */
+}
+
+.result-section th:nth-child(3), .result-section td:nth-child(3),
+.detail-section th:nth-child(3), .detail-section td:nth-child(3) {
+    width: 10%; /* 검사 장비 컬럼 */
+}
+
+.result-section th:nth-child(4), .result-section td:nth-child(4),
+.detail-section th:nth-child(4), .detail-section td:nth-child(4) {
+    width: 25%; /* 검사 부위 컬럼 */
+}
+
+.result-section th:nth-child(5), .result-section td:nth-child(5),
+.detail-section th:nth-child(5), .detail-section td:nth-child(5) {
+    width: 10%; /* 검사 날짜 컬럼 */
+}
+
+.result-section th:nth-child(6), .result-section td:nth-child(6),
+.detail-section th:nth-child(6), .detail-section td:nth-child(6) {
+    width: 10%; /* 판독 상태 컬럼 */
+}
+
+.result-section th:nth-child(7), .result-section td:nth-child(7),
+.detail-section th:nth-child(7), .detail-section td:nth-child(7) {
+    width: 10%; /* Verify 컬럼 */
 }
 
 .pagination {
@@ -112,6 +198,7 @@ main {
     margin-top: 0;
 }
 
+/* 세부 정보 컨테이너 스타일 설정 */
 .details-container {
     display: flex;
     width: 100%;
@@ -148,8 +235,16 @@ main {
 }
 
 .detail-section th {
-    background-color: #f1f1f1;
     padding: 10px;
+}
+
+/* 왼쪽 셀과 오른쪽 셀의 비율을 1:3으로 설정 */
+.detail-section th:nth-child(1), .detail-section td:nth-child(1) {
+    width: 25%; /* 왼쪽 셀 너비 */
+}
+
+.detail-section th:nth-child(2), .detail-section td:nth-child(2) {
+    width: 75%; /* 오른쪽 셀 너비 */
 }
 
 .detail-section table {
@@ -180,6 +275,13 @@ button:focus {
     outline: none;
 }
 
+/* 버튼을 좌우로 나란히 배치하기 위한 스타일 */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
 /* 달력 스타일 추가 */
 .ui-datepicker {
     width: 100%;
@@ -196,10 +298,14 @@ button:focus {
     border: none;
     padding: 10px;
     border-radius: 5px 5px 0 0;
+    display: flex;
+    justify-content: space-between; /* 이전/다음 버튼과 제목을 한 줄로 배치 */
+    align-items: center;
 }
 
 .ui-datepicker-title {
     font-weight: bold;
+    color: white;
 }
 
 .ui-datepicker-prev, .ui-datepicker-next {
@@ -214,10 +320,14 @@ button:focus {
 .ui-datepicker-calendar td {
     padding: 10px;
     border: 1px solid #ccc;
+    color: #004AAD; /* 기본 글씨 색상 */
+    text-decoration: none; /* 밑줄 없애기 */
 }
 
 .ui-datepicker-calendar .ui-state-active {
     background: #004AAD;
     color: white;
     border-radius: 5px;
+    transform: scale(1.2); /* 선택된 날짜를 더 크게 표시 */
+    transition: transform 0.2s; /* 크기 변화 애니메이션 추가 */
 }

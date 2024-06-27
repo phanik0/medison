@@ -34,9 +34,11 @@ public class SearchService {
         if (reportStatus != null) {
             specs.add(StudyRepository.hasReportStatus(reportStatus));
         }
+
         if (examStatus != null) {
             specs.add(StudyRepository.hasExamStatus(examStatus));
         }
+
         if (StringUtils.hasText(startDate) && StringUtils.hasText(endDate)) {
             specs.add(StudyRepository.hasStudyDateBetween(startDate, endDate));
         }

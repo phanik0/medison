@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <%@ include file="/WEB-INF/views/header.jsp" %>
     <meta charset="UTF-8">
-    <title>Medison</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <%--    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
@@ -48,9 +48,6 @@
     </script>
 </head>
 <body>
-<header>
-    <h1>Medison</h1>
-</header>
 <main>
     <div class="sidebar">
         <form id="searchForm" action="/main" method="get">
@@ -61,6 +58,12 @@
             <input type="text" id="endDate" name="endDate" placeholder="종료 날짜">
             <button type="submit">검색</button>
         </form>
+
+        <div class="member-info">
+            <img src="${pageContext.request.contextPath}/image/profile.png" class="profile-image">
+            <p class="member-id">130xdoi13</p>
+            <button class="info-update">정보수정</button>
+        </div>
     </div>
     <div class="main-content">
         <section class="search-section">
@@ -176,11 +179,13 @@
                     <tr><th>검사소견</th><td><input type="text" id="finding"></td></tr>
                     <tr><th>향후 치료 의견</th><td><input type="text" id="futureComment"></td></tr>
                 </table>
-                <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
-                <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
+                <div class="button-container">
+                    <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
+                    <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
+                </div>
             </section>
         </section>
     </div>
 </main>
-</body>
+<%@ include file="/WEB-INF/views/footer.jsp" %>
 </html>

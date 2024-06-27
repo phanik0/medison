@@ -120,5 +120,4 @@ public class SearchController {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
-
 }
