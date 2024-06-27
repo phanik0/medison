@@ -3,7 +3,7 @@ body {
 }
 
 header {
-    background-color: #0056b3;
+    background-color: #004AAD;
     color: white;
     padding: 10px 0;
     text-align: center;
@@ -11,13 +11,61 @@ header {
 
 main {
     display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 20%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-right: 20px;
+    overflow: auto;
+}
+
+.sidebar {
+    margin-bottom: 20px;
+}
+
+.sidebar input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.sidebar button {
+    width: 100%;
+    padding: 10px;
+    background-color: #004AAD;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar button:hover {
+    background-color: #003080;
+}
+
+.main-content {
+    width: 80%;
+    display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    box-sizing: border-box;
+    overflow: auto;
 }
 
 .search-section, .result-section, .detail-section {
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
 }
 
@@ -33,7 +81,7 @@ main {
     border-collapse: collapse;
 }
 
-.result-section th, .result-section td, .detail-section th, .detail-section td {
+.result-section th, .detail-section th, .result-section td, .detail-section td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
@@ -66,7 +114,7 @@ main {
 
 .details-container {
     display: flex;
-    width: 80%;
+    width: 100%;
 }
 
 .detail-section {
@@ -79,7 +127,6 @@ main {
     margin: 5px;
 }
 
-/* 새로운 스타일 추가 */
 .detail-section input[type="text"], .detail-section select {
     width: 100%;
     padding: 8px;
@@ -93,7 +140,7 @@ main {
 
 .detail-section input[type="text"]:focus, .detail-section select:focus {
     outline: none;
-    border-bottom: 2px solid #0056b3;
+    border-bottom: 2px solid #004AAD;
 }
 
 .detail-section td {
@@ -111,25 +158,66 @@ main {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* 버튼 스타일 추가 */
 button {
     background-color: white;
-    border: 2px solid #0056b3;
-    color: #0056b3;
+    border: 2px solid #004AAD;
+    color: #004AAD;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
     display: block;
-    margin: 20px auto; /* 가운데 정렬 */
+    margin: 20px auto;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #004AAD;
     color: white;
 }
 
 button:focus {
     outline: none;
+}
+
+/* 달력 스타일 추가 */
+.ui-datepicker {
+    width: 100%;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.ui-datepicker-header {
+    background: #004AAD;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px 5px 0 0;
+}
+
+.ui-datepicker-title {
+    font-weight: bold;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+    color: white;
+}
+
+.ui-datepicker-calendar th {
+    background: #f1f1f1;
+    padding: 10px;
+}
+
+.ui-datepicker-calendar td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.ui-datepicker-calendar .ui-state-active {
+    background: #004AAD;
+    color: white;
+    border-radius: 5px;
 }

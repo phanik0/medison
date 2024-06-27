@@ -29,14 +29,25 @@ public class SearchController {
                                 @RequestParam(required = false) String patientName,
                                 @RequestParam(required = false) String modality,
                                 @RequestParam(required = false) Long reportStatus,
-                                @RequestParam(required = false) Long examStatus) {
+                                @RequestParam(required = false) Long examStatus,
+                                @RequestParam(required = false) String startDate,
+                                @RequestParam(required = false) String endDate) {
 
         Pageable pageable = PageRequest.of(page, 5);
-        Page<Study> studyPage = searchService.searchStudies(patientCode, patientName, modality, reportStatus, examStatus, pageable);
+        Page<Study> studyPage = searchService.searchStudies(patientCode, patientName, modality, reportStatus, examStatus, startDate, endDate, pageable);
 
         model.addAttribute("studies", studyPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", studyPage.getTotalPages());
+
+        // 추가된 검색 파라미터 모델에 추가
+        model.addAttribute("patientCode", patientCode);
+        model.addAttribute("patientName", patientName);
+        model.addAttribute("modality", modality);
+        model.addAttribute("reportStatus", reportStatus);
+        model.addAttribute("examStatus", examStatus);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         if (patientCode != null && !patientCode.isEmpty()) {
             Patient patient = searchService.getPatientByCode(patientCode);
@@ -47,6 +58,7 @@ public class SearchController {
 
         return "main";
     }
+
 
     @GetMapping("/patient")
     @ResponseBody

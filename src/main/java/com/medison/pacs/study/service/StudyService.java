@@ -21,4 +21,5 @@ public class StudyService {
                 () -> new IllegalArgumentException("존재하지 않는 검사입니다.")
         );
     }
+
 }
