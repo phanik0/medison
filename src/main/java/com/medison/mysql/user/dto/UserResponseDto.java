@@ -34,6 +34,7 @@ public class UserResponseDto {
         }else if(action == ActionType.VIEW){
             this.id = user.getId();
             this.position = user.getPosition();
+            this.admin = user.isAdmin();
             this.name = user.getName();
             this.phone = user.getPhone();
         }else if(action == ActionType.LOGIN){
