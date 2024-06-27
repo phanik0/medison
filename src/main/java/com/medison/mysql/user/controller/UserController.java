@@ -8,19 +8,20 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/user")
 public class UserController {
     private final UserService userService;
-
-    @PostMapping("/join")
-    public ModelAndView save(@RequestBody UserRequestDto userRequestDto) {
+    @ResponseBody
+    @PostMapping("/user/join")
+    public ModelAndView save(@ModelAttribute UserRequestDto userRequestDto) {
         System.out.println("de : " + userRequestDto.getDepartmentCode());
         ModelAndView modelAndView = new ModelAndView("");
         UserResponseDto userResponseDto = userService.save(userRequestDto);
@@ -40,24 +41,39 @@ public class UserController {
     }
 
     @ResponseBody
-    @GetMapping("/manage")
-    public List<UserResponseDto> getUsers() {
-        return userService.getUsers();
+    @GetMapping("/admin/manage")
+    public ModelAndView getUsers() {
+        ModelAndView modelAndView = new ModelAndView("userManage");
+        List<UserResponseDto> userResponseDtos = userService.getUsers();
+        modelAndView.addObject("infos", userResponseDtos);
+        return modelAndView;
     }
 
-    @ResponseBody
-    @PostMapping("/login")
-    public boolean login(@RequestBody UserRequestDto userRequestDto, HttpServletRequest request) {
+
+    @GetMapping("/user/login")
+    public String login() {
+        return "login";
+    }
+
+    @PostMapping("/user/login")
+    public RedirectView login(@ModelAttribute UserRequestDto userRequestDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        if (userService.login(userRequestDto)) {
-            session.setAttribute("user", userRequestDto.getId());
-            return true;
-        } else
-            return false;
+        UserResponseDto result = userService.login(userRequestDto);
+        RedirectView redirectView = new RedirectView();
+
+        if (result != null) {
+            session.setAttribute("user", result);
+            redirectView.setUrl("http://localhost:8080/admin");
+            return redirectView;
+        } else{
+            session.setAttribute("loginError", "loginError");
+            redirectView.setUrl("http://localhost:8080/user/login");
+            return redirectView;
+        }
     }
 
     @ResponseBody
-    @PostMapping("/logout")
+    @PostMapping("/user/logout")
     public boolean logout(HttpServletRequest request) {
         HttpSession session = request.getSession();
         session.removeAttribute("user");
@@ -69,18 +85,30 @@ public class UserController {
     }
 
     @ResponseBody
-    @DeleteMapping("/delete")
-    public boolean delete(@RequestBody UserRequestDto userRequestDto) {
+    @DeleteMapping("/user/delete")
+    public boolean delete(@ModelAttribute UserRequestDto userRequestDto) {
         return userService.delete(userRequestDto);
     }
 
     @ResponseBody
-    @PutMapping("/update/me")
-    public boolean update(@RequestBody JSONObject reqObj) {
+    @PutMapping("/user/update/me")
+    public boolean updateByTheUser(@RequestParam Map<String, String> reqObj) {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setId(reqObj.get("id").toString());
         userRequestDto.setPassword(reqObj.get("password").toString());
         return userService.updateByTheUser(userRequestDto, reqObj.get("currentPassword").toString());
+    }
+
+    @ResponseBody
+    @PutMapping("/user/update/admin")
+    public boolean updateByTheAdmin(@ModelAttribute UserRequestDto userRequestDto) {
+        return userService.updateByTheAdmin(userRequestDto);
+    }
+
+    // 어드민 페이지
+    @GetMapping("/admin")
+    public String admin() {
+        return "adminPage";
     }
 
 }

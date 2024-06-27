@@ -35,7 +35,8 @@ public class UserService {
         String id = "doc";
         String code = makeCode(userRequestDto);
         String year = getNowYear();
-        id += year + userRequestDto.getDepartmentCode() + code;
+        String departmentCode = userRequestDto.getDepartmentCode() / 10 == 0 ? "0" + userRequestDto.getDepartmentCode() : "" + userRequestDto.getDepartmentCode();
+        id += year + departmentCode + code;
         String initialPassword = id;
         userRequestDto.setPassword(initialPassword);
         userRequestDto.setId(id);
@@ -80,17 +81,17 @@ public class UserService {
         return year;
     }
 
-    public boolean login(UserRequestDto userRequestDto) {
+    public UserResponseDto login(UserRequestDto userRequestDto) {
         Optional<User> optionalUser = userRepository.findById(userRequestDto.getId());
         User user;
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
             if (user.getPassword().equals(userRequestDto.getPassword()))
-                return true;
+                return new UserResponseDto(user, ActionType.LOGIN);
             else
-                return false;
+                return null;
         } else {
-            return false;
+            return null;
         }
     }
 
@@ -104,17 +105,29 @@ public class UserService {
     }
 
     @Transactional
-    public boolean updateByTheUser(UserRequestDto userRequestDto,String currentPassword) {
+    public boolean updateByTheUser(UserRequestDto userRequestDto, String currentPassword) {
         Optional<User> optionalUser = userRepository.findById(userRequestDto.getId());
         User user;
         if (optionalUser.isPresent()) {
             user = optionalUser.get();
-            if(!user.getPassword().equals(currentPassword)) {
+            if (!user.getPassword().equals(currentPassword)) {
                 return false;
             }
             user.updateByTheUser(userRequestDto);
             return true;
-        }else
+        } else
             return false;
+    }
+
+    @Transactional
+    public boolean updateByTheAdmin(UserRequestDto userRequestDto) {
+        User user = userRepository.findById(userRequestDto.getId()).orElseThrow(
+                () -> new RuntimeException("user not found")
+        );
+        System.out.println("departmentCode : " + userRequestDto.getDepartmentCode());
+        System.out.println("position null? : " + userRequestDto.getPosition().isEmpty());
+        System.out.println("phone null? : " + userRequestDto.getPhone().isEmpty());
+        user.updateByTheAdmin(userRequestDto);
+        return true;
     }
 }
