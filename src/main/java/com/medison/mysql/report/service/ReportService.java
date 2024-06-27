@@ -13,4 +13,8 @@ public class ReportService {
     public Report getReportByStudyKey(int studykey) {
         return reportRepository.findById(studykey).orElse(null);
     }
+
+    public void saveReport(Report report) {
+        reportRepository.save(report);
+    }
 }

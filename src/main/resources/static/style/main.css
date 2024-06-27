@@ -39,9 +39,19 @@ main {
     text-align: left;
 }
 
+.result-section tr:hover, .detail-section tr:hover {
+    background-color: #f1f1f1;
+}
+
 .pagination {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 10px;
+}
+
+.pagination button {
+    margin: 0 10px;
 }
 
 .chart {
@@ -67,4 +77,59 @@ main {
     border-radius: 5px;
     background-color: #f9f9f9;
     margin: 5px;
+}
+
+/* 새로운 스타일 추가 */
+.detail-section input[type="text"], .detail-section select {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 14px;
+    background-color: #f9f9f9;
+}
+
+.detail-section input[type="text"]:focus, .detail-section select:focus {
+    outline: none;
+    border-bottom: 2px solid #0056b3;
+}
+
+.detail-section td {
+    padding: 8px 10px;
+}
+
+.detail-section th {
+    background-color: #f1f1f1;
+    padding: 10px;
+}
+
+.detail-section table {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 버튼 스타일 추가 */
+button {
+    background-color: white;
+    border: 2px solid #0056b3;
+    color: #0056b3;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    display: block;
+    margin: 20px auto; /* 가운데 정렬 */
+}
+
+button:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+button:focus {
+    outline: none;
 }

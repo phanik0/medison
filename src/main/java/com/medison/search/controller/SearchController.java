@@ -1,5 +1,6 @@
 package com.medison.search.controller;
 
+import com.medison.mysql.patient.service.PatientService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
 import com.medison.pacs.study.domain.Study;
@@ -12,15 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @Controller
 public class SearchController {
     private final SearchService searchService;
     private final ReportService reportService;
+    private final PatientService patientService;
 
     @GetMapping("/main")
     public String getAllStudies(Model model,
@@ -75,4 +75,38 @@ public class SearchController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/report/preliminary")
+    @ResponseBody
+    public ResponseEntity<String> savePreliminaryReport(@RequestBody Report report) {
+        try {
+            reportService.saveReport(report);
+            return ResponseEntity.ok("예비판독이 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/report/final")
+    @ResponseBody
+    public ResponseEntity<String> saveFinalReport(@RequestBody Report report) {
+        try {
+            reportService.saveReport(report);
+            return ResponseEntity.ok("최종판독이 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/patient/edit")
+    @ResponseBody
+    public ResponseEntity<String> savePatientDetails(@RequestBody Patient patient) {
+        try {
+            patientService.savePatient(patient);
+            return ResponseEntity.ok("환자 정보가 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
 }
