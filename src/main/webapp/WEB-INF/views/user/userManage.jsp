@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<jsp:include page="module/header.jsp" />
+<jsp:include page="../module/header.jsp" />
 <head>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/style/manage.css">
 </head>
@@ -12,7 +12,7 @@
     <c:forEach var="doctor" items="${infos}">
         <c:if test="${not doctor.admin}">
         <div class="profile-card">
-            <div class="profile-image"></div>
+            <div class="profile-image"><img src="${pageContext.request.contextPath}/image/profile.png"></div>
 <%--            <form method="delete" action="/user/delete">--%>
 <%--                <input type="hidden" name="id" id="id" value="${doctor.id}">--%>
 <%--                <input type="submit" value="-">--%>

@@ -24,14 +24,14 @@
 </header>
 <script>
     function logout() {
-        fetch('${pageContext.request.contextPath}/user/logout', {
+        fetch('http://localhost:8080/user/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
         }).then(response => {
-            if (response.ok) {
-                window.location.href = '${pageContext.request.contextPath}/login'; // 로그아웃 후 리디렉션할 페이지
+            if (response) {
+                window.location.href = 'http://localhost:8080/user/login'; // 로그아웃 후 리디렉션할 페이지
             } else {
                 alert('Logout failed. Please try again.');
             }

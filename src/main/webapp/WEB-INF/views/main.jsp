@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%@ include file="/WEB-INF/views/header.jsp" %>
+    <%@ include file="module/header.jsp" %>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -187,5 +187,5 @@
         </section>
     </div>
 </main>
-<%@ include file="/WEB-INF/views/footer.jsp" %>
+<%@ include file="module/footer.jsp" %>
 </html>

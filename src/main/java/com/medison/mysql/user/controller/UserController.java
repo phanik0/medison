@@ -108,7 +108,7 @@ public class UserController {
     // 어드민 페이지
     @GetMapping("/admin")
     public String admin() {
-        return "adminPage";
+        return "user/adminPage";
     }
 
 }

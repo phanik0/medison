@@ -1,5 +1,15 @@
 body {
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-button:hover {
+    background-color: #002266;
+}
+
+.add-button{
+
 }
 
 h1 {
@@ -26,7 +36,7 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.profile-image {
+.profile-image img {
     background-color: #ccc;
     border-radius: 50%;
     height: 50px;
@@ -49,6 +59,4 @@ h1 {
     cursor: pointer;
 }
 
-.add-button:hover {
-    background-color: #002266;
-}
+
