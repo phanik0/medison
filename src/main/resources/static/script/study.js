@@ -1,30 +1,56 @@
+import * as cornerstone from '@cornerstonejs/core'
+import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader'
+import * as dicomParser from 'dicom-parser';
 
-function initializeDicomViewer(dicomPath) {
-    const dicomParser = window.dicomParser;
-    cornerstoneDICOMImageLoader.external.cornerstone = cornerstone;
-    cornerstoneDICOMImageLoader.external.dicomParser = dicomParser;
+cornerstoneDICOMImageLoader.external.cornerstone = cornerstone;
+cornerstoneDICOMImageLoader.external.dicomParser = dicomParser;
+cornerstoneDICOMImageLoader.configure({
+    beforeSend: function(xhr) {
+        // Add custom headers here (e.g., auth tokens)
+    }
+});
 
-    cornerstoneDICOMImageLoader.configure({
-        beforeSend: function(xhr) {
-            // Add custom headers here (e.g., auth tokens)
-        }
-    });
+const content = document.getElementById('content');
+const element = document.createElement('div');
+element.style.width = '512px';
+element.style.height = '512px';
+element.style.border = '1px solid black';
+content.appendChild(element);
+cornerstone.enable(element);
 
-    const element = document.getElementById('dicomImage');
-    cornerstone.enable(element);
-
-    cornerstone.loadImage(dicomPath).then(function(image) {
+// 이미지 렌더링 함수
+const render = (imageId) => {
+    cornerstone.loadImage(imageId).then(function(image) {
         cornerstone.displayImage(element, image);
     }).catch(function(err) {
         console.error('Error loading image:', err);
     });
-}
+};
 
+// 스터디 정보를 가져와서 이미지를 렌더링하는 함수
+const fetchStudyInfo = async (studyKey) => {
+    const response = await fetch(`/study/${studyKey}`);
+    const study = await response.json();
+    if (study.images && study.images.length > 0) {
+        const imagePath = study.images[0].path;
+        const imageId = `wadouri:/dicom-file?path=${encodeURIComponent(imagePath)}`;
+        render(imageId);
+    } else {
+        console.error('No images found for this study.');
+    }
+};
+
+// 예시 사용법
+window.onload = function() {
+    const studyKey = 1;  // 예시 스터디 키
+    fetchStudyInfo(studyKey);
+};
+//
 // import * as cornerstone from '@cornerstonejs/core'
 // import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader'
 // import * as dicomParser from 'dicom-parser'
 //
-// const input = document.getElementById("file");
+// const input = document.getElementById("dicomImage");
 //
 // // 뷰 포트 생성
 // const content = document.getElementById('content');
@@ -33,8 +59,8 @@ function initializeDicomViewer(dicomPath) {
 // element.style.height = '500px';
 //
 // content.appendChild(element);
-//
-// // 파일 리딩
+
+// 파일 리딩
 // input.addEventListener("change", e => {
 //     // 파일이 변화하면
 //     // 파일을 읽고 -> 버퍼 (바이너리 데이터를 가져와)
@@ -51,9 +77,10 @@ function initializeDicomViewer(dicomPath) {
 //     reader.readAsArrayBuffer(files[0]);
 // })
 //
-// const render = (arrayBuffer) => {
+// const render = (study,image,series) => {
 //     // Get Cornerstone imageIds and fetch metadata into RAM
-//     const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], {type : 'application/dicom'}))}`;
+//
+//     const imageId = `'wadouri:'${URL.createObjectURL(new Blob([arrayBuffer], {type : 'application/dicom'}))}`;
 //     console.log('imageId : ', imageId);
 //
 //     const imageIds = [imageId];
@@ -72,7 +99,7 @@ function initializeDicomViewer(dicomPath) {
 //
 //     const viewport = renderingEngine.getViewport(viewportInput.viewportId);
 //
-//     viewport.setStack(imageIds, 0);
+//     viewport.setStack(imageIds, 1);
 //
 //     viewport.render();
 // }

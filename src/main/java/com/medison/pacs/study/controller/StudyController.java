@@ -10,8 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -26,19 +31,31 @@ public class StudyController {
 
 
 
-    @GetMapping("/study/{studyKey}")
-    public String renderStudy(@PathVariable long studyKey, Model model) {
-        Study study = getStudyByKey(studyKey);
-        model.addAttribute("study", study);
-        List<Image> images = imageService.findImagesByStudyKey(studyKey);
-        model.addAttribute("images", images); // 이미지 리스트를 모델에 추가
+//    @GetMapping("/study/{studyKey}")
+//    public ModelAndView renderStudy(@PathVariable long studyKey, Model model) {
+//        ModelAndView modelAndView = new ModelAndView("study/study");
+//        Study study = getStudyByKey(studyKey);
+//        modelAndView.addObject("study", study);
+//        List<Image> images = imageService.findImagesByStudyKey(studyKey);
+//        modelAndView.addObject("images", images);
+//        modelAndView.addObject("series", seriesService.findSeriesByStudyKey(studyKey));
+//
+//
+//        return modelAndView;
+//    }
+@GetMapping("/study/{studyKey}")
+public String renderStudy(@PathVariable long studyKey, Model model) {
+    Study study = getStudyByKey(studyKey);
+    model.addAttribute("study", study);
+    List<Image> images = imageService.findImagesByStudyKey(studyKey);
+    model.addAttribute("images", images);
 
-        if (!images.isEmpty()) {
-            String dicomPath = images.get(0).getPath();
-            model.addAttribute("dicomPath", dicomPath.replace("\\", "/")); // 경로를 모델에 추가
-            System.out.println("dicomPath: " + dicomPath);
-        }
-        return "study/study";
+    if (!images.isEmpty()) {
+        // 백슬래시를 슬래시로 변경
+        String dicomPath = images.get(0).getPath().replace("\\", "/");
+        model.addAttribute("dicomPath", dicomPath);
     }
 
+    return "study/study";
+}
 }
