@@ -43,6 +43,11 @@ public class UserResponseDto {
             this.position = user.getPosition();
             this.admin = user.isAdmin();
             this.departmentCode = user.getDepartmentCode();
+        }else if(action == ActionType.UPDATE_ADMIN){
+            this.id = user.getId();
+            this.phone = user.getPhone();
+            this.departmentCode = user.getDepartmentCode();
+            this.position = user.getPosition();
         }
     }
 }
