@@ -5,7 +5,6 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    border-bottom: 1px solid #ccc;
 }
 
 header h1 {
@@ -30,9 +29,10 @@ header button {
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
-    position: absolute; /* 로그아웃 버튼을 절대 위치로 설정 */
-    top: 10px; /* 상단 여백 설정 */
-    right: 20px; /* 오른쪽 여백 설정 */
+    margin-right: 20px;
+    /*position: absolute; !* 로그아웃 버튼을 절대 위치로 설정 *!*/
+    /*top: 10px; !* 상단 여백 설정 *!*/
+    /*right: 20px; !* 오른쪽 여백 설정 *!*/
 }
 
 header button:hover {

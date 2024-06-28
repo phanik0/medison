@@ -1,15 +1,19 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
+    width: 1200px;
+    margin: auto;
 }
 
 .add-button:hover {
     background-color: #002266;
-}
-
-.add-button{
-
 }
 
 h1 {
@@ -18,20 +22,19 @@ h1 {
 
 .profile-container {
     margin: auto;
-    width: 1000px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    /* width: 1000px; */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
     padding: 20px;
 }
 
 .profile-card {
+    width: 230px;
     background-color: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 8px;
-    width: 200px;
     padding: 15px;
-    margin: 10px;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -48,6 +51,39 @@ h1 {
     margin: 5px 0;
 }
 
+.profile-actions {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.edit-button{
+    background-color: #5c8dc2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.delete-button{
+    background-color: #db8181;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+  .edit-button:hover {
+      background-color: #002266;
+}
+
+.delete-button:hover {
+    background-color:#f72300;
+}
 .add-button {
     display: block;
     background-color: #003399;
@@ -55,8 +91,120 @@ h1 {
     border: none;
     border-radius: 5px;
     padding: 10px 20px;
-    margin: 20px auto;
+    margin: 20px 40px 20px auto;
+    cursor: pointer;
+    text-align: right;
+}
+
+/* 모달 배경 스타일 */
+.modal {
+    display: none; /* 숨겨진 상태로 시작 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+    margin: auto;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
     cursor: pointer;
 }
 
 
+
+.title {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    /*gap: 15px;*/
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group select,
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#join-form-group input{
+    margin-bottom: 15px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-button {
+    background-color: #5c8dc2;
+    color: #fff;
+}
+
+.confirm-button:hover {
+    background-color: #002266;
+
+}
+
+.cancel-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #db8181;
+    color: #fff;
+}
+
+.cancel-button:hover {
+    background-color:#f72300;
+}

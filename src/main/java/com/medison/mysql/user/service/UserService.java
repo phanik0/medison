@@ -130,4 +130,12 @@ public class UserService {
         user.updateByTheAdmin(userRequestDto);
         return true;
     }
+
+    public UserResponseDto findById(UserRequestDto userRequestDto) {
+        String id = userRequestDto.getId();
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("user not found")
+        );
+        return new UserResponseDto(user, ActionType.UPDATE_ADMIN);
+    }
 }
