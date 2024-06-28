@@ -3,6 +3,8 @@ package com.medison.search.controller;
 import com.medison.mysql.patient.service.PatientService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
+import com.medison.mysql.user.domain.User;
+import com.medison.mysql.user.service.UserService;
 import com.medison.pacs.study.domain.Study;
 import com.medison.search.service.SearchService;
 import com.medison.mysql.patient.domain.Patient;
@@ -15,12 +17,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Controller
 public class SearchController {
     private final SearchService searchService;
     private final ReportService reportService;
     private final PatientService patientService;
+    private final UserService userService;
 
     @GetMapping("/main")
     public String getAllStudies(Model model,
@@ -34,7 +40,7 @@ public class SearchController {
                                 @RequestParam(required = false) String endDate) {
 
         Pageable pageable = PageRequest.of(page, 5);
-        Page<Study> studyPage = searchService.searchStudies(patientCode, patientName, modality, reportStatus, examStatus, startDate, endDate, pageable);
+        Page<Map<String, Object>> studyPage = searchService.searchStudies(patientCode, patientName, modality, reportStatus, examStatus, startDate, endDate, pageable);
 
         model.addAttribute("studies", studyPage.getContent());
         model.addAttribute("currentPage", page);
@@ -59,7 +65,6 @@ public class SearchController {
         return "main";
     }
 
-
     @GetMapping("/patient")
     @ResponseBody
     public ResponseEntity<Patient> getPatient(@RequestParam(required = false) String pid) {
@@ -76,23 +81,57 @@ public class SearchController {
 
     @GetMapping("/report")
     @ResponseBody
-    public ResponseEntity<Report> getReport(@RequestParam(defaultValue = "0") int studykey) {
+    public ResponseEntity<Map<String, Object>> getReport(@RequestParam(defaultValue = "0") int studykey) {
         if (studykey == 0) {
             return ResponseEntity.badRequest().build();
         }
         Report report = reportService.getReportByStudyKey(studykey);
-        if (report != null) {
-            return ResponseEntity.ok(report);
-        } else {
+        if (report == null) {
             return ResponseEntity.notFound().build();
         }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("report", report);
+
+        // preDoctor와 finalDoctor의 사용자 정보를 가져와 추가합니다.
+        if (report.getPreDoctor() != null) {
+            User preDoctor = userService.getUserById(report.getPreDoctor());
+            if (preDoctor != null) {
+                response.put("preDoctorName", preDoctor.getName());
+                response.put("preDoctorPosition", preDoctor.getPosition());
+                response.put("preDoctorDepartmentCode", preDoctor.getDepartmentCode());
+            }
+        }
+
+        if (report.getFinalDoctor() != null) {
+            User finalDoctor = userService.getUserById(report.getFinalDoctor());
+            if (finalDoctor != null) {
+                response.put("finalDoctorName", finalDoctor.getName());
+                response.put("finalDoctorPosition", finalDoctor.getPosition());
+                response.put("finalDoctorDepartmentCode", finalDoctor.getDepartmentCode());
+            }
+        }
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/report/preliminary")
     @ResponseBody
     public ResponseEntity<String> savePreliminaryReport(@RequestBody Report report) {
         try {
-            reportService.saveReport(report);
+            Report existingReport = reportService.getReportByStudyKey(report.getStudykey());
+            if (existingReport != null) {
+                existingReport.setStatus(report.getStatus());
+                existingReport.setComments(report.getComments());
+                existingReport.setFinding(report.getFinding());
+                existingReport.setFutureComment(report.getFutureComment());
+                existingReport.setPreDoctor(report.getPreDoctor());
+                existingReport.setRegDate(report.getRegDate());
+                existingReport.setModDate(report.getModDate());
+                reportService.saveReport(existingReport);
+            } else {
+                reportService.saveReport(report);
+            }
             return ResponseEntity.ok("예비판독이 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
@@ -103,7 +142,20 @@ public class SearchController {
     @ResponseBody
     public ResponseEntity<String> saveFinalReport(@RequestBody Report report) {
         try {
-            reportService.saveReport(report);
+            Report existingReport = reportService.getReportByStudyKey(report.getStudykey());
+            if (existingReport != null) {
+                existingReport.setStatus(report.getStatus());
+                existingReport.setComments(report.getComments());
+                existingReport.setFinding(report.getFinding());
+                existingReport.setFutureComment(report.getFutureComment());
+                existingReport.setPreDoctor(report.getPreDoctor());
+                existingReport.setFinalDoctor(report.getFinalDoctor());
+                existingReport.setRegDate(report.getRegDate());
+                existingReport.setModDate(report.getModDate());
+                reportService.saveReport(existingReport);
+            } else {
+                reportService.saveReport(report);
+            }
             return ResponseEntity.ok("최종판독이 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());

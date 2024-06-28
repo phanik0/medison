@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 초기화 작업은 필요 시 여기에 작성
+
 });
 
 function getStatusText(status) {
@@ -15,6 +15,21 @@ function getStatusText(status) {
     }
 }
 
+function getPositionText(position) {
+    switch(position) {
+        case 'professor':
+            return '교수';
+        case 'intern':
+            return '인턴';
+        case 'fellow':
+            return '펠로우';
+        case 'resident':
+            return '레지던트';
+        default:
+            return position;
+    }
+}
+
 function showReportDetails(studykey) {
     fetch(`/report?studykey=${studykey}`)
         .then(response => {
@@ -23,14 +38,17 @@ function showReportDetails(studykey) {
             }
             return response.json();
         })
-        .then(report => {
-            document.getElementById('preDoctor').textContent = report.preDoctor || '';
+        .then(data => {
+            const report = data.report;
+            const preDoctorPositionText = getPositionText(data.preDoctorPosition);
+            const finalDoctorPositionText = getPositionText(data.finalDoctorPosition);
+
+            document.getElementById('preDoctor').textContent = `${data.preDoctorName || ''} ${preDoctorPositionText || ''}`;
             document.getElementById('doctor').textContent = report.doctor || '';
-            document.getElementById('finalDoctor').textContent = report.finalDoctor || '';
+            document.getElementById('finalDoctor').textContent = `${data.finalDoctorName || ''} ${finalDoctorPositionText || ''}`;
             document.getElementById('report-patientCode').textContent = report.patientCode || '';
             document.getElementById('status').textContent = getStatusText(report.status);
             document.getElementById('comments').value = report.comments || '';
-            document.getElementById('finding').value = report.finding || '';
             document.getElementById('futureComment').value = report.futureComment || '';
 
             // studykey 저장
@@ -56,38 +74,54 @@ function showReportDetails(studykey) {
 }
 
 function savePreliminaryReport() {
+    if (userPosition === 'intern') {
+        alert("인턴은 예비 판독을 할 수 없습니다.");
+        return;
+    }
+
+    if (!confirm("예비 판독을 저장하시겠습니까?")) {
+        return;
+    }
+
     const studykey = document.getElementById('report-details').dataset.studykey;
     const patientCode = document.getElementById('report-patientCode').textContent;
     const comments = document.getElementById('comments').value;
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    const data = {
-        studykey: parseInt(studykey),
-        patientCode,
-        status: 5, // 예비판독 상태
-        comments,
-        finding,
-        futureComment,
-        regDate: new Date().toISOString(),
-        modDate: new Date().toISOString()
-    };
+    fetch(`/report?studykey=${studykey}`)
+        .then(response => response.json())
+        .then(data => {
+            const existingReport = data.report;
 
-    fetch(`/report/preliminary`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
+            const updatedReport = {
+                ...existingReport,
+                status: 5,
+                comments,
+                finding,
+                futureComment,
+                preDoctor: userId,
+                modDate: new Date().toISOString()
+            };
+
+            return fetch(`/report/preliminary`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedReport)
+            });
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // JSON 대신 텍스트로 응답 처리
+            return response.text();
         })
         .then(result => {
-            alert(result); // 텍스트 응답을 경고창에 표시
+            alert(result);
+            // Refresh the status to reflect changes
+            showReportDetails(studykey);
         })
         .catch(error => {
             console.error('저장 중 오류가 발생했습니다:', error);
@@ -95,38 +129,55 @@ function savePreliminaryReport() {
 }
 
 function saveFinalReport() {
+    if (userPosition !== 'fellow' && userPosition !== 'professor') {
+        alert("펠로우와 교수만 최종 판독을 할 수 있습니다.");
+        return;
+    }
+
+    if (!confirm("최종 판독을 저장하시겠습니까?")) {
+        return;
+    }
+
     const studykey = document.getElementById('report-details').dataset.studykey;
     const patientCode = document.getElementById('report-patientCode').textContent;
     const comments = document.getElementById('comments').value;
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    const data = {
-        studykey: parseInt(studykey),
-        patientCode,
-        status: 6, // 최종판독 상태
-        comments,
-        finding,
-        futureComment,
-        regDate: new Date().toISOString(),
-        modDate: new Date().toISOString()
-    };
+    fetch(`/report?studykey=${studykey}`)
+        .then(response => response.json())
+        .then(data => {
+            const existingReport = data.report;
 
-    fetch(`/report/final`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
+            const updatedReport = {
+                ...existingReport,
+                status: 6,
+                comments,
+                finding,
+                futureComment,
+                preDoctor: existingReport.preDoctor, // 기존 예비 판독의 정보를 유지합니다.
+                finalDoctor: userId,
+                modDate: new Date().toISOString()
+            };
+
+            return fetch(`/report/final`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedReport)
+            });
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // JSON 대신 텍스트로 응답 처리
+            return response.text();
         })
         .then(result => {
-            alert(result); // 텍스트 응답을 경고창에 표시
+            alert(result);
+            // Refresh the status to reflect changes
+            showReportDetails(studykey);
         })
         .catch(error => {
             console.error('저장 중 오류가 발생했습니다:', error);

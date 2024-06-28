@@ -17,14 +17,4 @@ import java.util.Optional;
 @RestController
 public class PatientController {
 
-    private final PatientService patientService;
-    private final SearchService searchService;
-
-    @ResponseBody
-    @GetMapping("/patients")
-    public List<Patient> getAllPatients() {
-      List<Patient> result = patientService.findAll();
-      return result;
- }
-
 }

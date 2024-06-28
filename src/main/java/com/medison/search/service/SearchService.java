@@ -4,6 +4,8 @@ import com.medison.pacs.study.domain.Study;
 import com.medison.pacs.study.domain.StudyRepository;
 import com.medison.mysql.patient.domain.Patient;
 import com.medison.mysql.patient.domain.PatientRepository;
+import com.medison.mysql.report.domain.Report;
+import com.medison.mysql.report.domain.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,15 +14,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class SearchService {
     private final StudyRepository studyRepository;
+    private final ReportRepository reportRepository;
     private final PatientRepository patientRepository;
 
-    public Page<Study> searchStudies(String patientCode, String patientName, String modality, Long reportStatus, Long examStatus, String startDate, String endDate, Pageable pageable) {
+    public Page<Map<String, Object>> searchStudies(String patientCode, String patientName, String modality, Long reportStatus, Long examStatus, String startDate, String endDate, Pageable pageable) {
         List<Specification<Study>> specs = new ArrayList<>();
         if (StringUtils.hasText(patientCode)) {
             specs.add(StudyRepository.hasPatientCode(patientCode));
@@ -48,11 +53,22 @@ public class SearchService {
             finalSpec = finalSpec.and(spec);
         }
 
-        return studyRepository.findAll(finalSpec, pageable);
+        Page<Study> studyPage = studyRepository.findAll(finalSpec, pageable);
+
+        return studyPage.map(study -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("study", study);
+
+            Report report = reportRepository.findByStudykey((int) study.getStudykey());
+            if (report != null) {
+                map.put("status", report.getStatus());
+            }
+
+            return map;
+        });
     }
 
     public Patient getPatientByCode(String code) {
         return patientRepository.findById(code).orElse(null);
     }
-
 }
