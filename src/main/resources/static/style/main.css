@@ -145,7 +145,7 @@ main {
 }
 
 .result-section th:nth-child(3), .result-section td:nth-child(3) {
-    width: 20%; /* 환자 이름 컬럼 */
+    width: 15%; /* 환자 이름 컬럼 */
 }
 
 .result-section th:nth-child(4), .result-section td:nth-child(4) {
@@ -161,7 +161,7 @@ main {
 }
 
 .result-section th:nth-child(7), .result-section td:nth-child(7) {
-    width: 5%; /* 판독 상태 컬럼 */
+    width: 10%; /* 판독 상태 컬럼 */
 }
 
 .result-section th:nth-child(8), .result-section td:nth-child(8) {
