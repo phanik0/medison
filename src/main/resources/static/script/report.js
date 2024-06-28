@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // 초기화 작업은 필요 시 여기에 작성
+
 });
 
 function getStatusText(status) {
@@ -80,7 +80,7 @@ function savePreliminaryReport() {
     }
 
     if (!confirm("예비 판독을 저장하시겠습니까?")) {
-        return; // 사용자가 "아니오"를 선택한 경우 저장을 취소합니다.
+        return;
     }
 
     const studykey = document.getElementById('report-details').dataset.studykey;
@@ -135,7 +135,7 @@ function saveFinalReport() {
     }
 
     if (!confirm("최종 판독을 저장하시겠습니까?")) {
-        return; // 사용자가 "아니오"를 선택한 경우 저장을 취소합니다.
+        return;
     }
 
     const studykey = document.getElementById('report-details').dataset.studykey;

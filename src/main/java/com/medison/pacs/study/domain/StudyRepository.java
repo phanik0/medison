@@ -1,14 +1,9 @@
 package com.medison.pacs.study.domain;
 
-
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 @Repository
 public interface StudyRepository extends JpaRepository<Study, Long>, JpaSpecificationExecutor<Study> {
@@ -42,4 +37,5 @@ public interface StudyRepository extends JpaRepository<Study, Long>, JpaSpecific
         return (root, query, builder) -> builder.between(root.get("studydate"), startDate.replace("-", ""), endDate.replace("-", ""));
     }
 
+    Study findByStudykey(Long studykey);
 }

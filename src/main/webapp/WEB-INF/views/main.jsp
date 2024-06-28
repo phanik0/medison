@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script>
         // 사용자 정보를 전역 변수에 저장
         var userId = '<%= userId %>';
@@ -48,10 +49,7 @@
                     return position;
             }
         }
-    </script>
-    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
-    <script src="${pageContext.request.contextPath}/script/report.js"></script>
-    <script>
+
         $(function() {
             $("#calendar").datepicker({
                 numberOfMonths: 1,
@@ -90,6 +88,8 @@
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
         });
     </script>
+    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
+    <script src="${pageContext.request.contextPath}/script/report.js"></script>
 </head>
 <body>
 <main>
@@ -153,30 +153,38 @@
                     <th>검사 날짜</th>
                     <th>판독 상태</th>
                     <th>Verify</th>
+                    <th>북마크</th>
                 </tr>
                 </thead>
                 <tbody>
-    <c:forEach var="item" items="${studies}">
-        <c:set var="study" value="${item.study}" />
-        <c:set var="status" value="${item.status}" />
-        <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-            <td>${study.pid}</td>
-            <td>${study.pname}</td>
-            <td>${study.modality}</td>
-            <td>${study.studydesc}</td>
-            <td>${study.studydate}</td>
-            <td><c:choose>
-                <c:when test="${status == 3}">읽지않음</c:when>
-                <c:when test="${status == 5}">예비판독</c:when>
-                <c:when test="${status == 6}">판독완료</c:when>
-            </c:choose></td>
-            <td><c:choose>
-                <c:when test="${study.examstatus == 1}">Y</c:when>
-                <c:otherwise>N</c:otherwise>
-            </c:choose></td>
-        </tr>
-    </c:forEach>
-</tbody>
+                    <c:forEach var="item" items="${studies}">
+                        <c:set var="study" value="${item.study}" />
+                        <c:set var="status" value="${item.status}" />
+                        <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                            <td>${study.pid}</td>
+                            <td>${study.pname}</td>
+                            <td>${study.modality}</td>
+                            <td>${study.studydesc}</td>
+                            <td>${study.studydate}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${status == 3}">읽지않음</c:when>
+                                    <c:when test="${status == 5}">예비판독</c:when>
+                                    <c:when test="${status == 6}">판독완료</c:when>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${study.examstatus == 1}">Y</c:when>
+                                    <c:otherwise>N</c:otherwise>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <button onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})">북마크</button>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
             <div class="pagination">
                 <c:if test="${currentPage > 0}">
@@ -187,7 +195,7 @@
                     <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&gt;</button>
                 </c:if>
             </div>
-
+            <button onclick="location.href='/bookmark/list?userId=${userId}'">북마크 목록 보기</button>
         </section>
         <section class="details-container">
             <section id="patient-details" class="detail-section">
@@ -234,5 +242,16 @@
         </section>
     </div>
 </main>
+
+<!-- 북마크 모달 -->
+<div id="bookmarkModal" title="북마크 추가">
+    <form>
+        <input type="hidden" id="bookmarkStudyKey">
+        <label for="bookmarkComments">코멘트:</label>
+        <textarea id="bookmarkComments" rows="4" cols="50"></textarea>
+    </form>
+</div>
+
 <%@ include file="module/footer.jsp" %>
+</body>
 </html>
