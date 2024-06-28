@@ -130,4 +130,8 @@ public class UserService {
         user.updateByTheAdmin(userRequestDto);
         return true;
     }
+
+    public User getUserById(String userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
 }

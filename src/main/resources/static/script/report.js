@@ -15,6 +15,21 @@ function getStatusText(status) {
     }
 }
 
+function getPositionText(position) {
+    switch(position) {
+        case 'professor':
+            return '교수';
+        case 'intern':
+            return '인턴';
+        case 'fellow':
+            return '펠로우';
+        case 'resident':
+            return '레지던트';
+        default:
+            return position;
+    }
+}
+
 function showReportDetails(studykey) {
     fetch(`/report?studykey=${studykey}`)
         .then(response => {
@@ -23,14 +38,17 @@ function showReportDetails(studykey) {
             }
             return response.json();
         })
-        .then(report => {
-            document.getElementById('preDoctor').textContent = report.preDoctor || '';
+        .then(data => {
+            const report = data.report;
+            const preDoctorPositionText = getPositionText(data.preDoctorPosition);
+            const finalDoctorPositionText = getPositionText(data.finalDoctorPosition);
+
+            document.getElementById('preDoctor').textContent = `${data.preDoctorName || ''} ${preDoctorPositionText || ''}`;
             document.getElementById('doctor').textContent = report.doctor || '';
-            document.getElementById('finalDoctor').textContent = report.finalDoctor || '';
+            document.getElementById('finalDoctor').textContent = `${data.finalDoctorName || ''} ${finalDoctorPositionText || ''}`;
             document.getElementById('report-patientCode').textContent = report.patientCode || '';
             document.getElementById('status').textContent = getStatusText(report.status);
             document.getElementById('comments').value = report.comments || '';
-            document.getElementById('finding').value = report.finding || '';
             document.getElementById('futureComment').value = report.futureComment || '';
 
             // studykey 저장
@@ -65,10 +83,11 @@ function savePreliminaryReport() {
     const data = {
         studykey: parseInt(studykey),
         patientCode,
-        status: 5, // 예비판독 상태
+        status: 5,
         comments,
         finding,
         futureComment,
+        preDoctor: userId, // 사용자 ID로 설정
         regDate: new Date().toISOString(),
         modDate: new Date().toISOString()
     };
@@ -84,10 +103,12 @@ function savePreliminaryReport() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // JSON 대신 텍스트로 응답 처리
+            return response.text();
         })
         .then(result => {
-            alert(result); // 텍스트 응답을 경고창에 표시
+            alert(result);
+            // Refresh the status to reflect changes
+            showReportDetails(studykey);
         })
         .catch(error => {
             console.error('저장 중 오류가 발생했습니다:', error);
@@ -104,10 +125,11 @@ function saveFinalReport() {
     const data = {
         studykey: parseInt(studykey),
         patientCode,
-        status: 6, // 최종판독 상태
+        status: 6,
         comments,
         finding,
         futureComment,
+        finalDoctor: userId, // 사용자 ID로 설정
         regDate: new Date().toISOString(),
         modDate: new Date().toISOString()
     };
@@ -123,10 +145,12 @@ function saveFinalReport() {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.text(); // JSON 대신 텍스트로 응답 처리
+            return response.text();
         })
         .then(result => {
-            alert(result); // 텍스트 응답을 경고창에 표시
+            alert(result);
+            // Refresh the status to reflect changes
+            showReportDetails(studykey);
         })
         .catch(error => {
             console.error('저장 중 오류가 발생했습니다:', error);
