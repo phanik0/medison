@@ -6,6 +6,7 @@ import com.medison.mysql.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -21,23 +22,12 @@ public class UserController {
     private final UserService userService;
     @ResponseBody
     @PostMapping("/user/join")
-    public ModelAndView save(@ModelAttribute UserRequestDto userRequestDto) {
-        System.out.println("de : " + userRequestDto.getDepartmentCode());
-        ModelAndView modelAndView = new ModelAndView("");
+    public boolean save(@RequestBody UserRequestDto userRequestDto) {
         UserResponseDto userResponseDto = userService.save(userRequestDto);
-        JSONObject response = new JSONObject();
-        boolean status = true;
-        String message = "User registration is success.";
         if (userResponseDto.getId() == null) {
-            status = false;
-            message = "User registration is fail.";
+            return false;
         }
-        response.put("status", status);
-        response.put("message", message);
-        response.put("id", userResponseDto.getId());
-        response.put("password", userResponseDto.getPassword());
-        modelAndView.addObject("response", response);
-        return modelAndView;
+        return true;
     }
 
     @ResponseBody
@@ -86,7 +76,7 @@ public class UserController {
 
     @ResponseBody
     @DeleteMapping("/user/delete")
-    public boolean delete(@ModelAttribute UserRequestDto userRequestDto) {
+    public boolean delete(@RequestBody UserRequestDto userRequestDto) {
         return userService.delete(userRequestDto);
     }
 
@@ -100,8 +90,19 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping("/user/update/admin/{id}")
+    public ModelAndView updateAdmin(@PathVariable String id) {
+        ModelAndView modelAndView = new ModelAndView("user/adminEditPage");
+        UserRequestDto userRequestDto = new UserRequestDto();
+        userRequestDto.setId(id);
+        UserResponseDto result = userService.findById(userRequestDto);
+        modelAndView.addObject("userInfo", result);
+        return modelAndView;
+    }
+
+    @ResponseBody
     @PutMapping("/user/update/admin")
-    public boolean updateByTheAdmin(@ModelAttribute UserRequestDto userRequestDto) {
+    public boolean updateByTheAdmin(@RequestBody UserRequestDto userRequestDto) {
         return userService.updateByTheAdmin(userRequestDto);
     }
 
