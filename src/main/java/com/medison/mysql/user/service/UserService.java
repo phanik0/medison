@@ -134,4 +134,11 @@ public class UserService {
     public User getUserById(String userId) {
         return userRepository.findById(userId).orElse(null);
     }
+
+    public UserResponseDto findById(UserRequestDto userRequestDto) {
+        User user = userRepository.findById(userRequestDto.getId()).orElseThrow(
+                () -> new RuntimeException("user not found")
+        );
+        return new UserResponseDto(user,ActionType.UPDATE_USER);
+    }
 }
