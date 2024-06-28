@@ -1,54 +1,46 @@
-// function showReportDetails(studykey) {
-//     fetch(`/note/show`)
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Network response was not ok');
-//             }
-//             return response.json();
-//         })
-// }
+// note.js
+document.addEventListener("DOMContentLoaded", function() {
+    // 페이지 로드 후 초기 데이터 로드
+
+    fetchNoteDetails(${note.studykey});
+
+    // 저장 버튼 클릭 시
+    document.getElementById("saveBtn").addEventListener("click", function() {
+        saveNote();
+    });
+
+    // PDF 다운로드 버튼 클릭 시
+    document.getElementById("downloadBtn").addEventListener("click", function() {
+        downloadPDF(${note.studykey});
+    });
+});
 
 function fetchNoteDetails(studykey) {
-
-    var urlParams = new URLSearchParams(window.location.search);
-    var studykey = urlParams.get('studykey');
-
-    if (!studykey) {
-        console.error('studykey 파라미터를 찾을 수 없습니다.');
-        return;
-    }
-
     fetch(`/note/${studykey}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
-            displayNoteDetails(data);
+            document.getElementById("disease").value = data.disease;
+            document.getElementById("treatmentPeriod").value = data.treatmentPeriod;
+            document.getElementById("usage").value = data.usage;
         })
-        .catch(error => {
-            console.error('소견서 불러오기 중 오류가 발생했습니다:', error);
-        });
+        .catch(error => console.error('Error fetching note details:', error));
 }
 
-function displayNoteDetails(note) {
-    // DOM 사용하여 노트 정보를 각 필드에 동적으로 표시
-    document.getElementById("code").innerText = note.code;
-    document.getElementById("studykey").innerText = note.studykey;
-    document.getElementById("finalDoctor").innerText = note.finalDoctor;
-    document.getElementById("patientCode").innerText = note.patientCode;
-    document.getElementById("disease").innerText = note.disease;
-    document.getElementById("treatmentPeriod").innerText = note.treatmentPeriod;
-    document.getElementById("finding").innerText = note.finding;
-    document.getElementById("comments").innerText = note.comments;
-    document.getElementById("futureComment").innerText = note.futureComment;
-    document.getElementById("usage").innerText = note.usage;
-    document.getElementById("regDate").innerText = note.regDate;
-    document.getElementById("modDate").innerText = note.modDate;
+function saveNote() {
+    const formData = new FormData(document.getElementById("noteForm"));
+    fetch(`/note/${note.studykey}`, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save note');
+            }
+            alert('저장되었습니다.');
+        })
+        .catch(error => console.error('Error saving note:', error));
 }
 
 function downloadPDF(studykey) {
-    window.location.href = `/note/download/${studykey}`;
+    window.location.href = `/note/${studykey}/download/pdf`;
 }

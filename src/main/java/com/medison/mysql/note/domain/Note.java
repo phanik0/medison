@@ -17,9 +17,6 @@ public class Note {
     private int code;
     private Long studykey;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "final_doctor", referencedColumnName = "id")
-//    private User finalDoctor;
     @Column(name = "final_doctor")
     private String finalDoctor;
 
@@ -35,11 +32,6 @@ public class Note {
 
     private Timestamp regDate;
     private Timestamp modDate;
-
-//    private String patientName;
-//    private String birth;
-//    private String history;
-//    private String caution;
 
 //    public void create(NoteRequestDto noteDto) {
 //        this.code = noteDto.getCode();
