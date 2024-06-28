@@ -146,6 +146,7 @@
             <table>
                 <thead>
                 <tr>
+                    <th>북마크</th>
                     <th>환자 코드</th>
                     <th>환자 이름</th>
                     <th>검사 장비</th>
@@ -153,7 +154,6 @@
                     <th>검사 날짜</th>
                     <th>판독 상태</th>
                     <th>Verify</th>
-                    <th>북마크</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -161,6 +161,9 @@
                         <c:set var="study" value="${item.study}" />
                         <c:set var="status" value="${item.status}" />
                         <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                            <td>
+                                <button onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})">북마크</button>
+                            </td>
                             <td>${study.pid}</td>
                             <td>${study.pname}</td>
                             <td>${study.modality}</td>
@@ -178,9 +181,6 @@
                                     <c:when test="${study.examstatus == 1}">Y</c:when>
                                     <c:otherwise>N</c:otherwise>
                                 </c:choose>
-                            </td>
-                            <td>
-                                <button onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})">북마크</button>
                             </td>
                         </tr>
                     </c:forEach>
