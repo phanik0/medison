@@ -74,6 +74,15 @@ function showReportDetails(studykey) {
 }
 
 function savePreliminaryReport() {
+    if (userPosition === 'intern') {
+        alert("인턴은 예비 판독을 할 수 없습니다.");
+        return;
+    }
+
+    if (!confirm("예비 판독을 저장하시겠습니까?")) {
+        return; // 사용자가 "아니오"를 선택한 경우 저장을 취소합니다.
+    }
+
     const studykey = document.getElementById('report-details').dataset.studykey;
     const patientCode = document.getElementById('report-patientCode').textContent;
     const comments = document.getElementById('comments').value;
@@ -120,6 +129,15 @@ function savePreliminaryReport() {
 }
 
 function saveFinalReport() {
+    if (userPosition !== 'fellow' && userPosition !== 'professor') {
+        alert("펠로우와 교수만 최종 판독을 할 수 있습니다.");
+        return;
+    }
+
+    if (!confirm("최종 판독을 저장하시겠습니까?")) {
+        return; // 사용자가 "아니오"를 선택한 경우 저장을 취소합니다.
+    }
+
     const studykey = document.getElementById('report-details').dataset.studykey;
     const patientCode = document.getElementById('report-patientCode').textContent;
     const comments = document.getElementById('comments').value;
@@ -137,6 +155,7 @@ function saveFinalReport() {
                 comments,
                 finding,
                 futureComment,
+                preDoctor: existingReport.preDoctor, // 기존 예비 판독의 정보를 유지합니다.
                 finalDoctor: userId,
                 modDate: new Date().toISOString()
             };
