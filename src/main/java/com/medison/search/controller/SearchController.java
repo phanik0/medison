@@ -119,7 +119,19 @@ public class SearchController {
     @ResponseBody
     public ResponseEntity<String> savePreliminaryReport(@RequestBody Report report) {
         try {
-            reportService.saveReport(report);
+            Report existingReport = reportService.getReportByStudyKey(report.getStudykey());
+            if (existingReport != null) {
+                existingReport.setStatus(report.getStatus());
+                existingReport.setComments(report.getComments());
+                existingReport.setFinding(report.getFinding());
+                existingReport.setFutureComment(report.getFutureComment());
+                existingReport.setPreDoctor(report.getPreDoctor());
+                existingReport.setRegDate(report.getRegDate());
+                existingReport.setModDate(report.getModDate());
+                reportService.saveReport(existingReport);
+            } else {
+                reportService.saveReport(report);
+            }
             return ResponseEntity.ok("예비판독이 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
@@ -130,7 +142,20 @@ public class SearchController {
     @ResponseBody
     public ResponseEntity<String> saveFinalReport(@RequestBody Report report) {
         try {
-            reportService.saveReport(report);
+            Report existingReport = reportService.getReportByStudyKey(report.getStudykey());
+            if (existingReport != null) {
+                existingReport.setStatus(report.getStatus());
+                existingReport.setComments(report.getComments());
+                existingReport.setFinding(report.getFinding());
+                existingReport.setFutureComment(report.getFutureComment());
+                existingReport.setPreDoctor(report.getPreDoctor());
+                existingReport.setFinalDoctor(report.getFinalDoctor());
+                existingReport.setRegDate(report.getRegDate());
+                existingReport.setModDate(report.getModDate());
+                reportService.saveReport(existingReport);
+            } else {
+                reportService.saveReport(report);
+            }
             return ResponseEntity.ok("최종판독이 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());

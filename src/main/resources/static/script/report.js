@@ -80,25 +80,29 @@ function savePreliminaryReport() {
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    const data = {
-        studykey: parseInt(studykey),
-        patientCode,
-        status: 5,
-        comments,
-        finding,
-        futureComment,
-        preDoctor: userId, // 사용자 ID로 설정
-        regDate: new Date().toISOString(),
-        modDate: new Date().toISOString()
-    };
+    fetch(`/report?studykey=${studykey}`)
+        .then(response => response.json())
+        .then(data => {
+            const existingReport = data.report;
 
-    fetch(`/report/preliminary`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
+            const updatedReport = {
+                ...existingReport,
+                status: 5,
+                comments,
+                finding,
+                futureComment,
+                preDoctor: userId,
+                modDate: new Date().toISOString()
+            };
+
+            return fetch(`/report/preliminary`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedReport)
+            });
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -122,25 +126,29 @@ function saveFinalReport() {
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    const data = {
-        studykey: parseInt(studykey),
-        patientCode,
-        status: 6,
-        comments,
-        finding,
-        futureComment,
-        finalDoctor: userId, // 사용자 ID로 설정
-        regDate: new Date().toISOString(),
-        modDate: new Date().toISOString()
-    };
+    fetch(`/report?studykey=${studykey}`)
+        .then(response => response.json())
+        .then(data => {
+            const existingReport = data.report;
 
-    fetch(`/report/final`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
-    })
+            const updatedReport = {
+                ...existingReport,
+                status: 6,
+                comments,
+                finding,
+                futureComment,
+                finalDoctor: userId,
+                modDate: new Date().toISOString()
+            };
+
+            return fetch(`/report/final`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedReport)
+            });
+        })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
