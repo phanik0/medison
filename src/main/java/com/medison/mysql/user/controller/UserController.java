@@ -95,7 +95,7 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView("user/adminEditPage");
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setId(id);
-        UserResponseDto result = userService.findById(userRequestDto);
+        UserResponseDto result = userService.getUserForUpdateByAdmin(userRequestDto);
         modelAndView.addObject("userInfo", result);
         return modelAndView;
     }

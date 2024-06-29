@@ -135,10 +135,10 @@ public class UserService {
         return userRepository.findById(userId).orElse(null);
     }
 
-    public UserResponseDto findById(UserRequestDto userRequestDto) {
+    public UserResponseDto getUserForUpdateByAdmin(UserRequestDto userRequestDto) {
         User user = userRepository.findById(userRequestDto.getId()).orElseThrow(
                 () -> new RuntimeException("user not found")
         );
-        return new UserResponseDto(user,ActionType.UPDATE_USER);
+        return new UserResponseDto(user,ActionType.UPDATE_ADMIN);
     }
 }
