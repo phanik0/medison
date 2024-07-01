@@ -43,11 +43,14 @@ public class StudyController {
 //
 //        return modelAndView;
 //    }
-@GetMapping("/study/{studyKey}")
-public String renderStudy(@PathVariable long studyKey, Model model) {
-    Study study = getStudyByKey(studyKey);
+
+
+
+@GetMapping("/study/{studykey}")
+public String renderStudy(@PathVariable long studykey, Model model) {
+    Study study = getStudyByKey(studykey);
     model.addAttribute("study", study);
-    List<Image> images = imageService.findImagesByStudyKey(studyKey);
+    List<Image> images = imageService.findImagesByStudyKey(studykey);
     model.addAttribute("images", images);
 
     if (!images.isEmpty()) {

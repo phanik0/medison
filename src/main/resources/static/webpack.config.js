@@ -21,7 +21,7 @@ const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = {
-    entry: './script/dicom-render.js',
+    entry: './script/study.js',
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
