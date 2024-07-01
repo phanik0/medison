@@ -50,7 +50,6 @@ public class UserController {
         HttpSession session = request.getSession();
         UserResponseDto result = userService.login(userRequestDto);
         RedirectView redirectView = new RedirectView();
-
         if (result != null) {
             session.setAttribute("user", result);
             redirectView.setUrl("http://localhost:8080/admin");
@@ -80,13 +79,24 @@ public class UserController {
         return userService.delete(userRequestDto);
     }
 
+    @GetMapping("/user/update/me")
+    public String updateByTheUser() {
+        return "user/userEditPage";
+    }
+
+
     @ResponseBody
     @PutMapping("/user/update/me")
-    public boolean updateByTheUser(@RequestParam Map<String, String> reqObj) {
+    public boolean updateByTheUser(@RequestBody JSONObject reqObj,HttpServletRequest request) {
         UserRequestDto userRequestDto = new UserRequestDto();
         userRequestDto.setId(reqObj.get("id").toString());
         userRequestDto.setPassword(reqObj.get("password").toString());
-        return userService.updateByTheUser(userRequestDto, reqObj.get("currentPassword").toString());
+        boolean result = userService.updateByTheUser(userRequestDto, reqObj.get("currentPassword").toString());
+        if(result){
+            HttpSession session = request.getSession();
+            session.removeAttribute("user");
+        }
+        return result;
     }
 
     @ResponseBody

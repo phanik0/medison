@@ -9,6 +9,11 @@
     <script src="${pageContext.request.contextPath}/script/user-manage.js"></script>
 </head>
 <body>
+
+<c:if test="${not user.admin}">
+    <c:redirect url="/main"></c:redirect>
+</c:if>
+
 <button class="add-button">추가</button>
 <div class="profile-container">
     <c:forEach var="doctor" items="${infos}">

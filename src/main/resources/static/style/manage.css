@@ -137,9 +137,17 @@ h1 {
     cursor: pointer;
 }
 
-
+#user-update-container{
+    margin:100px auto;
+    width: 60%;
+    padding: 50px;
+    border: 1px solid lightgrey;
+    border-radius: 20px;
+    box-shadow: 2px 2px 5px 0px;
+}
 
 .title {
+    text-align: center;
     margin-bottom: 20px;
     font-size: 24px;
     color: #333;
@@ -148,7 +156,6 @@ h1 {
 .form-group {
     margin-bottom: 15px;
     text-align: left;
-    /*gap: 15px;*/
 }
 
 .form-group label {

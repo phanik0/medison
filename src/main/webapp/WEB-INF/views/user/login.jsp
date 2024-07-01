@@ -23,7 +23,7 @@
                 alert("아이디 혹은 비밀번호를 다시 확인해 주세요.")
             </script>
             <%
-                request.removeAttribute("loginError");
+                session.removeAttribute("loginError");
             %>
         </c:if>
 </div>
