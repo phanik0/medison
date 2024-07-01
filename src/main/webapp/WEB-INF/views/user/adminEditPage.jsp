@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<div class="container"
+<div id="admin-update-container" class="container"
      data-user-id="${userInfo.id}"
      data-user-position="${userInfo.position}"
      data-user-department-code="${userInfo.departmentCode}"
