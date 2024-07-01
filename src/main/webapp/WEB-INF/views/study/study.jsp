@@ -9,10 +9,18 @@
 </head>
 <body>
 <h1>Study DICOM Viewer</h1>
-<div id="content">
-    <div id="studykey" value = "${study.studykey}">${study.studykey}</div>
-
+<div id="thumbnail-list">
+    <h2>PastStudyList</h2>
+    <div>
+        <select id="studySelector"></select>
+    </div>
+    <h2>섬네일</h2>
+    <!-- Thumbnails will be added here dynamically -->
 </div>
-
+<div id="main-viewer">
+    <!-- Main image viewer -->
+    <div id="viewportGrid"></div>
+</div>
+<input type="hidden" id="studyKey" value="${study.studykey}">
 </body>
 </html>
