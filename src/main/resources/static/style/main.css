@@ -91,7 +91,6 @@ main {
     background-color: #003080;
 }
 
-/* 메인 콘텐츠 스타일 설정 */
 .main-content {
     width: 80%;
     display: flex;
@@ -113,18 +112,17 @@ main {
     width: 15%;
 }
 
-/* 테이블 레이아웃을 고정으로 설정 */
 .result-section table, .detail-section table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* 테이블 레이아웃을 고정으로 설정 */
+    table-layout: fixed;
 }
 
 .result-section th, .detail-section th, .result-section td, .detail-section td {
     border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
-    word-wrap: break-word; /* 긴 단어를 줄바꿈하여 셀 크기 고정 */
+    word-wrap: break-word;
 }
 
 .result-section th, .detail-section th {
@@ -189,7 +187,6 @@ main {
     margin-top: 0;
 }
 
-/* 세부 정보 컨테이너 스타일 설정 */
 .details-container {
     display: flex;
     width: 100%;
@@ -229,13 +226,12 @@ main {
     padding: 10px;
 }
 
-/* 왼쪽 셀과 오른쪽 셀의 비율을 1:3으로 설정 */
 .detail-section th:nth-child(1), .detail-section td:nth-child(1) {
-    width: 25%; /* 왼쪽 셀 너비 */
+    width: 25%;
 }
 
 .detail-section th:nth-child(2), .detail-section td:nth-child(2) {
-    width: 75%; /* 오른쪽 셀 너비 */
+    width: 75%;
 }
 
 .detail-section table {
@@ -266,9 +262,56 @@ button:focus {
     outline: none;
 }
 
-/* 버튼을 좌우로 나란히 배치하기 위한 스타일 */
 .button-container {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
+}
+
+.bookmark-btn {
+    background: yellow;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid yellow; /* 테두리와 배경색 동일 */
+    border-radius: 50%; /* 정사각형으로 만들어 줌 */
+    color: white;
+    padding: 0; /* 내부 여백 제거 */
+    box-sizing: border-box; /* 테두리와 크기 계산에 포함 */
+    position: relative;
+}
+
+.bookmark-btn::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid white; /* 별의 색상 */
+    top: 2px;
+}
+
+.bookmark-btn::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid white; /* 별의 색상 */
+    top: 12px;
+}
+
+.bookmarked {
+    background: white; /* 주변 흰색 */
+    color: yellow; /* 별 노란색 */
+    border: 2px solid #004AAD; /* 북마크 시 테두리 색상 */
+}
+
+.bookmarked::before, .bookmarked::after {
+    border-color: yellow transparent transparent transparent; /* 북마크 시 별의 색상 */
 }
