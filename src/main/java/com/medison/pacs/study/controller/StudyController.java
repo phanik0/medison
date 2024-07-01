@@ -15,6 +15,7 @@ import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -45,20 +46,12 @@ public class StudyController {
 //    }
 
 
-
+//API로 만든다
 @GetMapping("/study/{studykey}")
-public String renderStudy(@PathVariable long studykey, Model model) {
+public ModelAndView renderStudy(@PathVariable long studykey) {
+        ModelAndView modelAndView = new ModelAndView("study/study");
     Study study = getStudyByKey(studykey);
-    model.addAttribute("study", study);
-    List<Image> images = imageService.findImagesByStudyKey(studykey);
-    model.addAttribute("images", images);
-
-    if (!images.isEmpty()) {
-        // 백슬래시를 슬래시로 변경
-        String dicomPath = images.get(0).getPath().replace("\\", "/");
-        model.addAttribute("dicomPath", dicomPath);
-    }
-
-    return "study/study";
+    modelAndView.addObject("study", study);
+    return modelAndView;
 }
 }
