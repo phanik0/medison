@@ -16,7 +16,8 @@ function saveBookmark() {
         data: JSON.stringify({
             studykey: studyKey,
             comments: comments,
-            userId: userId
+            userId: userId,
+            regDate: new Date().toISOString()
         }),
         success: function(response) {
             alert('북마크가 저장되었습니다.');
