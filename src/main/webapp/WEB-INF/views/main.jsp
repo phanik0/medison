@@ -162,7 +162,7 @@
                         <c:set var="status" value="${item.status}" />
                         <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
                             <td>
-                                <button onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})">북마크</button>
+                                <button class="bookmark-btn" id="bookmarkButton1" data-study-key="1" onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})"> </button>
                             </td>
                             <td>${study.pid}</td>
                             <td>${study.pname}</td>
