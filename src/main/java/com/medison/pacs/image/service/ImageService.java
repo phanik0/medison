@@ -22,15 +22,20 @@ public class ImageService {
     public Image findImageByStudyKeyAndSeriesKey(long studyKey, long seriesKey) {
         return imageRepository.findByStudykeyAndSerieskey(studyKey, seriesKey);
     }
-    public List<Image> findImagesByStudyKey(long studyKey) {
+
+    public  List<ArrayList<Image>> findImagesByStudyKey(long studyKey) {
         List<Series> seriesList = seriesService.findSeriesByStudyKey(studyKey);
-        List<Image> imageList = new ArrayList<>();
-        for (Image image : imageRepository.findAll()) {
-            for (Series series : seriesList) {
-                if (image.getStudykey() == series.getStudykey() && image.getSerieskey()==series.getSerieskey()) {
-                    imageList.add(image);
+        List<ArrayList<Image>> imageList = new ArrayList<>();
+
+
+        for (Series series : seriesList) {
+            ArrayList<Image> seriesImage = new ArrayList<>();
+            for(Image image : imageRepository.findAll()){
+                if(image.getStudykey() == series.getStudykey() && image.getSerieskey()==series.getSerieskey()){
+                    seriesImage.add(image);
                 }
             }
+            imageList.add(seriesImage);
         }
         return imageList;
     }
