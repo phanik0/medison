@@ -18,6 +18,7 @@ public class Study {
     private String modality;
     private String studydesc;
     private String studydate;
+    private String studytime;
     private long reportstatus;
     private long seriescnt;
     private long imagecnt;

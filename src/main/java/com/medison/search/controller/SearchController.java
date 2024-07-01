@@ -1,5 +1,6 @@
 package com.medison.search.controller;
 
+import com.medison.mysql.emergency.service.EmergencyService;
 import com.medison.mysql.patient.service.PatientService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
@@ -27,6 +28,7 @@ public class SearchController {
     private final ReportService reportService;
     private final PatientService patientService;
     private final UserService userService;
+    private final EmergencyService emergencyService;
 
     @GetMapping("/main")
     public String getAllStudies(Model model,
@@ -61,7 +63,7 @@ public class SearchController {
                 model.addAttribute("patient", patient);
             }
         }
-
+//        model.addAttribute("emergency", emergencyService.createEmergency().size());
         return "main";
     }
 
