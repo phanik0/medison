@@ -1,73 +1,77 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<jsp:include page="../module/header.jsp"></jsp:include>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Medison</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/5540/5540514.png">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/header.css">
-    <script src="${pageContext.request.contextPath}/script/note.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
 </head>
 <body>
-<header><img src="${pageContext.request.contextPath}/image/logo.png"></header>
-
-<h1>소견서</h1>
-<form id="noteForm" action="/note/${note.studykey}" method="POST">
-    <div id="note-details">
-        <table>
-<%--            <tr>--%>
-<%--                <th>코드</th>--%>
-<%--                <td id="code">${note.code}</td>--%>
-<%--            </tr>--%>
-            <tr>
-                <th>스터디키</th>
-                <td id="studykey">${note.studykey}</td>
-            </tr>
-            <tr>
-                <th>최종 담당 의사</th>
-                <td id="finalDoctor">${note.finalDoctor}</td>
-            </tr>
-            <tr>
-                <th>환자 코드</th>
-                <td id="patientCode">${note.patientCode}</td>
-            </tr>
-            <tr>
-                <th>질병</th>
-                <td><input type="text" id="disease" value="${note.disease}"></td>
-            </tr>
-            <tr>
-                <th>치료 기간</th>
-                <td><input type="text" id="treatmentPeriod" value="${note.treatmentPeriod}"></td>
-            </tr>
-            <tr>
-                <th>진료 소견</th>
-                <td id="finding">${note.finding}</td>
-            </tr>
-            <tr>
-                <th>기타 의견</th>
-                <td id="comments">${note.comments}</td>
-            </tr>
-            <tr>
-                <th>향후 치료 의견</th>
-                <td id="futureComment">${note.futureComment}</td>
-            </tr>
-            <tr>
-                <th>용도</th>
-                <td><input type="text" id="usage" value="${note.usage}"></td>
-            </tr>
-            <tr>
-                <th>작성 날짜</th>
-                <td id="modDate">${note.modDate}</td>
-            </tr>
-        </table>
-        <button type="button" id="saveBtn" onclick="saveNote()">저장</button>
-        <button type="button" id="downloadBtn" onclick="downloadPDF(${note.studykey})">PDF 다운로드</button>
+<div class="container">
+    <h1 class="title">소견서</h1>
+    <table class="info-table">
+        <tr>
+            <td class="label">1. 성명</td>
+            <td class="value">${demoNote.pName}</td>
+            <td class="label">2. 생년월일</td>
+            <td class="value">${demoNote.pBirth}</td>
+        </tr>
+        <tr>
+            <td class="label">4. 병명</td>
+            <td colspan="3" class="value" style="padding: 0 5px 0 8px"><input style="width: 98%;border: none;font-size: 100%;" type="text" id="disease"></td>
+        </tr>
+        <tr>
+            <td class="label">5. 진료 기간</td>
+            <td class="value" colspan="3">${demoNote.firstDate}&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;${demoNote.lastDate}&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;${demoNote.treatmentPeriod}일간)</td>
+        </tr>
+        <tr class="size-up">
+            <c:set var="diseaseHistory" value='${demoNote.diseaseHistory.split("/")}'></c:set>
+            <td class="label">6. 병력 및 신체검사 소견</td>
+            <td colspan="3" class="value">
+                <p>${diseaseHistory[0]}</p>
+                <p>${diseaseHistory[1]}</p>
+                <p>${diseaseHistory[2]}</p>
+                <p>${diseaseHistory[3]}</p>
+            </td>
+        </tr>
+        <tr class="size-up">
+            <td class="label">7. 검사 소견</td>
+            <td colspan="3" class="value">${demoNote.finding}</td>
+        </tr>
+        <tr class="size-up">
+            <td class="label">8. 진료의사 의견</td>
+            <td colspan="3" class="value">${demoNote.doctorComment}</td>
+        </tr>
+        <tr class="size-up">
+            <td class="label">9. 향후 치료 의견</td>
+            <td colspan="3" class="value">${demoNote.futureComment}</td>
+        </tr>
+        <tr class="size-up">
+            <td class="label">10. 용도</td>
+            <td class="value">보험/공단/주민센터 등 제출용</td>
+            <td class="label">11. 비고</td>
+            <td class="value">비고</td>
+        </tr>
+    </table>
+    <div class="signature">
+        <div class="row">
+            <div class="label">담당의사 면허번호</div>
+            <div class="value">12</div>
+        </div>
+        <div class="row">
+            <div class="label">성명</div>
+            <div class="value">이 이</div>
+        </div>
+        <div class="row">
+            <div class="label">의료기관 주소</div>
+            <div class="value">서울특별시 종로구 대학로 101</div>
+        </div>
     </div>
-</form>
+    <div class="footer">
+        <div class="hospital-name">서울대학교병원장</div>
+        <div class="stamp"><img src="seal.png" alt="seal"></div>
+    </div>
+    <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
+</div>
 </body>
 </html>
