@@ -1,8 +1,7 @@
-
 import * as cornerstone from '@cornerstonejs/core';
 import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader';
 import * as dicomParser from 'dicom-parser';
-import {RenderingEngine, Enums, imageLoader, setVolumesForViewports} from '@cornerstonejs/core';
+import { RenderingEngine, Enums, imageLoader, metaData } from '@cornerstonejs/core';
 
 // Initialize Cornerstone and DICOM image loader
 cornerstone.init();
@@ -13,6 +12,9 @@ cornerstoneDICOMImageLoader.configure({
         // Add custom headers here (e.g., auth tokens)
     }
 });
+
+// Add DICOM metadata provider
+// metaData.addProvider(cornerstoneDICOMImageLoader.metaDataProvider);
 
 // Function to fetch study info and return array buffer
 const fetchStudyInfo = async (studyKey) => {
@@ -49,6 +51,8 @@ const loadFiles = async (filePath) => {
 const renderThumbnail = async (imageId, container) => {
     const element = document.createElement('div');
     element.className = 'thumbnail';
+    element.style.width = '150px';
+    element.style.height = '150px';
     container.appendChild(element);
 
     const renderingEngine = new RenderingEngine('thumbnailRenderingEngine');
@@ -59,12 +63,13 @@ const renderThumbnail = async (imageId, container) => {
     });
 
     const viewport = renderingEngine.getViewport('thumbnailViewport');
-    const image = await imageLoader.loadImage(imageId);
+    await imageLoader.loadImage(imageId);
     viewport.setStack([imageId], 0);
     renderingEngine.render();
 };
+
 // Function to load and display main image
-const loadMainImage = async (imageId, element) => {
+const loadMainImage = async (imageIds, element) => {
     const renderingEngine = new RenderingEngine('mainRenderingEngine');
     renderingEngine.enableElement({
         viewportId: 'mainViewport',
@@ -73,8 +78,8 @@ const loadMainImage = async (imageId, element) => {
     });
 
     const viewport = renderingEngine.getViewport('mainViewport');
-    const image = await imageLoader.loadImage(imageId);
-    viewport.setStack([imageId], 0);
+    await imageLoader.loadImage(imageIds[0]);
+    viewport.setStack(imageIds, 0);
     renderingEngine.render();
 };
 
@@ -85,14 +90,14 @@ const setupImageScroll = (imageIds, element) => {
     const loadNextImage = () => {
         if (currentIndex < imageIds.length - 1) {
             currentIndex++;
-            loadMainImage(imageIds[currentIndex], element);
+            loadMainImage([imageIds[currentIndex]], element);
         }
     };
 
     const loadPrevImage = () => {
         if (currentIndex > 0) {
             currentIndex--;
-            loadMainImage(imageIds[currentIndex], element);
+            loadMainImage([imageIds[currentIndex]], element);
         }
     };
 
@@ -111,87 +116,56 @@ const loadDicom = async function(studyKey) {
     if (studyInfo) {
         const thumbnailList = document.getElementById('thumbnail-list');
         const viewportGrid = document.getElementById('viewportGrid');
-        const imageIds = [];
+        const imageIdsBySeries = [];
 
         for (const series of studyInfo) {
+            const seriesImageIds = [];
             for (const image of series) {
                 const filePath = image.path + image.fname;
                 const arrayBuffer = await loadFiles(filePath);
                 const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], { type: 'application/dicom' }))}`;
-                imageIds.push(imageId);
-                await renderThumbnail(imageId, thumbnailList);
+                seriesImageIds.push(imageId);
             }
+            imageIdsBySeries.push(seriesImageIds);
+            await renderThumbnail(seriesImageIds[0], thumbnailList); // Render the first image of each series as a thumbnail
         }
 
-        if (imageIds.length > 0) {
+        if (imageIdsBySeries.length > 0) {
             // Element for four viewports
-            const element1 = document.createElement('div');
-            element1.className = 'viewport';
-
-            const element2 = document.createElement('div');
-            element2.className = 'viewport';
-
-            const element3 = document.createElement('div');
-            element3.className = 'viewport';
-
-            const element4 = document.createElement('div');
-            element4.className = 'viewport';
-
-            viewportGrid.appendChild(element1);
-            viewportGrid.appendChild(element2);
-            viewportGrid.appendChild(element3);
-            viewportGrid.appendChild(element4);
+            const elements = [];
+            for (let i = 0; i < 4; i++) {
+                const element = document.createElement('div');
+                element.className = 'viewport';
+                element.style.width = '100%';
+                element.style.height = '50%';
+                viewportGrid.appendChild(element);
+                elements.push(element);
+            }
 
             const renderingEngineId = 'myRenderingEngine';
             const renderingEngine = new RenderingEngine(renderingEngineId);
 
-            const viewportId1 = 'CT_AXIAL';
-            const viewportId2 = 'CT_SAGITTAL';
-            const viewportId3 = 'CT_CORONAL';
-            const viewportId4 = 'CT_OBLIQUE';
+            const viewportIds = ['CT_AXIAL', 'CT_SAGITTAL', 'CT_CORONAL', 'CT_OBLIQUE'];
 
-            const viewportInput = [
-                {
-                    viewportId: viewportId1,
-                    element: element1,
-                    type: Enums.ViewportType.ORTHOGRAPHIC,
-                    defaultOptions: {
-                        orientation: Enums.OrientationAxis.AXIAL,
-                    },
+            const viewportInput = viewportIds.map((viewportId, index) => ({
+                viewportId: viewportId,
+                element: elements[index],
+                type: Enums.ViewportType.STACK,
+                defaultOptions: {
+                    orientation: Enums.OrientationAxis.AXIAL,
                 },
-                {
-                    viewportId: viewportId2,
-                    element: element2,
-                    type: Enums.ViewportType.ORTHOGRAPHIC,
-                    defaultOptions: {
-                        orientation: Enums.OrientationAxis.SAGITTAL,
-                    },
-                },
-                {
-                    viewportId: viewportId3,
-                    element: element3,
-                    type: Enums.ViewportType.ORTHOGRAPHIC,
-                    defaultOptions: {
-                        orientation: Enums.OrientationAxis.CORONAL,
-                    },
-                },
-                {
-                    viewportId: viewportId4,
-                    element: element4,
-                    type: Enums.ViewportType.ORTHOGRAPHIC,
-                    defaultOptions: {
-                        orientation: Enums.OrientationAxis.OBLIQUE,
-                    },
-                },
-            ];
+            }));
 
             renderingEngine.setViewports(viewportInput);
 
-            // Render the images
-            setVolumesForViewports(renderingEngine, [{ volumeId: imageIds[0] }], [viewportId1, viewportId2, viewportId3, viewportId4]);
-            renderingEngine.renderViewports([viewportId1, viewportId2, viewportId3, viewportId4]);
+            for (let i = 0; i < viewportIds.length; i++) {
+                const viewport = renderingEngine.getViewport(viewportIds[i]);
+                viewport.setStack(imageIdsBySeries[i % imageIdsBySeries.length], 0); // Load images by series
+            }
 
-            setupImageScroll(imageIds, viewportGrid);
+            renderingEngine.render();
+
+            setupImageScroll(imageIdsBySeries.flat(), viewportGrid); // Flatten the image ID array for scrolling
         }
     }
 };
