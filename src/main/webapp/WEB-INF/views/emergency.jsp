@@ -10,13 +10,14 @@
 <jsp:include page="./module/header.jsp"/>
 <html>
 <head>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/emergency.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
     <script src="${pageContext.request.contextPath}/script/report.js"></script>
 </head>
 <body>
 <div class="main-content">
+       <span style="font-size: 40px; margin-bottom: 20px"><img style="width: 50px" src="https://cdn-icons-png.flaticon.com/128/4329/4329979.png"> 긴급 관리</span>
         <section class="result-section">
             <table>
                 <thead>
@@ -151,5 +152,6 @@
             </section>
         </section>
 </div>
+<%@ include file="module/footer.jsp" %>
 </body>
 </html>
