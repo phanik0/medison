@@ -21,7 +21,7 @@ public class DicomController {
             String decodedPath = URLDecoder.decode(path, StandardCharsets.UTF_8.name());
             // 실제 파일 시스템 경로로 변환
             Path filePath = Paths.get("Z:\\").resolve(decodedPath).normalize();
-
+            System.out.println("Path: " + filePath);
             // 파일이 존재하고 읽을 수 있는지 확인
             if (Files.exists(filePath) && Files.isReadable(filePath)) {
                 // 파일을 바이트 배열로 읽기
