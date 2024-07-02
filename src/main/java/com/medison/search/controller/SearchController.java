@@ -63,7 +63,6 @@ public class SearchController {
                 model.addAttribute("patient", patient);
             }
         }
-//        model.addAttribute("emergency", emergencyService.createEmergency().size());
         return "main";
     }
 

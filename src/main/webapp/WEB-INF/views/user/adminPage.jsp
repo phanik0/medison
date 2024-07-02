@@ -13,9 +13,9 @@
 </head>
 <body>
     <c:if test="${not user.admin}">
-        <c:redirect url="/main"></c:redirect>
+        <c:redirect url="/check"></c:redirect>
     </c:if>
     <button onclick="location.href='/admin/manage'">회원관리</button>
-    <button onclick="location.href='/main'">메인페이지</button>
+    <button onclick="location.href='/check'">메인페이지</button>
 </body>
 </html>

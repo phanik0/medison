@@ -27,4 +27,11 @@ public class EmergencyController {
         mv.addObject("emergencies", emergencies);
         return mv;
     }
+
+    @GetMapping("/check")
+    public ModelAndView checkEmergency() {
+        ModelAndView mv = new ModelAndView("emergencyCheck");
+        mv.addObject("emergency", emergencyService.createEmergency().size());
+        return mv;
+    }
 }
