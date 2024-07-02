@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #000;
+    box-sizing: border-box;
+    page-break-after: always;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.info-table th,
+.info-table td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+.size-up{
+    height: 30mm;
+}
+
+.label, .value{
+    width: 25%;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    flex: 1;
+}
+
+.signature {
+    margin-top: 20px;
+    border-top: 1px solid #000;
+    padding-top: 10px;
+}
+
+.signature .row {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.signature .label {
+    width: 200px;
+}
+
+.signature .value {
+    flex: 1;
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.hospital-name {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.stamp {
+    margin-top: 10px;
+}
+
+.note {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: red;
+}
+
+@media print {
+    .container {
+        width: 210mm;
+        height: 297mm;
+        padding: 20mm;
+        border: none;
+        page-break-after: always;
+    }
+}
