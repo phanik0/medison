@@ -2,18 +2,24 @@ package com.medison.mysql.bookmark.controller;
 
 import com.medison.mysql.bookmark.domain.Bookmark;
 import com.medison.mysql.bookmark.service.BookmarkService;
+import com.medison.pacs.study.domain.Study;
+import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
 public class BookmarkController {
     private final BookmarkService bookmarkService;
+    private final StudyService studyService;
 
     @PostMapping("/bookmark/save")
     @ResponseBody
@@ -54,8 +60,22 @@ public class BookmarkController {
     @GetMapping("/bookmark/myList")
     public String myListBookmarks(@RequestParam String userId, Model model) {
         List<Bookmark> bookmarks = bookmarkService.getBookmarksByUserId(userId);
-        model.addAttribute("bookmarks", bookmarks);
-        model.addAttribute("userId", userId); // Add userId to model
+        List<Study> allStudies = studyService.getAllStudies();
+
+        // Study 데이터를 studykey를 기준으로 Map에 저장
+        Map<Long, Study> studyMap = allStudies.stream()
+                .collect(Collectors.toMap(Study::getStudykey, study -> study));
+
+        // Bookmark와 Study 데이터를 조합하여 List에 저장
+        List<Map<String, Object>> bookmarkWithStudies = bookmarks.stream().map(bookmark -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("bookmark", bookmark);
+            map.put("study", studyMap.get((long)bookmark.getStudykey()));
+            return map;
+        }).collect(Collectors.toList());
+
+        model.addAttribute("bookmarkWithStudies", bookmarkWithStudies);
+        model.addAttribute("userId", userId);
         return "bookmark";
     }
 }

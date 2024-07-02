@@ -62,17 +62,14 @@ function saveBookmark() {
 }
 
 function deleteBookmark() {
-    var code = $(this).data('code');
 
+    var code = $(this).data('code');
     $.ajax({
         url: '/bookmark/delete/' + code,
         type: 'DELETE',
         success: function(response) {
             alert('북마크가 삭제되었습니다.');
-            var button = $('#bookmarkButton' + studyKey);
-            button.data('bookmarked', false);
-            button.removeClass('bookmarked');
-            button.text('☆');
+            location.reload();
         },
         error: function(error) {
             alert('북마크 삭제 중 오류가 발생했습니다.');
@@ -102,3 +99,19 @@ function loadUserBookmarks() {
         }
     });
 }
+
+$(document).on('click', '.delete-bookmark-btn', function() {
+    var code = $(this).data('code');
+    $.ajax({
+        url: '/bookmark/delete/' + code,
+        type: 'DELETE',
+        success: function(response) {
+            alert('북마크가 삭제되었습니다.');
+            location.reload();
+        },
+        error: function(error) {
+            alert('북마크 삭제 중 오류가 발생했습니다.');
+            console.error('Error deleting bookmark:', error);
+        }
+    });
+});

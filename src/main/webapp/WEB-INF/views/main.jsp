@@ -157,7 +157,7 @@
                 <tbody>
                     <c:forEach var="item" items="${studies}">
                     <c:set var="study" value="${item.study}" />
-                    <c:set var="bookmark" value="${item.bookmark}" />
+                    <c:set var="bookmark" value="${bookmarks}" />
                     <c:set var="status" value="${item.status}" />
                 <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
                 <td>
