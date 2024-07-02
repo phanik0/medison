@@ -21,5 +21,8 @@ public class StudyService {
                 () -> new IllegalArgumentException("존재하지 않는 검사입니다.")
         );
     }
+    public List<Study> getAllStudies() {
+        return studyRepository.findAll();
+    }
 
 }

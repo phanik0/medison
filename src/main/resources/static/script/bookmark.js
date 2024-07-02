@@ -1,5 +1,4 @@
 $(function() {
-
     $("#bookmarkModal").dialog({
         autoOpen: false,
         modal: true,
@@ -17,40 +16,17 @@ $(function() {
     // 북마크 버튼 클릭 이벤트
     $('.bookmark-btn').click(function() {
         var studyKey = $(this).data('study-key');
+        var code = $(this).data('code');
+
+        console.log("Bookmark button clicked. Study Key:", studyKey, "Code:", code);
+
         if ($(this).data('bookmarked')) {
-            deleteBookmark(studyKey);
+            deleteBookmark(code, studyKey);
         } else {
             openBookmarkModal(studyKey);
         }
     });
 });
-
-// function loadUserBookmarks() {
-//     $.ajax({
-//         url: '/bookmark/get',
-//         type: 'GET',
-//         data: { userId: userId },
-//         success: function(response) {
-//             console.log("북마크 데이터:", response); // 응답 데이터를 로그로 출력
-//             var bookmarks = response;
-//             for (var studyKey in bookmarks) {
-//                 var button = $('#bookmarkButton' + studyKey);
-//                 console.log("버튼:", button); // 버튼 요소를 로그로 출력
-//                 if (bookmarks[studyKey]) {
-//                     button.data('bookmarked', true).addClass('bookmarked');
-//                 } else {
-//                     button.data('bookmarked', false).removeClass('bookmarked');
-//                 }
-//                 button.text('⭐');
-//             }
-//         },
-//         error: function(error) {
-//             console.log("오류 응답:", error); // 오류 응답을 로그로 출력
-//             alert('북마크 정보를 불러오는 중 오류가 발생했습니다.');
-//         }
-//     });
-// }
-
 
 function openBookmarkModal(studyKey) {
     $('#bookmarkStudyKey').val(studyKey);
@@ -85,24 +61,57 @@ function saveBookmark() {
     });
 }
 
-function deleteBookmark(studyKey) {
+function deleteBookmark() {
+
+    var code = $(this).data('code');
     $.ajax({
-        url: '/bookmark/delete',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            studykey: studyKey,
-            userId: userId
-        }),
+        url: '/bookmark/delete/' + code,
+        type: 'DELETE',
         success: function(response) {
             alert('북마크가 삭제되었습니다.');
-            var button = $('#bookmarkButton' + studyKey);
-            button.data('bookmarked', false);
-            button.removeClass('bookmarked');
-            button.text('⭐');
+            location.reload();
         },
         error: function(error) {
             alert('북마크 삭제 중 오류가 발생했습니다.');
+            console.error('Error deleting bookmark:', error);
         }
     });
 }
+
+function loadUserBookmarks() {
+    // 사용자 북마크 정보를 서버에서 불러오는 로직을 구현합니다.
+    $.ajax({
+        url: '/bookmark/list',
+        type: 'GET',
+        data: { userId: userId },
+        contentType: 'application/json',
+        success: function(response) {
+            // 응답 데이터를 바탕으로 북마크 버튼 상태를 업데이트합니다.
+            response.forEach(function(bookmark) {
+                var button = $('#bookmarkButton' + bookmark.studykey);
+                button.data('bookmarked', true);
+                button.addClass('bookmarked');
+                button.text('⭐');
+            });
+        },
+        error: function(error) {
+            console.error('사용자 북마크 정보를 불러오는 중 오류가 발생했습니다.', error);
+        }
+    });
+}
+
+$(document).on('click', '.delete-bookmark-btn', function() {
+    var code = $(this).data('code');
+    $.ajax({
+        url: '/bookmark/delete/' + code,
+        type: 'DELETE',
+        success: function(response) {
+            alert('북마크가 삭제되었습니다.');
+            location.reload();
+        },
+        error: function(error) {
+            alert('북마크 삭제 중 오류가 발생했습니다.');
+            console.error('Error deleting bookmark:', error);
+        }
+    });
+});

@@ -29,7 +29,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script>
-        // 사용자 정보를 전역 변수에 저장
         var userId = '<%= userId %>';
         var userName = '<%= userName %>';
         var userPosition = '<%= userPosition %>';
@@ -83,7 +82,6 @@
                 }
             });
 
-            // 사용자 정보를 HTML 요소에 표시
             document.getElementById('userName').textContent = userName;
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
         });
@@ -158,32 +156,33 @@
                 </thead>
                 <tbody>
                     <c:forEach var="item" items="${studies}">
-                        <c:set var="study" value="${item.study}" />
-                        <c:set var="status" value="${item.status}" />
-                        <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-                            <td>
-                                <button class="bookmark-btn" id="bookmarkButton1" data-study-key="1" onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})"> </button>
-                            </td>
-                            <td>${study.pid}</td>
-                            <td>${study.pname}</td>
-                            <td>${study.modality}</td>
-                            <td>${study.studydesc}</td>
-                            <td>${study.studydate}</td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${status == 3}">읽지않음</c:when>
-                                    <c:when test="${status == 5}">예비판독</c:when>
-                                    <c:when test="${status == 6}">판독완료</c:when>
-                                </c:choose>
-                            </td>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${study.examstatus == 1}">Y</c:when>
-                                    <c:otherwise>N</c:otherwise>
-                                </c:choose>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <c:set var="study" value="${item.study}" />
+                    <c:set var="bookmark" value="${bookmarks}" />
+                    <c:set var="status" value="${item.status}" />
+                <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                <td>
+                    <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
+                </td>
+                <td>${study.pid}</td>
+                <td>${study.pname}</td>
+                <td>${study.modality}</td>
+                <td>${study.studydesc}</td>
+                <td>${study.studydate}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${status == 3}">읽지않음</c:when>
+                        <c:when test="${status == 5}">예비판독</c:when>
+                        <c:when test="${status == 6}">판독완료</c:when>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${study.examstatus == 1}">Y</c:when>
+                        <c:otherwise>N</c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            </c:forEach>
                 </tbody>
             </table>
             <div class="pagination">
@@ -195,7 +194,7 @@
                     <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&gt;</button>
                 </c:if>
             </div>
-            <button onclick="location.href='/bookmark/list?userId=${userId}'">북마크 목록 보기</button>
+            <button onclick="location.href='/bookmark/myList?userId=<%= userId %>'">북마크 목록 보기</button>
         </section>
         <section class="details-container">
             <section id="patient-details" class="detail-section">

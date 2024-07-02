@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -24,19 +25,20 @@ public class BookmarkService {
         bookmarkRepository.save(bookmark);
     }
 
-    public void deleteBookmark(int code) {
-        bookmarkRepository.deleteById(code);
+    public void deleteBookmark(int code) throws Exception {
+        Optional<Bookmark> bookmark = bookmarkRepository.findById(code);
+        if (bookmark.isPresent()) {
+            bookmarkRepository.deleteById(code);
+        } else {
+            throw new Exception("No Bookmark entity with id " + code + " exists!");
+        }
     }
 
     public List<Bookmark> getBookmarksByUserId(String userId) {
         return bookmarkRepository.findByUserId(userId);
     }
 
-    public List<Study> getStudiesForBookmarksByUserId(String userId) {
-        List<Bookmark> bookmarks = bookmarkRepository.findByUserId(userId);
-        return bookmarks.stream()
-                .map(bookmark -> studyService.getStudyByStudyKey(bookmark.getStudykey()))
-                .collect(Collectors.toList());
-    }
+
+
 
 }
