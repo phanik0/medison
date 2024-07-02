@@ -29,7 +29,6 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script>
-        // 사용자 정보를 전역 변수에 저장
         var userId = '<%= userId %>';
         var userName = '<%= userName %>';
         var userPosition = '<%= userPosition %>';
@@ -83,7 +82,6 @@
                 }
             });
 
-            // 사용자 정보를 HTML 요소에 표시
             document.getElementById('userName').textContent = userName;
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
         });
@@ -162,7 +160,7 @@
                         <c:set var="status" value="${item.status}" />
                         <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
                             <td>
-                                <button class="bookmark-btn" id="bookmarkButton1" data-study-key="1" onclick="event.stopPropagation(); openBookmarkModal(${study.studykey})"> </button>
+                                <button class="bookmark-btn ${item.bookmarked ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${item.code}" data-bookmarked="${item.bookmarked}" onclick="event.stopPropagation();">${item.bookmarked ? '⭐' : '☆'}</button>
                             </td>
                             <td>${study.pid}</td>
                             <td>${study.pname}</td>
