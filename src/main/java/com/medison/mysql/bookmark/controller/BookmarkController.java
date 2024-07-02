@@ -5,10 +5,10 @@ import com.medison.mysql.bookmark.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -22,17 +22,19 @@ public class BookmarkController {
             bookmarkService.saveBookmark(bookmark);
             return ResponseEntity.ok("북마크가 저장되었습니다.");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("북마크 저장 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 
-    @PostMapping("/bookmark/delete")
+    @DeleteMapping("/bookmark/delete/{code}")
     @ResponseBody
-    public ResponseEntity<String> deleteBookmark(@RequestBody Bookmark bookmark) {
+    public ResponseEntity<String> deleteBookmark(@PathVariable int code) {
         try {
-            bookmarkService.deleteBookmark(bookmark.getCode());
+            bookmarkService.deleteBookmark(code);
             return ResponseEntity.ok("북마크가 삭제되었습니다.");
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body("북마크 삭제 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
@@ -47,5 +49,13 @@ public class BookmarkController {
             e.printStackTrace();
             return ResponseEntity.status(500).body(null);
         }
+    }
+
+    @GetMapping("/bookmark/myList")
+    public String myListBookmarks(@RequestParam String userId, Model model) {
+        List<Bookmark> bookmarks = bookmarkService.getBookmarksByUserId(userId);
+        model.addAttribute("bookmarks", bookmarks);
+        model.addAttribute("userId", userId); // Add userId to model
+        return "bookmark";
     }
 }

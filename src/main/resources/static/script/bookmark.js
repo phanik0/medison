@@ -18,6 +18,8 @@ $(function() {
         var studyKey = $(this).data('study-key');
         var code = $(this).data('code');
 
+        console.log("Bookmark button clicked. Study Key:", studyKey, "Code:", code);
+
         if ($(this).data('bookmarked')) {
             deleteBookmark(code, studyKey);
         } else {
@@ -59,17 +61,12 @@ function saveBookmark() {
     });
 }
 
-function deleteBookmark(code, studyKey) {
-    console.log("Deleting bookmark with code:", code);
+function deleteBookmark() {
+    var code = $(this).data('code');
+
     $.ajax({
-        url: '/bookmark/delete',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            code: code,
-            studykey: studyKey,
-            userId: userId
-        }),
+        url: '/bookmark/delete/' + code,
+        type: 'DELETE',
         success: function(response) {
             alert('북마크가 삭제되었습니다.');
             var button = $('#bookmarkButton' + studyKey);
