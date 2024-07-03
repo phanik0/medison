@@ -5,6 +5,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
+    <script src="${pageContext.request.contextPath}/js/showNote.js"></script>
 </head>
 <body>
 <div class="container">
@@ -12,9 +13,9 @@
     <table class="info-table">
         <tr>
             <td class="label">1. 성명</td>
-            <td class="value">${demoNote.pName}</td>
+            <td class="value"><input type="text" id="pName" value="${demoNote.pName}"></td>
             <td class="label">2. 생년월일</td>
-            <td class="value">${demoNote.pBirth}</td>
+            <td class="value"><input type="text" id="pBirth" value="${demoNote.pBirth}"></td>
         </tr>
         <tr>
             <td class="label">4. 병명</td>
@@ -22,29 +23,23 @@
         </tr>
         <tr>
             <td class="label">5. 진료 기간</td>
-            <td class="value" colspan="3">${demoNote.firstDate}&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;${demoNote.lastDate}&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;${demoNote.treatmentPeriod}일간)</td>
+            <td class="value" colspan="3"><input type="text" id="firstDate" value="${demoNote.firstDate}">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;<input type="text" id="lastDate" value="${demoNote.lastDate}">&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;<input type="text" id="treatmentPeriod" value="${demoNote.treatmentPeriod}">일간)</td>
         </tr>
         <tr class="size-up">
-            <c:set var="diseaseHistory" value='${demoNote.diseaseHistory.split("/")}'></c:set>
             <td class="label">6. 병력 및 신체검사 소견</td>
-            <td colspan="3" class="value">
-                <p>${diseaseHistory[0]}</p>
-                <p>${diseaseHistory[1]}</p>
-                <p>${diseaseHistory[2]}</p>
-                <p>${diseaseHistory[3]}</p>
-            </td>
+            <td colspan="3" class="value"><textarea id="diseaseHistory">${demoNote.diseaseHistory}</textarea></td>
         </tr>
         <tr class="size-up">
             <td class="label">7. 검사 소견</td>
-            <td colspan="3" class="value">${demoNote.finding}</td>
+            <td colspan="3" class="value"><textarea id="finding">${demoNote.finding}</textarea></td>
         </tr>
         <tr class="size-up">
             <td class="label">8. 진료의사 의견</td>
-            <td colspan="3" class="value">${demoNote.doctorComment}</td>
+            <td colspan="3" class="value"><textarea id="doctorComment">${demoNote.doctorComment}</textarea></td>
         </tr>
         <tr class="size-up">
             <td class="label">9. 향후 치료 의견</td>
-            <td colspan="3" class="value">${demoNote.futureComment}</td>
+            <td colspan="3" class="value"><textarea id="futureComment">${demoNote.futureComment}</textarea></td>
         </tr>
         <tr class="size-up">
             <td class="label">10. 용도</td>
@@ -56,15 +51,15 @@
     <div class="signature">
         <div class="row">
             <div class="label">담당의사 면허번호</div>
-            <div class="value">12</div>
+            <div class="value"><input type="text" id="doctorLicense" value="12"></div>
         </div>
         <div class="row">
             <div class="label">성명</div>
-            <div class="value">이 이</div>
+            <div class="value"><input type="text" id="doctorName" value="이 이"></div>
         </div>
         <div class="row">
             <div class="label">의료기관 주소</div>
-            <div class="value">서울특별시 종로구 대학로 101</div>
+            <div class="value"><input type="text" id="hospitalAddress" value="서울특별시 종로구 대학로 101"></div>
         </div>
     </div>
     <div class="footer">

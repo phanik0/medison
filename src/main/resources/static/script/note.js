@@ -1,46 +1,36 @@
-// note.js
-document.addEventListener("DOMContentLoaded", function() {
-    // 페이지 로드 후 초기 데이터 로드
-
-    fetchNoteDetails(${note.studykey});
-
-    // 저장 버튼 클릭 시
-    document.getElementById("saveBtn").addEventListener("click", function() {
-        saveNote();
-    });
-
-    // PDF 다운로드 버튼 클릭 시
-    document.getElementById("downloadBtn").addEventListener("click", function() {
-        downloadPDF(${note.studykey});
+document.addEventListener("DOMContentLoaded", function () {
+    // note-button에 클릭 이벤트 추가
+    document.getElementById("note-button").addEventListener("click", function() {
+        // studyKey를 포함하여 showNote 호출
+        const studyKey = document.getElementById("studyKey").value;
+        showNote(studyKey);
     });
 });
 
-function fetchNoteDetails(studykey) {
-    fetch(`/note/${studykey}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("disease").value = data.disease;
-            document.getElementById("treatmentPeriod").value = data.treatmentPeriod;
-            document.getElementById("usage").value = data.usage;
-        })
-        .catch(error => console.error('Error fetching note details:', error));
-}
+function showNote(studyKey) {
+    // 요소가 존재하는지 확인하고 값 추출
+    const getValueById = (id) => {
+        const element = document.getElementById(id);
+        return element ? element.value : '';
+    };
 
-function saveNote() {
-    const formData = new FormData(document.getElementById("noteForm"));
-    fetch(`/note/${note.studykey}`, {
-        method: 'POST',
-        body: formData
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to save note');
-            }
-            alert('저장되었습니다.');
-        })
-        .catch(error => console.error('Error saving note:', error));
-}
+    const demoNote = {
+        pName: getValueById("patient-name"),
+        pBirth: getValueById("patient-birth"),
+        disease: getValueById("disease"),
+        firstDate: getValueById("firstDate"),
+        lastDate: getValueById("lastDate"),
+        treatmentPeriod: getValueById("treatmentPeriod"),
+        diseaseHistory: getValueById("diseaseHistory"),
+        finding: getValueById("finding"),
+        doctorComment: getValueById("comments"),
+        futureComment: getValueById("futureComment"),
+        doctorLicense: getValueById("doctorLicense"),
+        doctorName: getValueById("doctorName"),
+        hospitalAddress: getValueById("hospitalAddress")
+    };
 
-function downloadPDF(studykey) {
-    window.location.href = `/note/${studykey}/download/pdf`;
+    // studyKey를 가져와 URL로 이동
+    const url = `/note/${studyKey}`;
+    window.location.href = url;
 }
