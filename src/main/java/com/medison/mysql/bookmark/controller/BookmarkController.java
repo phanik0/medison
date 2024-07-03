@@ -5,6 +5,9 @@ import com.medison.mysql.bookmark.service.BookmarkService;
 import com.medison.pacs.study.domain.Study;
 import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,8 +61,12 @@ public class BookmarkController {
     }
 
     @GetMapping("/bookmark/myList")
-    public String myListBookmarks(@RequestParam String userId, Model model) {
-        List<Bookmark> bookmarks = bookmarkService.getBookmarksByUserId(userId);
+    public String myListBookmarks(@RequestParam String userId,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "5") int size,
+                                  Model model) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Bookmark> bookmarkPage = bookmarkService.getBookmarksByUserId(userId, pageable);
         List<Study> allStudies = studyService.getAllStudies();
 
         // Study 데이터를 studykey를 기준으로 Map에 저장
@@ -67,7 +74,7 @@ public class BookmarkController {
                 .collect(Collectors.toMap(Study::getStudykey, study -> study));
 
         // Bookmark와 Study 데이터를 조합하여 List에 저장
-        List<Map<String, Object>> bookmarkWithStudies = bookmarks.stream().map(bookmark -> {
+        List<Map<String, Object>> bookmarkWithStudies = bookmarkPage.stream().map(bookmark -> {
             Map<String, Object> map = new HashMap<>();
             map.put("bookmark", bookmark);
             map.put("study", studyMap.get((long)bookmark.getStudykey()));
@@ -76,6 +83,8 @@ public class BookmarkController {
 
         model.addAttribute("bookmarkWithStudies", bookmarkWithStudies);
         model.addAttribute("userId", userId);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", bookmarkPage.getTotalPages());
         return "bookmark";
     }
 }

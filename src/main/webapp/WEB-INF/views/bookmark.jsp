@@ -57,54 +57,54 @@
         <section class="result-section">
             <table>
                 <thead>
-                <tr>
-                    <th>북마크</th>
-                    <th>환자 코드</th>
-                    <th>환자 이름</th>
-                    <th>검사 장비</th>
-                    <th>검사 부위</th>
-                    <th>검사 날짜</th>
-                    <th>판독 상태</th>
-                    <th>Verify</th>
-                </tr>
+                    <tr>
+                        <th>북마크</th>
+                        <th>환자 코드</th>
+                        <th>환자 이름</th>
+                        <th>검사 장비</th>
+                        <th>검사 부위</th>
+                        <th>검사 날짜</th>
+                        <th>판독 상태</th>
+                        <th>Verify</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="item" items="${bookmarkWithStudies}">
-                    <c:set var="study" value="${item.study}" />
-                    <c:set var="bookmark" value="${item.bookmark}" />
-                    <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-                        <td>
-                            <button class="delete-bookmark-btn" data-code="${bookmark.code}">삭제</button>
-                        </td>
-                        <td>${study.pid}</td>
-                        <td>${study.pname}</td>
-                        <td>${study.modality}</td>
-                        <td>${study.studydesc}</td>
-                        <td>${study.studydate}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${study.reportstatus == 3}">읽지않음</c:when>
-                                <c:when test="${study.reportstatus == 5}">예비판독</c:when>
-                                <c:when test="${study.reportstatus == 6}">판독완료</c:when>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${study.examstatus == 1}">Y</c:when>
-                                <c:otherwise>N</c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
+                    <c:forEach var="item" items="${bookmarkWithStudies}">
+                        <c:set var="study" value="${item.study}" />
+                        <c:set var="bookmark" value="${item.bookmark}" />
+                        <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                            <td>
+                                <button class="delete-bookmark-btn" data-study-key="${study.studykey}" data-user-id="${userId}">삭제</button>
+                            </td>
+                            <td>${study.pid}</td>
+                            <td>${study.pname}</td>
+                            <td>${study.modality}</td>
+                            <td>${study.studydesc}</td>
+                            <td>${study.studydate}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${study.reportstatus == 3}">읽지않음</c:when>
+                                    <c:when test="${study.reportstatus == 5}">예비판독</c:when>
+                                    <c:when test="${study.reportstatus == 6}">판독완료</c:when>
+                                </c:choose>
+                            </td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${study.examstatus == 1}">Y</c:when>
+                                    <c:otherwise>N</c:otherwise>
+                                </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
             <div class="pagination">
                 <c:if test="${currentPage > 0}">
-                    <button onclick="location.href='/main?page=${currentPage - 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&lt;</button>
+                    <button onclick="location.href='/bookmark/myList?userId=${userId}&page=${currentPage - 1}'">&lt;</button>
                 </c:if>
                 <span>${currentPage + 1}</span> / <span>${totalPages}</span>
                 <c:if test="${currentPage + 1 < totalPages}">
-                    <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&gt;</button>
+                    <button onclick="location.href='/bookmark/myList?userId=${userId}&page=${currentPage + 1}'">&gt;</button>
                 </c:if>
             </div>
         </section>

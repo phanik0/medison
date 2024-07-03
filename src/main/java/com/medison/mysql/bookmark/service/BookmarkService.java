@@ -6,6 +6,8 @@ import com.medison.pacs.study.domain.Study;
 import com.medison.pacs.study.domain.StudyRepository;
 import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -38,7 +40,9 @@ public class BookmarkService {
         return bookmarkRepository.findByUserId(userId);
     }
 
-
+    public Page<Bookmark> getBookmarksByUserId(String userId, Pageable pageable) {
+        return bookmarkRepository.findByUserId(userId, pageable);
+    }
 
 
 }
