@@ -1,7 +1,19 @@
 import * as cornerstone from '@cornerstonejs/core';
+import * as cornerstoneTools from '@cornerstonejs/tools';
 import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader';
 import * as dicomParser from 'dicom-parser';
 import { RenderingEngine, Enums, imageLoader, metaData } from '@cornerstonejs/core';
+
+const {
+    ZoomTool, ToolGroupManager,
+    Enums: csToolsEnums,
+    LengthTool, AngleTool,
+    MagnifyTool,
+    StackScrollMouseWheelTool
+} = cornerstoneTools;
+const {MouseBindings} = csToolsEnums;
+
+const toolGroupId = 'myToolGroup';
 
 // Initialize Cornerstone and DICOM image loader
 cornerstone.init();
@@ -13,6 +25,19 @@ cornerstoneDICOMImageLoader.configure({
     }
 });
 
+cornerstoneTools.init();
+cornerstoneTools.addTool(ZoomTool);
+cornerstoneTools.addTool(LengthTool);
+cornerstoneTools.addTool(AngleTool);
+cornerstoneTools.addTool(MagnifyTool);
+cornerstoneTools.addTool(StackScrollMouseWheelTool);
+
+const toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
+toolGroup.addTool(ZoomTool.toolName);
+toolGroup.addTool(LengthTool.toolName);
+toolGroup.addTool(AngleTool.toolName);
+toolGroup.addTool(MagnifyTool.toolName);
+toolGroup.addTool(StackScrollMouseWheelTool.toolName);
 // Add DICOM metadata provider
 // metaData.addProvider(cornerstoneDICOMImageLoader.metaDataProvider);
 
@@ -102,6 +127,7 @@ const setupImageScroll = (imageIds, element) => {
     };
 
     element.addEventListener('wheel', (event) => {
+        event.preventDefault();
         if (event.deltaY > 0) {
             loadNextImage();
         } else {
@@ -136,8 +162,8 @@ const loadDicom = async function(studyKey) {
             for (let i = 0; i < 4; i++) {
                 const element = document.createElement('div');
                 element.className = 'viewport';
-                element.style.width = '100%';
-                element.style.height = '50%';
+                element.style.width = '45%';
+                element.style.height = '45%';
                 viewportGrid.appendChild(element);
                 elements.push(element);
             }
@@ -145,7 +171,7 @@ const loadDicom = async function(studyKey) {
             const renderingEngineId = 'myRenderingEngine';
             const renderingEngine = new RenderingEngine(renderingEngineId);
 
-            const viewportIds = ['CT_AXIAL', 'CT_SAGITTAL', 'CT_CORONAL', 'CT_OBLIQUE'];
+            const viewportIds = ['CT_01', 'CT_02', 'CT_03', 'CT_04'];
 
             const viewportInput = viewportIds.map((viewportId, index) => ({
                 viewportId: viewportId,
@@ -164,8 +190,17 @@ const loadDicom = async function(studyKey) {
             }
 
             renderingEngine.render();
+            console.log("imageIdsBySeries : ",imageIdsBySeries);
 
-            setupImageScroll(imageIdsBySeries.flat(), viewportGrid); // Flatten the image ID array for scrolling
+            viewportGrid.addEventListener('dblclick', (event) => {
+                const targetUid = event.target.parentElement.parentElement.dataset.viewportUid;
+                console.log("targetUid : ",targetUid);
+                const targetIndex = parseInt(targetUid.slice(3))-1;
+                setupImageScroll(imageIdsBySeries[targetIndex], event.target.parentElement.parentElement); // Flatten the image ID array for scrolling
+                loadMainImage(imageIdsBySeries[targetIndex],event.target.parentElement.parentElement);
+            });
+
+
         }
     }
 };
@@ -175,3 +210,6 @@ window.onload = () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
     loadDicom(studyKey); // loadDicom 함수 호출
 };
+
+
+

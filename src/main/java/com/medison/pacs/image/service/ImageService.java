@@ -19,7 +19,7 @@ public class ImageService {
         return imageRepository.findByStudykey(studykey);
     };
     private final SeriesService seriesService;
-    public Image findImageByStudyKeyAndSeriesKey(long studyKey, long seriesKey) {
+    public List<Image> findImageByStudyKeyAndSeriesKey(long studyKey, long seriesKey) {
         return imageRepository.findByStudykeyAndSerieskey(studyKey, seriesKey);
     }
 
@@ -29,12 +29,13 @@ public class ImageService {
 
 
         for (Series series : seriesList) {
-            ArrayList<Image> seriesImage = new ArrayList<>();
-            for(Image image : imageRepository.findAll()){
-                if(image.getStudykey() == series.getStudykey() && image.getSerieskey()==series.getSerieskey()){
-                    seriesImage.add(image);
-                }
-            }
+            long serieskey = series.getSerieskey();
+            ArrayList<Image> seriesImage = imageRepository.findByStudykeyAndSerieskey(studyKey,serieskey);
+//            for(Image image : imageRepository.findAll()){
+//                if(image.getStudykey() == series.getStudykey() && image.getSerieskey()==series.getSerieskey()){
+//                    seriesImage.add(image);
+//                }
+//            }
             imageList.add(seriesImage);
         }
         return imageList;

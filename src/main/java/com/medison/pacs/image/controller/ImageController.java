@@ -18,7 +18,7 @@ import java.util.List;
 public class ImageController {
 
     private final ImageService imageService;
-    public Image getImageByStudyKeyAndSeriesKey(long studyKey, long seriesKey) {
+    public List<Image> getImageByStudyKeyAndSeriesKey(long studyKey, long seriesKey) {
         return imageService.findImageByStudyKeyAndSeriesKey(studyKey, seriesKey);
     }
     @ResponseBody

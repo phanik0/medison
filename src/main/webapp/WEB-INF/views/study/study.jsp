@@ -20,7 +20,7 @@
 </div>
 <div id="main-viewer">
     <!-- Main image viewer -->
-    <div id="viewportGrid" style="width: 100%; height: 100vh;"></div>
+    <div id="viewportGrid" style="width: 100%;height: 100vh;display: flex;flex-direction: row;flex-wrap: wrap"></div>
 </div>
 <input type="hidden" id="studyKey" value="${study.studykey}">
 <c:out value="${study}"></c:out>
