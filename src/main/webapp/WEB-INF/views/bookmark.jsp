@@ -53,7 +53,7 @@
 <body>
 <main>
     <div class="main-content">
-        <h2><img style="width: 50px" src="https://cdn-icons-png.flaticon.com/128/8766/8766160.png">북마크 목록</h2>
+        <span style="font-size: 40px; margin-bottom: 20px"><img style="width: 50px" src="https://cdn-icons-png.flaticon.com/128/8766/8766160.png"> 북마크목록</span>
         <section class="result-section">
             <table>
                 <thead>

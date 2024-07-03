@@ -74,6 +74,13 @@ function showReportDetails(studykey) {
             } else {
                 finalButton.style.display = 'block';
             }
+
+            const noteButton = document.getElementById('note-button');
+            if (report.status === 6) {
+                noteButton.style.display = 'block';
+            } else {
+                noteButton.style.display = 'none';
+            }
         })
         .catch(error => {
             console.error('리포트 불러오기 중 오류가 발생했습니다:', error);
@@ -127,7 +134,6 @@ function savePreliminaryReport() {
         })
         .then(result => {
             alert(result);
-            // Refresh the status to reflect changes
             showReportDetails(studykey);
         })
         .catch(error => {
@@ -162,7 +168,7 @@ function saveFinalReport() {
                 comments,
                 finding,
                 futureComment,
-                preDoctor: existingReport.preDoctor, // 기존 예비 판독의 정보를 유지합니다.
+                preDoctor: existingReport.preDoctor,
                 finalDoctor: userId,
                 modDate: new Date().toISOString()
             };
@@ -183,7 +189,7 @@ function saveFinalReport() {
         })
         .then(result => {
             alert(result);
-            // Refresh the status to reflect changes
+
             showReportDetails(studykey);
         })
         .catch(error => {

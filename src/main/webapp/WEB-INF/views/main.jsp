@@ -28,6 +28,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
+    <script src="${pageContext.request.contextPath}/script/note.js"></script>
     <script>
         var userId = '<%= userId %>';
         var userName = '<%= userName %>';
@@ -105,7 +106,7 @@
             <img src="${pageContext.request.contextPath}/image/profile.png" class="profile-image">
             <p class="member-id"><%= userId %></p>
             <p class="member-name"><span id="userName"> </span><span id="userPosition"></span></p>
-            <button class="info-update">정보수정</button>
+            <button class="info-update" onClick="location.href='/user/update/me'">정보수정</button>
         </div>
     </div>
     <div class="main-content">
@@ -240,6 +241,8 @@
                     <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
                 </div>
+                <button id="note-button" style="display: none;" onclick="showNote('${study.studykey}')">소견서 작성</button>
+
             </section>
         </section>
     </div>
