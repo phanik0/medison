@@ -53,12 +53,12 @@
 <body>
 <main>
     <div class="main-content">
-        <h2>북마크 목록</h2>
+        <h2><img style="width: 50px" src="https://cdn-icons-png.flaticon.com/128/8766/8766160.png">북마크 목록</h2>
         <section class="result-section">
             <table>
                 <thead>
                     <tr>
-                        <th>북마크</th>
+                        <th>comments</th>
                         <th>환자 코드</th>
                         <th>환자 이름</th>
                         <th>검사 장비</th>
@@ -66,6 +66,7 @@
                         <th>검사 날짜</th>
                         <th>판독 상태</th>
                         <th>Verify</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,9 +74,8 @@
                         <c:set var="study" value="${item.study}" />
                         <c:set var="bookmark" value="${item.bookmark}" />
                         <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-                            <td>
-                                <button class="delete-bookmark-btn" data-study-key="${study.studykey}" data-user-id="${userId}">삭제</button>
-                            </td>
+                            <td>${bookmark.comments}</td>
+
                             <td>${study.pid}</td>
                             <td>${study.pname}</td>
                             <td>${study.modality}</td>
@@ -93,6 +93,9 @@
                                     <c:when test="${study.examstatus == 1}">Y</c:when>
                                     <c:otherwise>N</c:otherwise>
                                 </c:choose>
+                            </td>
+                            <td>
+                                <button class="delete-bookmark-btn" data-code="${bookmark.code}">삭제</button>
                             </td>
                         </tr>
                     </c:forEach>

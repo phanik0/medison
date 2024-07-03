@@ -84,6 +84,30 @@
 
             document.getElementById('userName').textContent = userName;
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
+
+            $(document).on('click', '.bookmark-btn', function(event) {
+                event.stopPropagation();
+                var button = $(this);
+                var studyKey = button.data('study-key');
+                var bookmarked = button.data('bookmarked');
+                var code = button.data('code');
+
+                $.ajax({
+                    type: 'POST',
+                    url: bookmarked ? '/api/bookmarks/studies/' + studyKey + '/unfavorite' : '/api/bookmarks/studies/' + studyKey,
+                    data: { code: code },
+                    success: function(response) {
+                        if (bookmarked) {
+                            button.data('bookmarked', false).text('☆').removeClass('bookmarked').addClass('not-bookmarked');
+                        } else {
+                            button.data('bookmarked', true).text('⭐').removeClass('not-bookmarked').addClass('bookmarked');
+                        }
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
         });
     </script>
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
@@ -157,12 +181,19 @@
                 <tbody>
                     <c:forEach var="item" items="${studies}">
                     <c:set var="study" value="${item.study}" />
-                    <c:set var="bookmark" value="${bookmarks}" />
+                    <c:set var="bookmark" value="${item.bookmark}" />
                     <c:set var="status" value="${item.status}" />
                 <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
                 <td>
-                    <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
-                </td>
+                <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}"
+        id="bookmarkButton${study.studykey}"
+        data-study-key="${study.studykey}"
+        data-code="${bookmark != null ? bookmark.code : 'null'}"
+        data-bookmarked="${bookmark != null}">
+    ${bookmark != null ? '⭐' : '☆'}
+</button>
+
+                    </td>
                 <td>${study.pid}</td>
                 <td>${study.pname}</td>
                 <td>${study.modality}</td>
@@ -194,7 +225,11 @@
                     <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&gt;</button>
                 </c:if>
             </div>
-            <button onclick="location.href='/bookmark/myList?userId=<%= userId %>'">북마크 목록 보기</button>
+            <div class="button-container">
+                <button onclick="location.href='/bookmark/myList?userId=<%= userId %>'">북마크 목록 보기</button>
+                <button class="emergency-button" onclick="location.href='/emergency'">긴급관리</button>
+            </div>
+
         </section>
         <section class="details-container">
             <section id="patient-details" class="detail-section">

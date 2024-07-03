@@ -43,6 +43,4 @@ public class BookmarkService {
     public Page<Bookmark> getBookmarksByUserId(String userId, Pageable pageable) {
         return bookmarkRepository.findByUserId(userId, pageable);
     }
-
-
 }

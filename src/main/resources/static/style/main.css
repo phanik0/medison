@@ -3,13 +3,13 @@ body {
     font-size: 16px;
     margin: 0;
     padding: 0;
-    overflow-y: auto; /* 전체 스크롤만 활성화 */
+    overflow-y: auto;
 }
 
 main {
     display: flex;
     flex-direction: row;
-    min-height: 100vh; /* 최소 높이를 100vh로 설정하여 화면 전체를 차지하도록 함 */
+    min-height: 100vh;
 }
 
 .sidebar {
@@ -51,8 +51,8 @@ main {
 }
 
 .member-info .info-update {
-    width: 50%; /* 버튼 크기를 반으로 줄임 */
-    padding: 5px 10px; /* 패딩 조정 */
+    width: 50%;
+    padding: 5px 10px;
     background-color: #004AAD;
     color: white;
     border: none;
@@ -241,9 +241,9 @@ main {
 }
 
 button {
-    background-color: white;
-    border: 2px solid #004AAD;
-    color: #004AAD;
+    background-color: #004AAD !important;
+    color: white !important;
+    border: none;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -254,8 +254,8 @@ button {
 }
 
 button:hover {
-    background-color: #004AAD;
-    color: white;
+    background-color: #003080 !important;
+    color: white !important;
 }
 
 button:focus {
@@ -264,18 +264,23 @@ button:focus {
 
 .button-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* 버튼들을 가운데로 모음 */
+    gap: 10px; /* 버튼 사이의 간격 */
     margin-top: 20px;
 }
 
 /* 북마크 버튼 기본 스타일 */
 .bookmark-btn {
-    background: none;
+    background: none !important;
     border: none;
     cursor: pointer;
     font-size: 20px;
     padding: 0;
     margin: 0;
+}
+.bookmark-btn:hover {
+    background-color: gold !important;
+
 }
 
 /* 북마크된 상태 */
@@ -285,5 +290,15 @@ button:focus {
 
 /* 북마크되지 않은 상태 */
 .bookmark-btn.not-bookmarked {
-    color: gray;
+    color: gray !important;
+}
+
+.emergency-button {
+    background-color: red !important;
+    color: white !important;
+}
+
+.emergency-button:hover {
+    background-color: #a50000 !important;
+    color: white !important;
 }

@@ -21,7 +21,7 @@ $(function() {
         console.log("Bookmark button clicked. Study Key:", studyKey, "Code:", code);
 
         if ($(this).data('bookmarked')) {
-            deleteBookmark(code, studyKey);
+            deleteBookmark(code);
         } else {
             openBookmarkModal(studyKey);
         }
@@ -61,9 +61,7 @@ function saveBookmark() {
     });
 }
 
-function deleteBookmark() {
-
-    var code = $(this).data('code');
+function deleteBookmark(code) {
     $.ajax({
         url: '/bookmark/delete/' + code,
         type: 'DELETE',
@@ -77,7 +75,6 @@ function deleteBookmark() {
         }
     });
 }
-
 function loadUserBookmarks() {
     // 사용자 북마크 정보를 서버에서 불러오는 로직을 구현합니다.
     $.ajax({
@@ -102,16 +99,5 @@ function loadUserBookmarks() {
 
 $(document).on('click', '.delete-bookmark-btn', function() {
     var code = $(this).data('code');
-    $.ajax({
-        url: '/bookmark/delete/' + code,
-        type: 'DELETE',
-        success: function(response) {
-            alert('북마크가 삭제되었습니다.');
-            location.reload();
-        },
-        error: function(error) {
-            alert('북마크 삭제 중 오류가 발생했습니다.');
-            console.error('Error deleting bookmark:', error);
-        }
-    });
+    deleteBookmark(code);
 });
