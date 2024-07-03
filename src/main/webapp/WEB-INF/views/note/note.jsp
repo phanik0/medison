@@ -1,6 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../module/header.jsp"></jsp:include>
+<%
+    HttpSession userSession = request.getSession(false);
+    if (userSession == null || userSession.getAttribute("user") == null) {
+        response.sendRedirect(request.getContextPath() + "/user/login");
+        return;
+    }
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -64,7 +72,7 @@
     </div>
     <div class="footer">
         <div class="hospital-name">서울대학교병원장</div>
-        <div class="stamp"><img src="seal.png" alt="seal"></div>
+        <div class="stamp"><img src="${pageContext.request.contextPath}/image/seal.png" alt="seal"></div>
     </div>
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
 </div>
