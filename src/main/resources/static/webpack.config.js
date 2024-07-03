@@ -1,21 +1,3 @@
-// const path = require('path');
-//
-// module.exports = {
-//     entry: './script/dicom-render.js',
-//     output: {
-//         filename: 'bundle.js',
-//         path: path.resolve(__dirname, 'dist'),
-//     },
-//     resolve: {
-//         modules: ['node_modules'],
-//         extensions: ['.ts', '.js', '.json', '.wasm']
-//     },
-//     cache: {
-//         type: 'filesystem',
-//         cacheDirectory: path.resolve(__dirname, '.webpack_cache'),
-//     },
-//     mode: 'development'
-// };
 
 const path = require('path');
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
@@ -25,6 +7,7 @@ module.exports = {
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        chunkFilename: '[name].[contenthash].js', // chunk 파일의 이름 형식 설정
     },
     resolve: {
         modules: ['node_modules'],

@@ -74,8 +74,36 @@ tasks.register('webpackBuild', Exec) {
     outputs.dir 'build/resources/main/static'
     standardOutput = new ByteArrayOutputStream()
     errorOutput = standardOutput
+    ignoreExitValue = true
     doLast {
         println standardOutput.toString()
     }
 }
-processResources.dependsOn tasks.named('webpackBuild')
+
+//processResources.dependsOn tasks.named('webpackBuild')
+processResources {
+    inputs.files fileTree('src/main/resources/static')
+    outputs.dir file('build/resources/main/static')
+    dependsOn tasks.named('webpackBuild')
+    doFirst {
+        println 'Processing resources...'
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':processResources')) {
+        processResources {
+            inputs.files fileTree('src/main/resources/static') {
+                include '**/*.js', '**/*.html', '**/*.css'  // 필요한 파일만 포함
+            }
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.incremental = true
+}
+
+tasks.withType(AbstractArchiveTask) {
+    outputs.cacheIf { true }
+}
