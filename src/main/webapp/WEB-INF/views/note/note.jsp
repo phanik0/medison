@@ -21,9 +21,9 @@
     <table class="info-table">
         <tr>
             <td class="label">1. 성명</td>
-            <td class="value"><input type="text" id="pName" value="${demoNote.pName}"></td>
+            <td class="value">${demoNote.pName}</td>
             <td class="label">2. 생년월일</td>
-            <td class="value"><input type="text" id="pBirth" value="${demoNote.pBirth}"></td>
+            <td class="value">${demoNote.pBirth}</td>
         </tr>
         <tr>
             <td class="label">4. 병명</td>
@@ -31,7 +31,7 @@
         </tr>
         <tr>
             <td class="label">5. 진료 기간</td>
-            <td class="value" colspan="3"><input type="text" id="firstDate" value="${demoNote.firstDate}">&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;<input type="text" id="lastDate" value="${demoNote.lastDate}">&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;<input type="text" id="treatmentPeriod" value="${demoNote.treatmentPeriod}">일간)</td>
+            <td class="value" colspan="3">${demoNote.firstDate}&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;${demoNote.lastDate}&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;${demoNote.treatmentPeriod}일간)</td>
         </tr>
         <tr class="size-up">
             <td class="label">6. 병력 및 신체검사 소견</td>
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div class="footer">
-        <div class="hospital-name">서울대학교병원장</div>
+        <div class="hospital-name">메가병원장</div>
         <div class="stamp"><img src="${pageContext.request.contextPath}/image/seal.png" alt="seal"></div>
     </div>
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
