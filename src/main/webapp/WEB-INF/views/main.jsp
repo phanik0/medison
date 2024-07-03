@@ -105,7 +105,7 @@
             <img src="${pageContext.request.contextPath}/image/profile.png" class="profile-image">
             <p class="member-id"><%= userId %></p>
             <p class="member-name"><span id="userName"> </span><span id="userPosition"></span></p>
-            <button class="info-update">정보수정</button>
+            <button class="info-update" onClick="location.href='/user/update/me'">정보수정</button>
         </div>
     </div>
     <div class="main-content">
