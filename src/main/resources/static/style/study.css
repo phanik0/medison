@@ -12,9 +12,11 @@
     margin-bottom: 5px;
 }
 #main-viewer {
-    width: 75%;
+    width: 80%;
+    height: 100%;
     float: right;
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     background-color: #000;
 }
