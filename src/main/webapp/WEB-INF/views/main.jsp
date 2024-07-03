@@ -28,6 +28,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
+    <script src="${pageContext.request.contextPath}/script/note.js"></script>
     <script>
         var userId = '<%= userId %>';
         var userName = '<%= userName %>';
@@ -240,6 +241,8 @@
                     <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
                 </div>
+                <button id="note-button" style="display: none;" onclick="showNote()">소견서 작성</button>
+
             </section>
         </section>
     </div>
