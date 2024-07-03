@@ -36,6 +36,10 @@ function openBookmarkModal(studyKey) {
 function saveBookmark() {
     var studyKey = $('#bookmarkStudyKey').val();
     var comments = $('#bookmarkComments').val();
+    var code = $('#bookmarkButton' + studyKey).data('code');
+
+    // undefined 체크 및 0으로 변환
+    code = code !== undefined && code !== 'undefined' && code !== '' ? code : 0;
 
     $.ajax({
         url: '/bookmark/save',
@@ -52,6 +56,7 @@ function saveBookmark() {
             $('#bookmarkModal').dialog('close');
             var button = $('#bookmarkButton' + studyKey);
             button.data('bookmarked', true);
+            button.data('code', response.code); // 서버에서 새로 생성된 코드를 반환한다고 가정
             button.addClass('bookmarked');
             button.text('⭐');
         },
@@ -62,19 +67,26 @@ function saveBookmark() {
 }
 
 function deleteBookmark(code) {
+    if (code === 0) {
+        alert('유효한 북마크 코드가 없습니다.');
+        return;
+    }
+
     $.ajax({
-        url: '/bookmark/delete/' + code,
         type: 'DELETE',
+        url: '/bookmark/delete/' + code,
         success: function(response) {
             alert('북마크가 삭제되었습니다.');
-            location.reload();
+            var button = $('.bookmark-btn[data-code="' + code + '"]');
+            button.data('bookmarked', false).text('☆').removeClass('bookmarked').addClass('not-bookmarked');
+            button.data('code', 0); // 북마크 코드 초기화
         },
         error: function(error) {
-            alert('북마크 삭제 중 오류가 발생했습니다.');
-            console.error('Error deleting bookmark:', error);
+            console.log('Error:', error);
         }
     });
 }
+
 function loadUserBookmarks() {
     // 사용자 북마크 정보를 서버에서 불러오는 로직을 구현합니다.
     $.ajax({
@@ -87,6 +99,7 @@ function loadUserBookmarks() {
             response.forEach(function(bookmark) {
                 var button = $('#bookmarkButton' + bookmark.studykey);
                 button.data('bookmarked', true);
+                button.data('code', bookmark.code);
                 button.addClass('bookmarked');
                 button.text('⭐');
             });

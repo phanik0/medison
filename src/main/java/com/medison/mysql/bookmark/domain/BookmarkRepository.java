@@ -13,5 +13,5 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Integer> {
     List<Bookmark> findByUserId(String userId);
     Page<Bookmark> findByUserId(String userId, Pageable pageable);
-
+    Bookmark findByUserIdAndStudykey(String userId, Integer studykey);
 }
