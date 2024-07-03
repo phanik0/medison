@@ -124,6 +124,8 @@ const loadDicom = async function(studyKey) {
                 const filePath = image.path + image.fname;
                 const arrayBuffer = await loadFiles(filePath);
                 const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], { type: 'application/dicom' }))}`;
+                //wadors 서버에서 스트리밍방식 => 서버에서가져옴
+                // dicomweb 이거는 로컬에서가져옴
                 seriesImageIds.push(imageId);
             }
             imageIdsBySeries.push(seriesImageIds);
