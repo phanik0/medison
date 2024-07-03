@@ -1,7 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
 
 });
+document.addEventListener('onclick',e => {
+    e.preventDefault();
+    console.log('clicked');
+    const studykey = `${studyKey}`;
+    console.log(studykey);
+    showReportDetails(studykey);
 
+})
 function getStatusText(status) {
     switch(status) {
         case 3:
