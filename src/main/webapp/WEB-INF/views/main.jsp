@@ -88,6 +88,8 @@
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
         });
     </script>
+    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
+    <script src="${pageContext.request.contextPath}/script/report.js"></script>
 </head>
 <body>
 <main>
@@ -110,7 +112,7 @@
     </div>
     <div class="main-content">
         <section class="search-section">
-            <form id="searchForm" action="/main" method="get">
+            <form id="mainSearchForm" action="/main" method="get">
                 <input type="text" name="patientCode" id="patient-id" placeholder="환자 아이디">
                 <input type="text" name="patientName" id="patientName" placeholder="환자 이름">
                 <select name="modality" id="test-equipment">
@@ -155,34 +157,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach var="item" items="${studies}">
+                    <c:forEach var="item" items="${studies}">
                     <c:set var="study" value="${item.study}" />
                     <c:set var="bookmark" value="${bookmarks}" />
                     <c:set var="status" value="${item.status}" />
-                    <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-                        <td>
-                            <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
-                        </td>
-                        <td>${study.pid}</td>
-                        <td>${study.pname}</td>
-                        <td>${study.modality}</td>
-                        <td>${study.studydesc}</td>
-                        <td>${study.studydate}</td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${status == 3}">읽지않음</c:when>
-                                <c:when test="${status == 5}">예비판독</c:when>
-                                <c:when test="${status == 6}">판독완료</c:when>
-                            </c:choose>
-                        </td>
-                        <td>
-                            <c:choose>
-                                <c:when test="${study.examstatus == 1}">Y</c:when>
-                                <c:otherwise>N</c:otherwise>
-                            </c:choose>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                <td>
+                    <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
+                </td>
+                <td>${study.pid}</td>
+                <td>${study.pname}</td>
+                <td>${study.modality}</td>
+                <td>${study.studydesc}</td>
+                <td>${study.studydate}</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${status == 3}">읽지않음</c:when>
+                        <c:when test="${status == 5}">예비판독</c:when>
+                        <c:when test="${status == 6}">판독완료</c:when>
+                    </c:choose>
+                </td>
+                <td>
+                    <c:choose>
+                        <c:when test="${study.examstatus == 1}">Y</c:when>
+                        <c:otherwise>N</c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            </c:forEach>
                 </tbody>
             </table>
             <div class="pagination">
@@ -241,7 +243,6 @@
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
                     <button id="note-button" style="display: none;" onclick="showNote()">소견서 작성</button>
                 </div>
-
             </section>
         </section>
     </div>

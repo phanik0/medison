@@ -1,5 +1,11 @@
 document.addEventListener('click', (e) => {
-    e.preventDefault();
+    // 클릭된 요소가 검색 버튼인지 확인
+    if (e.target.closest('button[type="submit"]') && e.target.closest('form#mainSearchForm')) {
+        return; // 검색 버튼이면 기본 동작을 허용
+    }
+
+    e.preventDefault(); // 나머지 모든 요소에 대해서는 기본 동작을 막음
+
     const studyKey = e.target.getAttribute('data-study-key');
     if (studyKey) {
         showReportDetails(studyKey);

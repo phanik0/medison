@@ -1,3 +1,28 @@
+document.addEventListener("DOMContentLoaded", function() {
+    setupButtons();
+});
+
+function setupButtons() {
+    const noteStatus = document.getElementById('noteStatus').value;
+    const saveButton = document.getElementById('saveButton');
+    const saveTempButton = document.getElementById('saveTempButton');
+    const printButton = document.getElementById('printButton');
+
+    if (noteStatus === '1') {
+        saveButton.style.display = 'none';
+        saveTempButton.style.display = 'none';
+        printButton.style.display = 'block';
+    } else {
+        printButton.style.display = 'none';
+    }
+}
+
+function confirmSave() {
+    if (confirm("저장하시겠습니까?")) {
+        saveNote();
+    }
+}
+
 function saveNote() {
     const status = 1;
     saveNoteWithStatus(status);
@@ -44,51 +69,25 @@ function saveNoteWithStatus(status) {
         });
 }
 
-function confirmSave() {
-    if (confirm('저장하시겠습니까?')) {
-        saveNote();
-    }
-}
-
-function printNote() {
-    const element = document.getElementById('noteContent');
-    html2canvas(element).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.width;
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        const pdfOutput = pdf.output('blob');
-
-        // PDF 다운로드
-        pdf.save('note.pdf');
-
-        // PDF 미리보기
-        const url = URL.createObjectURL(pdfOutput);
-        window.open(url, '_blank');
-    });
-}
-
 function cancel() {
     // 취소 버튼을 클릭했을 때 수행할 작업
     window.location.href = '/main'; // 예: 메인 페이지로 리다이렉션
 }
 
-function setupButtons() {
-    var noteStatus = parseInt(document.getElementById('noteStatus').value);
-    var saveButton = document.getElementById('saveButton');
-    var saveTempButton = document.getElementById('saveTempButton');
-    var printButton = document.getElementById('printButton');
+function printNote() {
+    const noteContent = document.getElementById('noteContent');
 
-    if (noteStatus === 1) {
-        saveButton.style.display = 'none';
-        saveTempButton.style.display = 'none';
-        printButton.style.display = 'inline-block';
-    } else {
-        printButton.style.display = 'none';
-    }
+    html2canvas(noteContent).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF();
+        const imgWidth = pdf.internal.pageSize.width;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('note.pdf');
+
+        // PDF 미리보기
+        const pdfBlob = pdf.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        window.open(url);
+    });
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-    setupButtons();
-});
