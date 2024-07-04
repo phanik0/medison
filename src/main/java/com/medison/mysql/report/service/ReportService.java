@@ -5,6 +5,8 @@ import com.medison.mysql.report.domain.ReportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class ReportService {
@@ -18,5 +20,10 @@ public class ReportService {
 
     public void saveReport(Report report) {
         reportRepository.save(report);
+    }
+
+    public Report getReportByFinalDoctor(String finalDoctor) {
+        Optional<Report> reportOptional = reportRepository.findByFinalDoctor(finalDoctor);
+        return reportOptional.orElse(null);
     }
 }

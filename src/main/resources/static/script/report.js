@@ -1,3 +1,17 @@
+document.addEventListener('click', (e) => {
+    // 클릭된 요소가 검색 버튼인지 확인
+    if (e.target.closest('button[type="submit"]') && e.target.closest('form#mainSearchForm')) {
+        return; // 검색 버튼이면 기본 동작을 허용
+    }
+
+    e.preventDefault(); // 나머지 모든 요소에 대해서는 기본 동작을 막음
+
+    const studyKey = e.target.getAttribute('data-study-key');
+    if (studyKey) {
+        showReportDetails(studyKey);
+    }
+});
+
 $(document).ready(function() {
     $('#reportButton').click((e) => {
         e.preventDefault();
@@ -7,7 +21,7 @@ $(document).ready(function() {
     });
 });
 function getStatusText(status) {
-    switch(status) {
+    switch (status) {
         case 3:
             return '판독안함';
         case 5:
@@ -20,7 +34,7 @@ function getStatusText(status) {
 }
 
 function getPositionText(position) {
-    switch(position) {
+    switch (position) {
         case 'professor':
             return '교수';
         case 'intern':
@@ -53,9 +67,9 @@ function showReportDetails(studykey) {
             document.getElementById('report-patientCode').textContent = report.patientCode || '';
             document.getElementById('status').textContent = getStatusText(report.status);
             document.getElementById('comments').value = report.comments || '';
+            document.getElementById('finding').value = report.finding || '';
             document.getElementById('futureComment').value = report.futureComment || '';
 
-            // studykey 저장
             document.getElementById('report-details').dataset.studykey = report.studykey;
 
             const preliminaryButton = document.getElementById('preliminary-button');
@@ -158,7 +172,6 @@ function saveFinalReport() {
         .then(response => response.json())
         .then(data => {
             const existingReport = data.report;
-
             const updatedReport = {
                 ...existingReport,
                 status: 6,
@@ -186,10 +199,38 @@ function saveFinalReport() {
         })
         .then(result => {
             alert(result);
-
             showReportDetails(studykey);
         })
         .catch(error => {
             console.error('저장 중 오류가 발생했습니다:', error);
         });
+}
+
+function showNote() {
+    const studykey = document.getElementById('report-details').dataset.studykey;
+
+
+    const getValueById = (id) => {
+        const element = document.getElementById(id);
+        return element ? element.value : '';
+    };
+
+    const demoNote = {
+        pName: getValueById("patient-name"),
+        pBirth: getValueById("patient-birth"),
+        disease: getValueById("disease"),
+        firstDate: getValueById("firstDate"),
+        lastDate: getValueById("lastDate"),
+        treatmentPeriod: getValueById("treatmentPeriod"),
+        diseaseHistory: getValueById("diseaseHistory"),
+        finding: getValueById("finding"),
+        doctorComment: getValueById("comments"),
+        futureComment: getValueById("futureComment"),
+        doctorLicense: getValueById("doctorLicense"),
+        doctorName: getValueById("doctorName"),
+        hospitalAddress: getValueById("hospitalAddress")
+    };
+
+    const url = `/note/${studykey}`;
+    window.location.href = url;
 }
