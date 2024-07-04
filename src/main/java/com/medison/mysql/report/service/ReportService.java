@@ -11,7 +11,9 @@ public class ReportService {
     private final ReportRepository reportRepository;
 
     public Report getReportByStudyKey(int studykey) {
-        return reportRepository.findById(studykey).orElse(null);
+       return reportRepository.findById(studykey).orElseThrow(
+               () -> new IllegalArgumentException("존재하지 않는 리포트입니다.")
+       );
     }
 
     public void saveReport(Report report) {
