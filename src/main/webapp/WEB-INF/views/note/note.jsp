@@ -75,6 +75,11 @@
         <div class="stamp"><img src="${pageContext.request.contextPath}/image/seal.png" alt="seal"></div>
     </div>
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
+
+    <div>
+        <button>저장</button>
+        <button>취소</button>
+    </div>
 </div>
 </body>
 </html>

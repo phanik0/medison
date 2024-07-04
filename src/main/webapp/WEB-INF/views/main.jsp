@@ -28,7 +28,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
-    <script src="${pageContext.request.contextPath}/script/note.js"></script>
+    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
+    <script src="${pageContext.request.contextPath}/script/report.js"></script>
     <script>
         var userId = '<%= userId %>';
         var userName = '<%= userName %>';
@@ -87,8 +88,6 @@
             document.getElementById('userPosition').textContent = translatePosition(userPosition);
         });
     </script>
-    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
-    <script src="${pageContext.request.contextPath}/script/report.js"></script>
 </head>
 <body>
 <main>
@@ -156,34 +155,34 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="item" items="${studies}">
+                <c:forEach var="item" items="${studies}">
                     <c:set var="study" value="${item.study}" />
                     <c:set var="bookmark" value="${bookmarks}" />
                     <c:set var="status" value="${item.status}" />
-                <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
-                <td>
-                    <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
-                </td>
-                <td>${study.pid}</td>
-                <td>${study.pname}</td>
-                <td>${study.modality}</td>
-                <td>${study.studydesc}</td>
-                <td>${study.studydate}</td>
-                <td>
-                    <c:choose>
-                        <c:when test="${status == 3}">읽지않음</c:when>
-                        <c:when test="${status == 5}">예비판독</c:when>
-                        <c:when test="${status == 6}">판독완료</c:when>
-                    </c:choose>
-                </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${study.examstatus == 1}">Y</c:when>
-                        <c:otherwise>N</c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-            </c:forEach>
+                    <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                        <td>
+                            <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
+                        </td>
+                        <td>${study.pid}</td>
+                        <td>${study.pname}</td>
+                        <td>${study.modality}</td>
+                        <td>${study.studydesc}</td>
+                        <td>${study.studydate}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${status == 3}">읽지않음</c:when>
+                                <c:when test="${status == 5}">예비판독</c:when>
+                                <c:when test="${status == 6}">판독완료</c:when>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${study.examstatus == 1}">Y</c:when>
+                                <c:otherwise>N</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="pagination">
@@ -240,8 +239,8 @@
                 <div class="button-container">
                     <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
+                    <button id="note-button" style="display: none;" onclick="showNote()">소견서 작성</button>
                 </div>
-                <button id="note-button" style="display: none;" onclick="showNote('${study.studykey}')">소견서 작성</button>
 
             </section>
         </section>
