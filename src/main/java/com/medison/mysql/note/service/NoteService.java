@@ -93,6 +93,9 @@ public class NoteService {
         Study study = studyService.getStudyByStudyKey(note.getStudykey());
         Report report = reportService.getReportByStudyKey(note.getStudykey());
 
+        Patient patient = patientService.findPatientById(note.getPatientCode());
+        String diseaseHistory = createDiseaseContent(patient);
+
         String tempFirstDate = study.getStudydate();
         String firstDate = tempFirstDate.substring(0, 4) + "-" + tempFirstDate.substring(4, 6) + "-" + tempFirstDate.substring(6, 8);
 
@@ -108,7 +111,7 @@ public class NoteService {
         noteMap.put("pName", patientService.findPatientById(note.getPatientCode()).getName());
         noteMap.put("pSex", patientService.findPatientById(note.getPatientCode()).getSex());
         noteMap.put("pBirth", patientService.findPatientById(note.getPatientCode()).getBirth());
-        noteMap.put("diseaseHistory", note.getDisease());
+        noteMap.put("diseaseHistory",diseaseHistory);
         noteMap.put("finding", note.getFinding());
         noteMap.put("doctorComment", note.getComments());
         noteMap.put("futureComment", note.getFutureComment());
