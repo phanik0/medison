@@ -36,8 +36,6 @@ public class NoteController {
 
         Note note = noteService.getNoteByStudyKey(studykey);
 
-
-
         ModelAndView mv = new ModelAndView("note/note");
         Map<String, String> demoNote = noteService.createDemoNote(studykey);
         mv.addObject("demoNote", demoNote);

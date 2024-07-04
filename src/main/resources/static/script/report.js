@@ -195,6 +195,7 @@ function saveFinalReport() {
 function showNote() {
     const studykey = document.getElementById('report-details').dataset.studykey;
 
+
     const getValueById = (id) => {
         const element = document.getElementById(id);
         return element ? element.value : '';

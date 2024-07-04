@@ -12,10 +12,10 @@ function saveNoteWithStatus(status) {
     const noteData = {
         studykey: document.getElementById('studykey').value,
         status: status,
-        finalDoctor: document.getElementById('finalDoctor').textContent, // textContent로 변경
+        finalDoctor: document.getElementById('finalDoctor').value, // value로 변경
         patientCode: document.getElementById('patientCode').value,
         disease: document.getElementById('disease').value,
-        treatmentPeriod: document.getElementById('treatmentPeriod').textContent.trim(), // textContent로 변경
+        treatmentPeriod: document.getElementById('treatmentPeriod').value, // value로 변경
         finding: document.getElementById('finding').value,
         comments: document.getElementById('doctorComment').value,
         futureComment: document.getElementById('futureComment').value,
@@ -44,7 +44,37 @@ function saveNoteWithStatus(status) {
         });
 }
 
+function confirmSave() {
+    if (confirm('저장하시겠습니까?')) {
+        saveNote();
+    }
+}
+
+function printNote() {
+    // 출력 기능 구현
+    alert('출력 기능은 아직 구현되지 않았습니다.');
+}
+
 function cancel() {
     // 취소 버튼을 클릭했을 때 수행할 작업
     window.location.href = '/main'; // 예: 메인 페이지로 리다이렉션
 }
+
+function setupButtons() {
+    var noteStatus = parseInt(document.getElementById('noteStatus').value);
+    var saveButton = document.getElementById('saveButton');
+    var saveTempButton = document.getElementById('saveTempButton');
+    var printButton = document.getElementById('printButton');
+
+    if (noteStatus === 1 ) {
+        saveButton.style.display = 'none';
+        saveTempButton.style.display = 'none';
+        printButton.style.display = 'inline-block';
+    } else {
+        printButton.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    setupButtons();
+});

@@ -88,25 +88,6 @@ public class NoteService {
         return demoNote;
     }
 
-    private String createDiseaseContent(Patient patient) {
-        StringBuilder diseaseHistory = new StringBuilder();
-        diseaseHistory.append("병력 : ").append(patient.getHistory()).append("\n");
-        diseaseHistory.append("신체검사소견 : ").append(patient.getCaution()).append("\n");
-        diseaseHistory.append("흡연유무 : ");
-        if (patient.isSmoking()) {
-            diseaseHistory.append("유");
-        } else {
-            diseaseHistory.append("무");
-        }
-        diseaseHistory.append("\n음주유무 : ");
-        if (patient.isDrinking()) {
-            diseaseHistory.append("유");
-        } else {
-            diseaseHistory.append("무");
-        }
-        return diseaseHistory.toString();
-    }
-
     private Map<String, String> convertNoteToMap(Note note) {
 
         Study study = studyService.getStudyByStudyKey(note.getStudykey());
@@ -135,8 +116,30 @@ public class NoteService {
         noteMap.put("lastDate", lastDate);
         noteMap.put("treatmentPeriod", treatmentPeriod);
         noteMap.put("patientCode", note.getPatientCode());
+        noteMap.put("status", String.valueOf(note.getStatus()));
         return noteMap;
     }
+
+    private String createDiseaseContent(Patient patient) {
+        StringBuilder diseaseHistory = new StringBuilder();
+        diseaseHistory.append("병력 : ").append(patient.getHistory()).append("\n");
+        diseaseHistory.append("신체검사소견 : ").append(patient.getCaution()).append("\n");
+        diseaseHistory.append("흡연유무 : ");
+        if (patient.isSmoking()) {
+            diseaseHistory.append("유");
+        } else {
+            diseaseHistory.append("무");
+        }
+        diseaseHistory.append("\n음주유무 : ");
+        if (patient.isDrinking()) {
+            diseaseHistory.append("유");
+        } else {
+            diseaseHistory.append("무");
+        }
+        return diseaseHistory.toString();
+    }
+
+
 
 
     private long calculateTreatmentPeriod(String first, String last) {
@@ -190,7 +193,5 @@ public class NoteService {
     public Note getNoteByStudyKey(int studykey) {
         return noteRepository.findByStudykey(studykey);
     }
-
-
 
 }

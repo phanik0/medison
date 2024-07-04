@@ -19,17 +19,6 @@
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
     <script src="${pageContext.request.contextPath}/script/note.js"></script>
-    <script>
-        var userId = '<%= userId %>';
-        var userName = '<%= userName %>';
-        var userPosition = '<%= userPosition %>';
-
-        window.onload = function() {
-            document.getElementById('userId').textContent = userId;
-            document.getElementById('userName').textContent = userName;
-            document.getElementById('userPosition').textContent = userPosition;
-        };
-    </script>
 </head>
 <body>
 <div class="container">
@@ -38,6 +27,7 @@
     <input type="hidden" id="patientCode" value="${demoNote.patientCode}"> <!-- patientCode 입력 필드 추가 -->
     <input type="hidden" id="finalDoctor" value="${demoNote.finalDoctor}"> <!-- patientCode 입력 필드 추가 -->
     <input type="hidden" id="treatmentPeriod" value="${demoNote.treatmentPeriod}"> <!-- patientCode 입력 필드 추가 -->
+    <input type="hidden" id="noteStatus" value="${demoNote.status}">
 
     <table class="info-table">
         <tr>
@@ -94,11 +84,11 @@
     <div class="signature">
         <div class="row">
             <div class="label">담당의사 면허번호</div>
-            <div class="value"><span id="userId"></span></div>
+            <div class="value"><span id="userId"><%= userId %></span></div>
         </div>
         <div class="row">
             <div class="label">성명</div>
-            <div class="value" id="finalDoctorName">${demoNote.finalDctorName}</div>
+            <div class="value" id="finalDoctorName">${demoNote.finalDoctorName}</div>
         </div>
         <div class="row">
             <div class="label">의료기관 주소</div>
@@ -112,8 +102,9 @@
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
 
     <div class="btn-container">
-        <button onclick="saveNote()">저장</button>
-        <button onclick="saveTemporaryNote()">임시저장</button>
+        <button id="saveButton" onclick="confirmSave()">저장</button>
+        <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
+        <button id="printButton" onclick="printNote()">출력</button>
         <button onclick="cancel()">취소</button>
     </div>
 </div>
