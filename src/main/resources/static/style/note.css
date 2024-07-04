@@ -113,5 +113,12 @@ body {
     font-size: 100%;
 }
 .stamp img {
-    width: 50%; /* 이미지 크기를 절반으로 줄임 */
+    width: 10%;
+    height: auto;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }

@@ -8,7 +8,9 @@
         response.sendRedirect(request.getContextPath() + "/user/login");
         return;
     }
+
     UserResponseDto user = (UserResponseDto) userSession.getAttribute("user");
+    String userId = user.getId();
     String userName = user.getName();
     String userPosition = user.getPosition();
 %>
@@ -16,31 +18,27 @@
 <html>
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
-    <script src="${pageContext.request.contextPath}/js/showNote.js"></script>
+    <script src="${pageContext.request.contextPath}/script/note.js"></script>
     <script>
+        var userId = '<%= userId %>';
         var userName = '<%= userName %>';
         var userPosition = '<%= userPosition %>';
 
-        function translatePosition(position) {
-            switch(position) {
-                case 'professor':
-                    return '교수';
-                case 'intern':
-                    return '인턴';
-                case 'fellow':
-                    return '펠로우';
-                case 'resident':
-                    return '레지던트';
-                default:
-                    return position;
-            }
-        }
+        window.onload = function() {
+            document.getElementById('userId').textContent = userId;
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userPosition').textContent = userPosition;
+        };
     </script>
-
 </head>
 <body>
 <div class="container">
     <h1 class="title">소견서</h1>
+    <input type="hidden" id="studykey" value="${demoNote.studykey}"/> <!-- studykey 입력 필드 추가 -->
+    <input type="hidden" id="patientCode" value="${demoNote.patientCode}"> <!-- patientCode 입력 필드 추가 -->
+    <input type="hidden" id="finalDoctor" value="${demoNote.finalDoctor}"> <!-- patientCode 입력 필드 추가 -->
+    <input type="hidden" id="treatmentPeriod" value="${demoNote.treatmentPeriod}"> <!-- patientCode 입력 필드 추가 -->
+
     <table class="info-table">
         <tr>
             <td class="label">1. 성명</td>
@@ -54,7 +52,8 @@
         </tr>
         <tr>
             <td class="label">5. 진료 기간</td>
-            <td class="value" colspan="3">${demoNote.firstDate}&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;${demoNote.lastDate}&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;${demoNote.treatmentPeriod}일간)</td>
+            <td class="value" colspan="3" id="period">
+                ${demoNote.firstDate}&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;&nbsp;${demoNote.lastDate}&nbsp;&nbsp;&nbsp;(총&nbsp;&nbsp;&nbsp;${demoNote.treatmentPeriod}일간)</td>
         </tr>
         <tr class="size-up">
             <td class="label">6. 병력 및 신체검사 소견</td>
@@ -82,7 +81,7 @@
         <tr class="size-up">
             <td class="label">10. 용도</td>
             <td class="value">
-                <select class="select-large">
+                <select class="select-large" id="purpose">
                     <option value="보험">보험</option>
                     <option value="공단">공단</option>
                     <option value="주민센터">주민센터</option>
@@ -99,7 +98,7 @@
         </div>
         <div class="row">
             <div class="label">성명</div>
-            <div class="value"><span id="userName"> </span><span id="userPosition"></span></div>
+            <div class="value" id="finalDoctorName">${demoNote.finalDctorName}</div>
         </div>
         <div class="row">
             <div class="label">의료기관 주소</div>
@@ -112,9 +111,10 @@
     </div>
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
 
-    <div>
-        <button>저장</button>
-        <button>취소</button>
+    <div class="btn-container">
+        <button onclick="saveNote()">저장</button>
+        <button onclick="saveTemporaryNote()">임시저장</button>
+        <button onclick="cancel()">취소</button>
     </div>
 </div>
 </body>

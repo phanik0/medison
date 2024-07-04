@@ -3,25 +3,21 @@ package com.medison.mysql.note.service;
 import com.medison.mysql.note.domain.Note;
 import com.medison.mysql.note.domain.NoteRepository;
 import com.medison.mysql.patient.domain.Patient;
-import com.medison.mysql.patient.domain.PatientRepository;
 import com.medison.mysql.patient.service.PatientService;
 import com.medison.mysql.report.domain.Report;
-import com.medison.mysql.report.domain.ReportRepository;
 import com.medison.mysql.report.service.ReportService;
 import com.medison.mysql.user.domain.User;
-import com.medison.mysql.user.domain.UserRepository;
+import com.medison.mysql.user.service.UserService;
 import com.medison.pacs.study.domain.Study;
 import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import static java.lang.Integer.parseInt;
 
@@ -31,9 +27,15 @@ public class NoteService {
     private final PatientService patientService;
     private final StudyService studyService;
     private final ReportService reportService;
+    private final NoteRepository noteRepository;
+    private final UserService userService;
 
     public Map<String,String> createDemoNote(int studykey) {
         Report report = reportService.getReportByStudyKey(studykey);
+        String finalDoctor = report.getFinalDoctor();
+
+        User user = userService.getUserById(finalDoctor);
+        String finalDoctorName = user.getName();
 
         String pCode = report.getPatientCode();
         Patient patient = patientService.findPatientById(pCode);
@@ -62,6 +64,9 @@ public class NoteService {
         String treatmentPeriod = calculateTreatmentPeriod(firstDate, lastDate) + "";
 
         Map<String,String> demoNote = new HashMap<>();
+        demoNote.put("studykey", String.valueOf(studykey));
+        demoNote.put("finalDoctor", finalDoctor);
+        demoNote.put("finalDoctorName", finalDoctorName);
         demoNote.put("pName", pName);
         demoNote.put("pSex", pSex);
         demoNote.put("pBirth", pBirth);
@@ -72,6 +77,7 @@ public class NoteService {
         demoNote.put("firstDate", firstDate);
         demoNote.put("lastDate", lastDate);
         demoNote.put("treatmentPeriod", treatmentPeriod);
+        demoNote.put("patientCode", pCode);
         return demoNote;
     }
 
@@ -112,5 +118,33 @@ public class NoteService {
             e.printStackTrace();
         }
         return d;
+    }
+
+    @Transactional
+    public void saveNote(Note note) {
+        Note existingNote = noteRepository.findByStudykey(note.getStudykey());
+
+        if (existingNote != null) {
+            Report report = reportService.getReportByStudyKey(note.getStudykey());
+            existingNote.setPatientCode(report.getPatientCode());
+            existingNote.setFinalDoctor(report.getFinalDoctor());
+            existingNote.setStudykey(report.getStudykey());
+            // 기존 노트가 있을 경우 업데이트
+            existingNote.setStatus(note.getStatus());
+            existingNote.setDisease(note.getDisease());
+            existingNote.setTreatmentPeriod(note.getTreatmentPeriod());
+            existingNote.setFinding(note.getFinding());
+            existingNote.setComments(note.getComments());
+            existingNote.setFutureComment(note.getFutureComment());
+            existingNote.setPurpose(note.getPurpose());
+            noteRepository.save(existingNote);
+        } else {
+            // 새로운 노트를 저장
+            Report report = reportService.getReportByStudyKey(note.getStudykey());
+            note.setPatientCode(report.getPatientCode());
+            note.setFinalDoctor(report.getFinalDoctor());
+            note.setStudykey(report.getStudykey());
+            noteRepository.save(note);
+        }
     }
 }
