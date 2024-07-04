@@ -23,7 +23,7 @@
 </div>
 <div id="main-viewer">
     <!-- Main image viewer -->
-    <div id="viewportGrid" style="width: 100%; height: 100vh;">
+    <div id="viewportGrid">
 
     </div>
 </div>
