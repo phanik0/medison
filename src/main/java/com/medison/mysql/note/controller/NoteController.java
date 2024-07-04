@@ -26,8 +26,6 @@ public class NoteController {
     public ModelAndView redirectToNote(@PathVariable int studykey) {
 
         Report report = reportService.getReportByStudyKey(studykey);
-        System.out.println("status : "+report.getStatus());
-        System.out.println("study : " + report.getStudykey());
         if (report.getStatus() != 6) {
             return new ModelAndView("redirect:/main");
         }

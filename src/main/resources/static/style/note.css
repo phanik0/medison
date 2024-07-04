@@ -100,3 +100,18 @@ body {
         page-break-after: always;
     }
 }
+
+.wide-textarea {
+    width: 98%;
+    height: 100px;
+    border: none;
+    font-size: 100%;
+}
+.select-large {
+    width: 98%;
+    height: 2em;
+    font-size: 100%;
+}
+.stamp img {
+    width: 50%; /* 이미지 크기를 절반으로 줄임 */
+}

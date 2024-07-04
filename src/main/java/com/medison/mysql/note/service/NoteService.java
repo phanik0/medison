@@ -76,20 +76,24 @@ public class NoteService {
     }
 
     private String createDiseaseContent(Patient patient) {
-        String diseaseHistory = patient.getHistory();
-        diseaseHistory += "/신체검사소견 : " + patient.getCaution();
-        diseaseHistory += "/" + "흡연유무 : ";
-        if (patient.isSmoking())
-            diseaseHistory += "유";
-        else
-            diseaseHistory += "무";
-        diseaseHistory += "/" + "음주유무 : ";
-        if (patient.isDrinking())
-            diseaseHistory += "유";
-        else
-            diseaseHistory += "무";
-        return diseaseHistory;
+        StringBuilder diseaseHistory = new StringBuilder();
+        diseaseHistory.append("병력 : ").append(patient.getHistory()).append("\n");
+        diseaseHistory.append("신체검사소견 : ").append(patient.getCaution()).append("\n");
+        diseaseHistory.append("흡연유무 : ");
+        if (patient.isSmoking()) {
+            diseaseHistory.append("유");
+        } else {
+            diseaseHistory.append("무");
+        }
+        diseaseHistory.append("\n음주유무 : ");
+        if (patient.isDrinking()) {
+            diseaseHistory.append("유");
+        } else {
+            diseaseHistory.append("무");
+        }
+        return diseaseHistory.toString();
     }
+
 
     private long calculateTreatmentPeriod(String first, String last) {
         Date firstDate = parseDate(first);

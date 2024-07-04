@@ -15,6 +15,7 @@ public class Note extends Timestamped {
     @Id
     private int code;
     private int studykey;
+    private int status;
     private String finalDoctor;
     private String patientCode;
     private String disease;
