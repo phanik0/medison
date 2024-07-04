@@ -1,14 +1,11 @@
-document.addEventListener('DOMContentLoaded', function() {
-
+$(document).ready(function() {
+    $('#reportButton').click((e) => {
+        e.preventDefault();
+        const studykey = $('#studyKey').val();
+        showReportDetails(studykey);
+        $('#reportModal').modal('show'); // 모달 표시
+    });
 });
-document.addEventListener('onclick',e => {
-    e.preventDefault();
-    console.log('clicked');
-    const studykey = `${studyKey}`;
-    console.log(studykey);
-    showReportDetails(studykey);
-
-})
 function getStatusText(status) {
     switch(status) {
         case 3:
