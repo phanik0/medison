@@ -2,6 +2,7 @@ package com.medison.mysql.note.controller;
 
 
 import com.medison.mysql.note.domain.Note;
+import com.medison.mysql.note.domain.NoteRepository;
 import com.medison.mysql.note.service.NoteService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
@@ -22,6 +23,7 @@ public class NoteController {
 
     private final NoteService noteService;
     private final ReportService reportService;
+    private final NoteRepository noteRepository;
 
 
     @GetMapping("/{studykey}")
@@ -31,6 +33,11 @@ public class NoteController {
         if (report.getStatus() != 6) {
             return new ModelAndView("redirect:/main");
         }
+
+        Note note = noteService.getNoteByStudyKey(studykey);
+
+
+
         ModelAndView mv = new ModelAndView("note/note");
         Map<String, String> demoNote = noteService.createDemoNote(studykey);
         mv.addObject("demoNote", demoNote);

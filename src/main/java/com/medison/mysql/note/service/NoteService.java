@@ -31,6 +31,13 @@ public class NoteService {
     private final UserService userService;
 
     public Map<String,String> createDemoNote(int studykey) {
+        Note existingNote = noteRepository.findByStudykey(studykey);
+
+        if (existingNote != null) {
+            return convertNoteToMap(existingNote);
+        }
+
+
         Report report = reportService.getReportByStudyKey(studykey);
         String finalDoctor = report.getFinalDoctor();
 
@@ -100,6 +107,37 @@ public class NoteService {
         return diseaseHistory.toString();
     }
 
+    private Map<String, String> convertNoteToMap(Note note) {
+
+        Study study = studyService.getStudyByStudyKey(note.getStudykey());
+        Report report = reportService.getReportByStudyKey(note.getStudykey());
+
+        String tempFirstDate = study.getStudydate();
+        String firstDate = tempFirstDate.substring(0, 4) + "-" + tempFirstDate.substring(4, 6) + "-" + tempFirstDate.substring(6, 8);
+
+        String lastDateTime = report.getModDate().toString();
+        String lastDate = lastDateTime.substring(0, 10);
+
+        String treatmentPeriod = calculateTreatmentPeriod(firstDate, lastDate) + "";
+
+        Map<String, String> noteMap = new HashMap<>();
+        noteMap.put("studykey", String.valueOf(note.getStudykey()));
+        noteMap.put("finalDoctor", note.getFinalDoctor());
+        noteMap.put("finalDoctorName", userService.getUserById(note.getFinalDoctor()).getName());
+        noteMap.put("pName", patientService.findPatientById(note.getPatientCode()).getName());
+        noteMap.put("pSex", patientService.findPatientById(note.getPatientCode()).getSex());
+        noteMap.put("pBirth", patientService.findPatientById(note.getPatientCode()).getBirth());
+        noteMap.put("diseaseHistory", note.getDisease());
+        noteMap.put("finding", note.getFinding());
+        noteMap.put("doctorComment", note.getComments());
+        noteMap.put("futureComment", note.getFutureComment());
+        noteMap.put("firstDate", firstDate);
+        noteMap.put("lastDate", lastDate);
+        noteMap.put("treatmentPeriod", treatmentPeriod);
+        noteMap.put("patientCode", note.getPatientCode());
+        return noteMap;
+    }
+
 
     private long calculateTreatmentPeriod(String first, String last) {
         Date firstDate = parseDate(first);
@@ -119,6 +157,7 @@ public class NoteService {
         }
         return d;
     }
+
 
     @Transactional
     public void saveNote(Note note) {
@@ -147,4 +186,11 @@ public class NoteService {
             noteRepository.save(note);
         }
     }
+
+    public Note getNoteByStudyKey(int studykey) {
+        return noteRepository.findByStudykey(studykey);
+    }
+
+
+
 }
