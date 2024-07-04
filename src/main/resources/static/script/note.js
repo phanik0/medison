@@ -12,10 +12,10 @@ function saveNoteWithStatus(status) {
     const noteData = {
         studykey: document.getElementById('studykey').value,
         status: status,
-        finalDoctor: document.getElementById('finalDoctor').value, // value로 변경
+        finalDoctor: document.getElementById('finalDoctor').value,
         patientCode: document.getElementById('patientCode').value,
         disease: document.getElementById('disease').value,
-        treatmentPeriod: document.getElementById('treatmentPeriod').value, // value로 변경
+        treatmentPeriod: document.getElementById('treatmentPeriod').value,
         finding: document.getElementById('finding').value,
         comments: document.getElementById('doctorComment').value,
         futureComment: document.getElementById('futureComment').value,
@@ -51,8 +51,22 @@ function confirmSave() {
 }
 
 function printNote() {
-    // 출력 기능 구현
-    alert('출력 기능은 아직 구현되지 않았습니다.');
+    const element = document.getElementById('noteContent');
+    html2canvas(element).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.width;
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        const pdfOutput = pdf.output('blob');
+
+        // PDF 다운로드
+        pdf.save('note.pdf');
+
+        // PDF 미리보기
+        const url = URL.createObjectURL(pdfOutput);
+        window.open(url, '_blank');
+    });
 }
 
 function cancel() {
@@ -66,7 +80,7 @@ function setupButtons() {
     var saveTempButton = document.getElementById('saveTempButton');
     var printButton = document.getElementById('printButton');
 
-    if (noteStatus === 1 ) {
+    if (noteStatus === 1) {
         saveButton.style.display = 'none';
         saveTempButton.style.display = 'none';
         printButton.style.display = 'inline-block';

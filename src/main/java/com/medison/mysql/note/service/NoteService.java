@@ -37,7 +37,6 @@ public class NoteService {
             return convertNoteToMap(existingNote);
         }
 
-
         Report report = reportService.getReportByStudyKey(studykey);
         String finalDoctor = report.getFinalDoctor();
 

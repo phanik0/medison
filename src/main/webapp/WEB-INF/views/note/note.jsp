@@ -19,9 +19,11 @@
 <head>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
     <script src="${pageContext.request.contextPath}/script/note.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
 </head>
 <body>
-<div class="container">
+<div class="container" id="noteContent">
     <h1 class="title">소견서</h1>
     <input type="hidden" id="studykey" value="${demoNote.studykey}"/> <!-- studykey 입력 필드 추가 -->
     <input type="hidden" id="patientCode" value="${demoNote.patientCode}"> <!-- patientCode 입력 필드 추가 -->
@@ -100,13 +102,12 @@
         <div class="stamp"><img src="${pageContext.request.contextPath}/image/seal.png" alt="seal"></div>
     </div>
     <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
-
-    <div class="btn-container">
-        <button id="saveButton" onclick="confirmSave()">저장</button>
-        <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
-        <button id="printButton" onclick="printNote()">출력</button>
-        <button onclick="cancel()">취소</button>
-    </div>
+</div>
+<div class="btn-container">
+    <button id="saveButton" onclick="confirmSave()">저장</button>
+    <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
+    <button id="printButton" onclick="printNote()">출력</button>
+    <button onclick="cancel()">취소</button>
 </div>
 </body>
 </html>
