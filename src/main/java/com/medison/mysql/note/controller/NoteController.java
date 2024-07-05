@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,11 +21,9 @@ import java.util.Map;
 @RequestMapping("/note")
 public class NoteController {
 
-
     private final NoteService noteService;
     private final ReportService reportService;
     private final NoteRepository noteRepository;
-
 
     @GetMapping("/{studykey}")
     public ModelAndView redirectToNote(@PathVariable int studykey) {
@@ -46,5 +45,18 @@ public class NoteController {
     public ResponseEntity<String> saveNote(@RequestBody Note note) {
         noteService.saveNote(note);
         return ResponseEntity.ok("노트가 저장되었습니다.");
+    }
+
+    @RequestMapping("/printNote/{studykey}")
+    public ModelAndView printNotePage(@PathVariable int studykey) {
+
+        if  (noteService.getNoteByStudykey(studykey) == null) {
+            return new ModelAndView("redirect:/main");
+        }
+
+        Map<String, String> demoNote = noteService.createDemoNote(studykey);
+        ModelAndView mv = new ModelAndView("note/printNote"); // JSP 파일명이 printNote.jsp 라면 여기서는 "note/printNote"로
+        mv.addObject("demoNote", demoNote);
+        return mv;
     }
 }

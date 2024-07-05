@@ -11,8 +11,6 @@
 
     UserResponseDto user = (UserResponseDto) userSession.getAttribute("user");
     String userId = user.getId();
-    String userName = user.getName();
-    String userPosition = user.getPosition();
 %>
 <!DOCTYPE html>
 <html>
@@ -71,16 +69,9 @@
                 <textarea class="wide-textarea" id="futureComment">${demoNote.futureComment}</textarea></td>
         </tr>
         <tr class="size-up">
-            <td class="label">10. 용도</td>
-            <td class="value">
-                <select class="select-large" id="purpose">
-                    <option value="보험">보험</option>
-                    <option value="공단">공단</option>
-                    <option value="주민센터">주민센터</option>
-                </select>
-            </td>
-            <td class="label">11. 비고</td>
-            <td class="value">비고</td>
+            <td class="label">10. 비고</td>
+            <td colspan="3" class="value">
+                <textarea class="wide-textarea" id="remark">${demoNote.remark}</textarea></td>
         </tr>
     </table>
     <div class="signature">
@@ -106,7 +97,7 @@
 <div class="btn-container">
     <button id="saveButton" onclick="confirmSave()">저장</button>
     <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
-    <button id="printButton" onclick="printNote()">출력</button>
+    <button id="printButton" onclick="MovePrintNote()">출력</button>
     <button onclick="cancel()">취소</button>
 </div>
 </body>

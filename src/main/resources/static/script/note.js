@@ -34,17 +34,27 @@ function saveTemporaryNote() {
 }
 
 function saveNoteWithStatus(status) {
+    const disease = document.getElementById('disease').value;
+    const finding = document.getElementById('finding').value;
+    const comments = document.getElementById('doctorComment').value;
+    const futureComment = document.getElementById('futureComment').value;
+
+    if (status === 1 && (!disease || !finding || !comments || !futureComment)) {
+        alert('병명, 검사 소견, 진료의사 의견 및 향후 치료 의견을 입력해 주세요.');
+        return;
+    }
+
     const noteData = {
         studykey: document.getElementById('studykey').value,
         status: status,
         finalDoctor: document.getElementById('finalDoctor').value,
         patientCode: document.getElementById('patientCode').value,
-        disease: document.getElementById('disease').value,
+        disease: disease,
         treatmentPeriod: document.getElementById('treatmentPeriod').value,
-        finding: document.getElementById('finding').value,
-        comments: document.getElementById('doctorComment').value,
-        futureComment: document.getElementById('futureComment').value,
-        purpose: document.getElementById('purpose').value
+        finding: finding,
+        comments: comments,
+        futureComment: futureComment,
+        remark: document.getElementById('remark').value
     };
 
     fetch('/note/save', {
@@ -70,24 +80,11 @@ function saveNoteWithStatus(status) {
 }
 
 function cancel() {
-    // 취소 버튼을 클릭했을 때 수행할 작업
-    window.location.href = '/main'; // 예: 메인 페이지로 리다이렉션
+    window.location.href = '/main'; // 메인 페이지로 리다이렉션
 }
 
-function printNote() {
-    const noteContent = document.getElementById('noteContent');
-
-    html2canvas(noteContent).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        const imgWidth = pdf.internal.pageSize.width;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('note.pdf');
-
-        // PDF 미리보기
-        const pdfBlob = pdf.output('blob');
-        const url = URL.createObjectURL(pdfBlob);
-        window.open(url);
-    });
+function MovePrintNote() {
+    const studykey = document.getElementById('studykey').value;
+    const url = `http://localhost:8080/note/printNote/${studykey}`;
+    window.open(url, '_blank');
 }

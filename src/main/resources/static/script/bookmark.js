@@ -1,32 +1,4 @@
-$(function() {
-    $("#bookmarkModal").dialog({
-        autoOpen: false,
-        modal: true,
-        buttons: {
-            "저장": saveBookmark,
-            "취소": function() {
-                $(this).dialog('close');
-            }
-        }
-    });
 
-    // 페이지 로드 시 사용자 북마크 정보 불러오기
-    loadUserBookmarks();
-
-    // 북마크 버튼 클릭 이벤트
-    $('.bookmark-btn').click(function() {
-        var studyKey = $(this).data('study-key');
-        var code = $(this).data('code');
-
-        console.log("Bookmark button clicked. Study Key:", studyKey, "Code:", code);
-
-        if ($(this).data('bookmarked')) {
-            deleteBookmark(code);
-        } else {
-            openBookmarkModal(studyKey);
-        }
-    });
-});
 
 function openBookmarkModal(studyKey) {
     $('#bookmarkStudyKey').val(studyKey);
