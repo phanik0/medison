@@ -30,66 +30,6 @@
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
     <script src="${pageContext.request.contextPath}/script/report.js"></script>
-    <script>
-        var userId = '<%= userId %>';
-        var userName = '<%= userName %>';
-        var userPosition = '<%= userPosition %>';
-        var userDepartmentCode = <%= userDepartmentCode %>;
-
-        function translatePosition(position) {
-            switch(position) {
-                case 'professor':
-                    return '교수';
-                case 'intern':
-                    return '인턴';
-                case 'fellow':
-                    return '펠로우';
-                case 'resident':
-                    return '레지던트';
-                default:
-                    return position;
-            }
-        }
-
-        $(function() {
-            $("#calendar").datepicker({
-                numberOfMonths: 1,
-                onSelect: function(dateText, inst) {
-                    if (!this.startDate) {
-                        this.startDate = dateText;
-                        $("#startDate").val(dateText);
-                    } else if (!this.endDate) {
-                        this.endDate = dateText;
-                        $("#endDate").val(dateText);
-                        this.startDate = null;
-                        this.endDate = null;
-                    }
-                }
-            });
-
-            $("#startDate, #endDate").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-
-            $("#searchForm").submit(function(event) {
-                const startDate = $("#startDate").datepicker("getDate");
-                const endDate = $("#endDate").datepicker("getDate");
-
-                if (startDate && endDate) {
-                    const formattedStartDate = $.datepicker.formatDate("yy-mm-dd", startDate);
-                    const formattedEndDate = $.datepicker.formatDate("yy-mm-dd", endDate);
-
-                    $("#startDate").val(formattedStartDate);
-                    $("#endDate").val(formattedEndDate);
-                }
-            });
-
-            document.getElementById('userName').textContent = userName;
-            document.getElementById('userPosition').textContent = translatePosition(userPosition);
-        });
-    </script>
-    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
-    <script src="${pageContext.request.contextPath}/script/report.js"></script>
 </head>
 <body>
 <main>
@@ -161,7 +101,7 @@
                     <c:set var="study" value="${item.study}" />
                     <c:set var="bookmark" value="${bookmarks}" />
                     <c:set var="status" value="${item.status}" />
-                <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
                 <td>
                     <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation();">${bookmark != null ? '⭐' : '☆'}</button>
                 </td>
@@ -230,7 +170,6 @@
                 <h2>검사 리포트</h2>
                 <table>
                     <tr><th>예비판독의</th><td id="preDoctor"></td></tr>
-                    <tr><th>판독의</th><td id="doctor"></td></tr>
                     <tr><th>최종 판독의</th><td id="finalDoctor"></td></tr>
                     <tr><th>환자코드</th><td id="report-patientCode"></td></tr>
                     <tr><th>판독 상태</th><td id="status"></td></tr>
@@ -258,5 +197,78 @@
 </div>
 
 <%@ include file="module/footer.jsp" %>
+
+<script>
+    function translatePosition(position) {
+        switch(position) {
+            case 'professor':
+                return '교수';
+            case 'intern':
+                return '인턴';
+            case 'fellow':
+                return '펠로우';
+            case 'resident':
+                return '레지던트';
+            default:
+                return position;
+        }
+    }
+
+    $(function() {
+        $("#calendar").datepicker({
+            numberOfMonths: 1,
+            onSelect: function(dateText, inst) {
+                if (!this.startDate) {
+                    this.startDate = dateText;
+                    $("#startDate").val(dateText);
+                } else if (!this.endDate) {
+                    this.endDate = dateText;
+                    $("#endDate").val(dateText);
+                    this.startDate = null;
+                    this.endDate = null;
+                }
+            }
+        });
+
+        $("#startDate, #endDate").datepicker({
+            dateFormat: "yy-mm-dd"
+        });
+
+        $("#searchForm").submit(function(event) {
+            const startDate = $("#startDate").datepicker("getDate");
+            const endDate = $("#endDate").datepicker("getDate");
+
+            if (startDate && endDate) {
+                const formattedStartDate = $.datepicker.formatDate("yy-mm-dd", startDate);
+                const formattedEndDate = $.datepicker.formatDate("yy-mm-dd", endDate);
+
+                $("#startDate").val(formattedStartDate);
+                $("#endDate").val(formattedEndDate);
+            }
+        });
+
+        document.getElementById('userName').textContent = userName;
+        document.getElementById('userPosition').textContent = translatePosition(userPosition);
+    });
+
+    var clickTimer = null;
+    function handleClick(studykey, pid) {
+        if (clickTimer === null) {
+            clickTimer = setTimeout(function() {
+                showPatientDetails(pid); // 클릭 시 환자 상세 정보를 표시하는 함수 호출
+                showReportDetails(studykey); // 클릭 시 검사 리포트 상세 정보를 표시하는 함수 호출
+                clickTimer = null;
+            }, 300); // 300ms 지연 시간 설정
+        } else {
+            clearTimeout(clickTimer);
+            clickTimer = null;
+            redirectToStudy(studykey); // 더블클릭 시 리디렉션하는 함수 호출
+        }
+    }
+
+    function redirectToStudy(studykey) {
+        window.location.href = 'http://localhost:8080/study/' + studykey;
+    }
+</script>
 </body>
 </html>
