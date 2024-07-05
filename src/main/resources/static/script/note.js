@@ -70,24 +70,12 @@ function saveNoteWithStatus(status) {
 }
 
 function cancel() {
-    // 취소 버튼을 클릭했을 때 수행할 작업
-    window.location.href = '/main'; // 예: 메인 페이지로 리다이렉션
+    window.location.href = '/main'; // 메인 페이지로 리다이렉션
 }
 
-function printNote() {
-    const noteContent = document.getElementById('noteContent');
-
-    html2canvas(noteContent).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF();
-        const imgWidth = pdf.internal.pageSize.width;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('note.pdf');
-
-        // PDF 미리보기
-        const pdfBlob = pdf.output('blob');
-        const url = URL.createObjectURL(pdfBlob);
-        window.open(url);
-    });
+function MovePrintNote() {
+    const studykey = document.getElementById('studykey').value;
+    const url = `http://localhost:8080/note/printNote/${studykey}`;
+    window.open(url, '_blank');
 }
+

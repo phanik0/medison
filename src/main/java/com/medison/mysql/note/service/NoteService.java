@@ -87,7 +87,7 @@ public class NoteService {
         return demoNote;
     }
 
-    private Map<String, String> convertNoteToMap(Note note) {
+    public Map<String, String> convertNoteToMap(Note note) {
 
         Study study = studyService.getStudyByStudyKey(note.getStudykey());
         Report report = reportService.getReportByStudyKey(note.getStudykey());
@@ -143,7 +143,6 @@ public class NoteService {
 
 
 
-
     private long calculateTreatmentPeriod(String first, String last) {
         Date firstDate = parseDate(first);
         Date lastDate = parseDate(last);
@@ -193,6 +192,10 @@ public class NoteService {
     }
 
     public Note getNoteByStudyKey(int studykey) {
+        return noteRepository.findByStudykey(studykey);
+    }
+
+    public Note getNoteByStudykey(int studykey) {
         return noteRepository.findByStudykey(studykey);
     }
 

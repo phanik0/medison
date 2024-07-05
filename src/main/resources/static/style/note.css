@@ -35,11 +35,11 @@ body {
     text-align: left;
 }
 
-.size-up{
+.size-up {
     height: 30mm;
 }
 
-.label, .value{
+.label, .value {
     width: 25%;
 }
 
@@ -107,11 +107,13 @@ body {
     border: none;
     font-size: 100%;
 }
+
 .select-large {
     width: 98%;
     height: 2em;
     font-size: 100%;
 }
+
 .stamp img {
     width: 10%;
     height: auto;

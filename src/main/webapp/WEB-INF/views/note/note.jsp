@@ -11,8 +11,6 @@
 
     UserResponseDto user = (UserResponseDto) userSession.getAttribute("user");
     String userId = user.getId();
-    String userName = user.getName();
-    String userPosition = user.getPosition();
 %>
 <!DOCTYPE html>
 <html>
@@ -106,7 +104,7 @@
 <div class="btn-container">
     <button id="saveButton" onclick="confirmSave()">저장</button>
     <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
-    <button id="printButton" onclick="printNote()">출력</button>
+    <button id="printButton" onclick="MovePrintNote()">출력</button>
     <button onclick="cancel()">취소</button>
 </div>
 </body>
