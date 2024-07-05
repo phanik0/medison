@@ -34,14 +34,22 @@ function saveTemporaryNote() {
 }
 
 function saveNoteWithStatus(status) {
+    const disease = document.getElementById('disease').value;
+    const finding = document.getElementById('finding').value;
+
+    if (status === 1 && (!disease || !finding)) {
+        alert('병명 및 검사 소견을 입력해 주세요.');
+        return;
+    }
+
     const noteData = {
         studykey: document.getElementById('studykey').value,
         status: status,
         finalDoctor: document.getElementById('finalDoctor').value,
         patientCode: document.getElementById('patientCode').value,
-        disease: document.getElementById('disease').value,
+        disease: disease,
         treatmentPeriod: document.getElementById('treatmentPeriod').value,
-        finding: document.getElementById('finding').value,
+        finding: finding,
         comments: document.getElementById('doctorComment').value,
         futureComment: document.getElementById('futureComment').value,
         remark: document.getElementById('remark').value
@@ -78,4 +86,3 @@ function MovePrintNote() {
     const url = `http://localhost:8080/note/printNote/${studykey}`;
     window.open(url, '_blank');
 }
-
