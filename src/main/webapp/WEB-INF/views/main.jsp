@@ -30,6 +30,83 @@
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
     <script src="${pageContext.request.contextPath}/script/report.js"></script>
+    <script>
+        var userId = '<%= userId %>';
+        var userName = '<%= userName %>';
+        var userPosition = '<%= userPosition %>';
+        var userDepartmentCode = <%= userDepartmentCode %>;
+
+        function translatePosition(position) {
+            switch(position) {
+                case 'professor':
+                    return '교수';
+                case 'intern':
+                    return '인턴';
+                case 'fellow':
+                    return '펠로우';
+                case 'resident':
+                    return '레지던트';
+                default:
+                    return position;
+            }
+        }
+
+        $(function() {
+            $("#calendar").datepicker({
+                numberOfMonths: 1,
+                onSelect: function(dateText, inst) {
+                    if (!this.startDate) {
+                        this.startDate = dateText;
+                        $("#startDate").val(dateText);
+                    } else if (!this.endDate) {
+                        this.endDate = dateText;
+                        $("#endDate").val(dateText);
+                        this.startDate = null;
+                        this.endDate = null;
+                    }
+                }
+            });
+
+            $("#startDate, #endDate").datepicker({
+                dateFormat: "yy-mm-dd"
+            });
+
+            $("#searchForm").submit(function(event) {
+                const startDate = $("#startDate").datepicker("getDate");
+                const endDate = $("#endDate").datepicker("getDate");
+
+                if (startDate && endDate) {
+                    const formattedStartDate = $.datepicker.formatDate("yy-mm-dd", startDate);
+                    const formattedEndDate = $.datepicker.formatDate("yy-mm-dd", endDate);
+
+                    $("#startDate").val(formattedStartDate);
+                    $("#endDate").val(formattedEndDate);
+                }
+            });
+
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('userPosition').textContent = translatePosition(userPosition);
+        });
+
+        var clickTimer = null;
+        function handleClick(studykey, pid) {
+            if (clickTimer === null) {
+                clickTimer = setTimeout(function() {
+                    showPatientDetails(pid); // 클릭 시 환자 상세 정보를 표시하는 함수 호출
+                    showReportDetails(studykey); // 클릭 시 검사 리포트 상세 정보를 표시하는 함수 호출
+                    clickTimer = null;
+                }, 300); // 300ms 지연 시간 설정
+            } else {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                redirectToStudy(studykey); // 더블클릭 시 리디렉션하는 함수 호출
+            }
+        }
+
+        function redirectToStudy(studykey) {
+            window.location.href = 'http://localhost:8080/study/' + studykey;
+        }
+    </script>
 </head>
 <body>
 <main>
@@ -249,6 +326,8 @@
 
         document.getElementById('userName').textContent = userName;
         document.getElementById('userPosition').textContent = translatePosition(userPosition);
+
+        loadUserBookmarks();
     });
 
     var clickTimer = null;

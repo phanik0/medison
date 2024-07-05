@@ -151,6 +151,7 @@
                 <div class="button-container">
                     <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
+                    <button id="note-button" style="display: none;" onclick="showNote()">소견서 작성</button>
                 </div>
             </section>
         </section>
