@@ -26,19 +26,6 @@ $(function() {
     });
 });
 
-document.addEventListener('click', (e) => {
-    if (e.target.closest('button[type="submit"]') && e.target.closest('form#mainSearchForm')) {
-        return;
-    }
-
-    e.preventDefault(); // 나머지 모든 요소에 대해서는 기본 동작을 막음
-
-    const studyKey = e.target.getAttribute('data-study-key');
-    if (studyKey) {
-        showReportDetails(studyKey);
-    }
-});
-
 $(document).ready(function() {
     $('#reportButton').click((e) => {
         e.preventDefault();
@@ -194,8 +181,8 @@ function saveFinalReport() {
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    if (!finding || !futureComment) {
-        alert('검사 소견 및 향후 치료 의견을 입력해 주세요.');
+    if (!comments || !finding || !futureComment) {
+        alert('진료의사 의견, 검사 소견 및 향후 치료 의견을 입력해 주세요.');
         return;
     }
 
