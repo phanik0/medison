@@ -37,22 +37,60 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">리포트 세부 정보</h5>
+                <h5 class="modal-title" id="reportModalLabel">리포트 작성</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <div id="report-details">
-                    <p id="preDoctor"></p>
-                    <p id="doctor"></p>
-                    <p id="finalDoctor"></p>
-                    <p id="report-patientCode"></p>
-                    <p id="status"></p>
-                    <textarea id="comments"></textarea>
-                    <textarea id="futureComment"></textarea>
-                    <button id="preliminary-button" class="btn btn-secondary" onclick="savePreliminaryReport()">예비 판독 저장</button>
-                    <button id="final-button" class="btn btn-primary" onclick="saveFinalReport()">최종 판독 저장</button>
+                <div id="report-details" class="detail-section">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">예비판독의</h5>
+                            <p class="card-text" id="preDoctor"></p>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">최종 판독의</h5>
+                            <p class="card-text" id="finalDoctor"></p>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">환자코드</h5>
+                            <p class="card-text" id="report-patientCode"></p>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">판독 상태</h5>
+                            <p class="card-text" id="status"></p>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">코멘트</h5>
+                            <input type="text" class="form-control" id="comments">
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">검사소견</h5>
+                            <input type="text" class="form-control" id="finding">
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">향후 치료 의견</h5>
+                            <input type="text" class="form-control" id="futureComment">
+                        </div>
+                    </div>
+                    <div class="button-container mt-3">
+                        <button id="preliminary-button" class="btn btn-primary" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
+                        <button id="final-button" class="btn btn-primary" style="display: none;" onclick="saveFinalReport()">최종판독</button>
+                        <button id="note-button" class="btn btn-primary" style="display: none;" onclick="showNote()">소견서 작성</button>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
@@ -61,6 +99,7 @@
         </div>
     </div>
 </div>
+
 
 <c:out value="${study}"></c:out>
 

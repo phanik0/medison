@@ -1,7 +1,36 @@
+$(function() {
+    $("#bookmarkModal").dialog({
+        autoOpen: false,
+        modal: true,
+        buttons: {
+            "저장": saveBookmark,
+            "취소": function() {
+                $(this).dialog('close');
+            }
+        }
+    });
+
+    // 페이지 로드 시 사용자 북마크 정보 불러오기
+    loadUserBookmarks();
+
+    // 북마크 버튼 클릭 이벤트
+    $('.bookmark-btn').click(function() {
+        var studyKey = $(this).data('study-key');
+        var code = $(this).data('code');
+
+        if ($(this).data('bookmarked')) {
+            deleteBookmark(code);
+        } else {
+            openBookmarkModal(studyKey);
+        }
+    });
+});
+
+
+
 document.addEventListener('click', (e) => {
-    // 클릭된 요소가 검색 버튼인지 확인
     if (e.target.closest('button[type="submit"]') && e.target.closest('form#mainSearchForm')) {
-        return; // 검색 버튼이면 기본 동작을 허용
+        return;
     }
 
     e.preventDefault(); // 나머지 모든 요소에 대해서는 기본 동작을 막음
@@ -20,6 +49,7 @@ $(document).ready(function() {
         $('#reportModal').modal('show'); // 모달 표시
     });
 });
+
 function getStatusText(status) {
     switch (status) {
         case 3:
@@ -62,14 +92,12 @@ function showReportDetails(studykey) {
             const finalDoctorPositionText = getPositionText(data.finalDoctorPosition);
 
             document.getElementById('preDoctor').textContent = `${data.preDoctorName || ''} ${preDoctorPositionText || ''}`;
-            document.getElementById('doctor').textContent = report.doctor || '';
             document.getElementById('finalDoctor').textContent = `${data.finalDoctorName || ''} ${finalDoctorPositionText || ''}`;
             document.getElementById('report-patientCode').textContent = report.patientCode || '';
             document.getElementById('status').textContent = getStatusText(report.status);
             document.getElementById('comments').value = report.comments || '';
             document.getElementById('finding').value = report.finding || '';
             document.getElementById('futureComment').value = report.futureComment || '';
-
             document.getElementById('report-details').dataset.studykey = report.studykey;
 
             const preliminaryButton = document.getElementById('preliminary-button');
