@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -65,7 +64,6 @@ public class SearchService {
             if (report != null) {
                 map.put("status", report.getStatus());
             }
-
 
             Bookmark bookmark = bookmarkRepository.findByUserIdAndStudykey(userId, (int)study.getStudykey());
             if (bookmark != null) {

@@ -10,7 +10,7 @@ public interface StudyRepository extends JpaRepository<Study, Long>, JpaSpecific
 
     public static Specification<Study> hasPatientCode(String patientCode) {
         return (root, query, criteriaBuilder) ->
-                criteriaBuilder.equal(root.get("pid"), patientCode);
+                criteriaBuilder.like(root.get("pid"), "%" + patientCode + "%");
     }
 
     public static Specification<Study> hasPatientName(String patientName) {
