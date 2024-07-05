@@ -68,6 +68,7 @@ public class NoteService {
         String lastDate = lastDateTime.substring(0, 10);
 
         String treatmentPeriod = calculateTreatmentPeriod(firstDate, lastDate) + "";
+        String remark = null;
 
         Map<String,String> demoNote = new HashMap<>();
         demoNote.put("studykey", String.valueOf(studykey));
@@ -84,6 +85,7 @@ public class NoteService {
         demoNote.put("lastDate", lastDate);
         demoNote.put("treatmentPeriod", treatmentPeriod);
         demoNote.put("patientCode", pCode);
+        demoNote.put("remark", remark);
         return demoNote;
     }
 
@@ -119,6 +121,7 @@ public class NoteService {
         noteMap.put("treatmentPeriod", treatmentPeriod);
         noteMap.put("patientCode", note.getPatientCode());
         noteMap.put("status", String.valueOf(note.getStatus()));
+        noteMap.put("remark", note.getRemark());
         return noteMap;
     }
 
@@ -179,7 +182,6 @@ public class NoteService {
             existingNote.setFinding(note.getFinding());
             existingNote.setComments(note.getComments());
             existingNote.setFutureComment(note.getFutureComment());
-            existingNote.setPurpose(note.getPurpose());
             noteRepository.save(existingNote);
         } else {
             // 새로운 노트를 저장

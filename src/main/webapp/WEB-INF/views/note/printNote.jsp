@@ -56,10 +56,8 @@
                 <td colspan="3" class="value">${demoNote.futureComment}</td>
             </tr>
             <tr class="size-up">
-                <td class="label">10. 용도</td>
-                <td class="value">${demoNote.purpose}</td>
                 <td class="label">11. 비고</td>
-                <td class="value">비고</td>
+                <td colspan="3" class="value">${demoNote.remark}</td>
             </tr>
         </table>
         <div class="signature">

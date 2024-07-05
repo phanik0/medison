@@ -69,16 +69,9 @@
                 <textarea class="wide-textarea" id="futureComment">${demoNote.futureComment}</textarea></td>
         </tr>
         <tr class="size-up">
-            <td class="label">10. 용도</td>
-            <td class="value">
-                <select class="select-large" id="purpose">
-                    <option value="보험">보험</option>
-                    <option value="공단">공단</option>
-                    <option value="주민센터">주민센터</option>
-                </select>
-            </td>
-            <td class="label">11. 비고</td>
-            <td class="value">비고</td>
+            <td class="label">10. 비고</td>
+            <td colspan="3" class="value">
+                <textarea class="wide-textarea" id="remark">${demoNote.remark}</textarea></td>
         </tr>
     </table>
     <div class="signature">

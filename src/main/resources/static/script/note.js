@@ -44,7 +44,7 @@ function saveNoteWithStatus(status) {
         finding: document.getElementById('finding').value,
         comments: document.getElementById('doctorComment').value,
         futureComment: document.getElementById('futureComment').value,
-        purpose: document.getElementById('purpose').value
+        remark: document.getElementById('remark').value
     };
 
     fetch('/note/save', {

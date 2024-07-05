@@ -24,5 +24,5 @@ public class Note extends Timestamped {
     private String finding;
     private String comments;
     private String futureComment;
-    private String purpose;
+    private String remark;
 }
