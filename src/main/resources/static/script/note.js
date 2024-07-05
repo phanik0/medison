@@ -36,9 +36,11 @@ function saveTemporaryNote() {
 function saveNoteWithStatus(status) {
     const disease = document.getElementById('disease').value;
     const finding = document.getElementById('finding').value;
+    const comments = document.getElementById('doctorComment').value;
+    const futureComment = document.getElementById('futureComment').value;
 
-    if (status === 1 && (!disease || !finding)) {
-        alert('병명 및 검사 소견을 입력해 주세요.');
+    if (status === 1 && (!disease || !finding || !comments || !futureComment)) {
+        alert('병명, 검사 소견, 진료의사 의견 및 향후 치료 의견을 입력해 주세요.');
         return;
     }
 
@@ -50,8 +52,8 @@ function saveNoteWithStatus(status) {
         disease: disease,
         treatmentPeriod: document.getElementById('treatmentPeriod').value,
         finding: finding,
-        comments: document.getElementById('doctorComment').value,
-        futureComment: document.getElementById('futureComment').value,
+        comments: comments,
+        futureComment: futureComment,
         remark: document.getElementById('remark').value
     };
 
