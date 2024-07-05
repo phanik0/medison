@@ -79,6 +79,12 @@ public class ReportController {
     @ResponseBody
     public ResponseEntity<String> saveFinalReport(@RequestBody Report report) {
         try {
+            // 백엔드 검증 추가
+            if (report.getFinding() == null || report.getFinding().isEmpty() ||
+                    report.getFutureComment() == null || report.getFutureComment().isEmpty()) {
+                return ResponseEntity.badRequest().body(" 검사 소견 및 향후 치료 의견을 모두 입력해 주세요.");
+            }
+
             Report existingReport = reportService.getReportByStudyKey(report.getStudykey());
             if (existingReport != null) {
                 existingReport.setStatus(report.getStatus());
@@ -98,5 +104,4 @@ public class ReportController {
             return ResponseEntity.status(500).body("저장 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
-
 }

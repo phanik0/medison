@@ -26,8 +26,6 @@ $(function() {
     });
 });
 
-
-
 document.addEventListener('click', (e) => {
     if (e.target.closest('button[type="submit"]') && e.target.closest('form#mainSearchForm')) {
         return;
@@ -196,6 +194,11 @@ function saveFinalReport() {
     const finding = document.getElementById('finding').value;
     const futureComment = document.getElementById('futureComment').value;
 
+    if (!finding || !futureComment) {
+        alert('검사 소견 및 향후 치료 의견을 입력해 주세요.');
+        return;
+    }
+
     fetch(`/report?studykey=${studykey}`)
         .then(response => response.json())
         .then(data => {
@@ -236,7 +239,6 @@ function saveFinalReport() {
 
 function showNote() {
     const studykey = document.getElementById('report-details').dataset.studykey;
-
 
     const getValueById = (id) => {
         const element = document.getElementById(id);
