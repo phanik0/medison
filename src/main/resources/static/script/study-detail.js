@@ -92,7 +92,6 @@ const init = async () => {
 
 window.onload = () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
-    console.log(studyKey);
     init();
     onload(studyKey);
 }
@@ -101,6 +100,7 @@ const onload = async function (studyKey) {
     const fetchDetailData = await fetch(`/images/${studyKey}`);
     const studyInfo = await fetchDetailData.json();
     console.log("파일 로드 완료");
+    console.log(fetchDetailData);
 
     const loadFiles = async (filePath) => {
         try {
@@ -120,9 +120,12 @@ const onload = async function (studyKey) {
         const viewportGrid = document.getElementById('viewportGrid');
         let targetViewportId = "CT_0";
 
+        const mainRenderingEngineId = "mainRenderingEngine";
+        const mainRenderingEngine = new RenderingEngine(mainRenderingEngineId);
+
         const createImageBySeries = async function () {
             const imageIdsBySeries = [];
-            for (const series of studyInfo) {
+            const promises = studyInfo.map(async (series) => {
                 const seriesImageIds = [];
                 for (const image of series) {
                     const filePath = image.path + image.fname;
@@ -131,14 +134,13 @@ const onload = async function (studyKey) {
                     seriesImageIds.push(imageId);
                 }
                 imageIdsBySeries.push(seriesImageIds);
-            }
+            });
+            await Promise.all(promises);
             console.log("이미지 아이디 생성완료");
             return imageIdsBySeries;
         }
 
-
         const imageIdsBySeries = await createImageBySeries();
-
         // 썸네일 랜더링
         const thumnailRenderingEngine = new RenderingEngine('thumbnailRenderingEngine');
 
@@ -148,6 +150,10 @@ const onload = async function (studyKey) {
                 element: document.getElementById(viewportId),
                 type: cornerstone.Enums.ViewportType.STACK,
             });
+
+            if(renderingEngine.id===mainRenderingEngineId){
+                toolGroupInitailize(viewportId,renderingEngine.id);
+            }
 
             const targetViewport = renderingEngine.getViewport(viewportId);
             if (!targetViewport) {
@@ -190,11 +196,6 @@ const onload = async function (studyKey) {
             toolGroup.setToolActive(StackScrollMouseWheelTool.toolName);
         }
 
-
-        // 메인 랜더링
-        const mainRenderingEngineId = "mainRenderingEngine";
-        const mainRenderingEngine = new RenderingEngine(mainRenderingEngineId);
-
         const mainViewportIds = [];
 
         const clearAndCreateViewports = function (row, column) {
@@ -219,7 +220,6 @@ const onload = async function (studyKey) {
                 mainViewportIds.push("CT_" + i);
 
                 viewportGrid.append(element);
-                toolGroupInitailize("CT_"+i,mainRenderingEngineId);
             }
 
             console.log("메인 뷰포트 생성완료");
@@ -229,25 +229,23 @@ const onload = async function (studyKey) {
             const total = row * column;
             const targetLength = imageIdsBySeries.length >= total ? total : imageIdsBySeries.length;
 
+            const promises = [];
             for (let i = 0; i < targetLength; i++) {
                 const mainImageIds = imageIdsBySeries[i];
                 const mainViewportId = 'CT_' + i;
-
-                await renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine);
+                promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine));
             }
+            await Promise.all(promises);
             console.log("메인 이미지 렌더링 완료.");
         }
 
-        // clearAndCreateViewports(4, 5);
-        // await renderMainImages(4, 5);
-
-        const renderSizeChange = async (row,column)=>{
-            clearAndCreateViewports(row,column);
-            await renderMainImages(row,column);
+        const renderSizeChange = async (row, column) => {
+            clearAndCreateViewports(row, column);
+            await renderMainImages(row, column);
             document.getElementById(targetViewportId).style.border = '1px solid red';
         }
 
-        await renderSizeChange(4,5);
+        await renderSizeChange(5, 5);
 
         viewportGrid.addEventListener('dblclick', (event) => {
             if (event.target.id === "viewportGrid")
@@ -282,3 +280,6 @@ const onload = async function (studyKey) {
         });
     }
 }
+
+
+
