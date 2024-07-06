@@ -273,8 +273,10 @@ const onload = async function (studyKey) {
 
         thumbnailList.addEventListener('dblclick', (e) => {
             if (e.target.nodeName === "CANVAS" && targetViewportId) {
+                const basicThumbnailViewportUID = 'thumbnailViewport';
                 const thumnailUID = e.target.parentElement.parentElement.dataset.viewportUid;
-                const wishIndex = parseInt(thumnailUID.slice(thumnailUID.length - 1));
+
+                const wishIndex = parseInt(thumnailUID.slice(basicThumbnailViewportUID.length,thumnailUID.length));
                 renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine);
             }
         });
