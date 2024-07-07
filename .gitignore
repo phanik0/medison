@@ -5,6 +5,7 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+
 ### STS ###
 .apt_generated
 .classpath
@@ -39,6 +40,7 @@ out/
 application.properties
 /dist
 /node_modules
-
+/.webpack_cache
 
 qodana.yaml
+/src/main/resources/static/.webpack_cache/default-development/
