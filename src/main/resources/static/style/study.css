@@ -42,3 +42,25 @@
     display: flex;
     justify-content: center;
 }
+
+#check-row-column-by-series{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 500px;
+    height: 500px;
+    gap: 5px;
+    padding: 5px;
+    background-color: #333333;
+}
+
+.row-column-box{
+    width: 94px;
+    height: 94px;
+    background-color: blue;
+}
+
+.row-column-box:hover{
+    cursor: pointer;
+    background-color: black;
+}

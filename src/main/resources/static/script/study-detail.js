@@ -2,7 +2,7 @@ import * as cornerstone from '@cornerstonejs/core';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader';
 import * as dicomParser from 'dicom-parser';
-import { RenderingEngine } from "@cornerstonejs/core";
+import {RenderingEngine} from "@cornerstonejs/core";
 
 const {
     ZoomTool, ToolGroupManager,     // 줌
@@ -22,12 +22,14 @@ const {
     EraserTool,                             // 지우개
     PanTool,                                // 이미지 이동
     WindowLevelTool,                        // 윈도우 레벨
-    PlanarRotateTool,                       // 이미지 회전
+    PlanarRotateTool,                       // 이미지 회전,
+    StackScrollTool                         // 이미지 스크롤
 } = cornerstoneTools;
-const { MouseBindings } = csToolsEnums;
+const {MouseBindings} = csToolsEnums;
 
 const toolGroupId = 'myToolGroup';
 cornerstoneTools.init();
+cornerstoneTools.addTool(StackScrollTool);
 cornerstoneTools.addTool(ZoomTool);
 cornerstoneTools.addTool(StackScrollMouseWheelTool);
 cornerstoneTools.addTool(MagnifyTool);
@@ -49,6 +51,7 @@ cornerstoneTools.addTool(EraserTool);
 cornerstoneTools.addTool(PlanarFreehandROITool);
 
 const toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
+toolGroup.addTool(StackScrollTool.toolName);
 toolGroup.addTool(ZoomTool.toolName);
 toolGroup.addTool(StackScrollMouseWheelTool.toolName);
 toolGroup.addTool(MagnifyTool.toolName);
@@ -130,7 +133,7 @@ const onload = async function (studyKey) {
                 for (const image of series) {
                     const filePath = image.path + image.fname;
                     const arrayBuffer = await loadFiles(filePath);
-                    const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], { type: 'application/dicom' }))}`;
+                    const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], {type: 'application/dicom'}))}`;
                     seriesImageIds.push(imageId);
                 }
                 imageIdsBySeries.push(seriesImageIds);
@@ -151,8 +154,8 @@ const onload = async function (studyKey) {
                 type: cornerstone.Enums.ViewportType.STACK,
             });
 
-            if(renderingEngine.id===mainRenderingEngineId){
-                toolGroupInitailize(viewportId,renderingEngine.id);
+            if (renderingEngine.id === mainRenderingEngineId) {
+                toolGroupInitailize(viewportId, renderingEngine.id);
             }
 
             const targetViewport = renderingEngine.getViewport(viewportId);
@@ -181,18 +184,15 @@ const onload = async function (studyKey) {
         }
         console.log("썸네일 렌더링 완료");
 
-        const toolGroupInitailize = function (viewportId,rederingEngineId){
+        let currentTool = StackScrollTool.toolName;
+
+        const toolGroupInitailize = function (viewportId, rederingEngineId) {
             toolGroup.addViewport(viewportId, rederingEngineId);
 
-            toolGroup.setToolActive(ZoomTool.toolName, {
-                bindings: [{ mouseButton: MouseBindings.Primary }],
+            toolGroup.setToolActive(currentTool, {
+                bindings: [{mouseButton: MouseBindings.Primary}],
             });
-            toolGroup.setToolActive(MagnifyTool.toolName, {
-                bindings: [{ mouseButton: MouseBindings.Secondary }],
-            });
-            toolGroup.setToolActive(AngleTool.toolName, {
-                bindings: [{ mouseButton: MouseBindings.Auxiliary }],
-            });
+
             toolGroup.setToolActive(StackScrollMouseWheelTool.toolName);
         }
 
@@ -242,12 +242,15 @@ const onload = async function (studyKey) {
         const renderSizeChange = async (row, column) => {
             clearAndCreateViewports(row, column);
             await renderMainImages(row, column);
-            document.getElementById(targetViewportId).style.border = '1px solid red';
+            const targetViewport = document.getElementById(targetViewportId);
+            if(targetViewport){
+                targetViewport.style.border = '1px solid red';
+            }
         }
 
-        await renderSizeChange(5, 5);
+        await renderSizeChange(1, 1);
 
-        viewportGrid.addEventListener('dblclick', (event) => {
+        viewportGrid.addEventListener('mousedown', (event) => {
             if (event.target.id === "viewportGrid")
                 return;
 
@@ -256,7 +259,10 @@ const onload = async function (studyKey) {
                 const targetUid = targetElement.dataset.viewportUid;
 
                 if (targetViewportId) {
-                    document.getElementById(targetViewportId).style.border = '1px solid #fff';
+                    const targetViewport = document.getElementById(targetViewportId);
+                    if (targetViewport) {
+                        targetViewport.style.border = '1px solid #fff';
+                    }
                 }
 
                 targetElement.style.border = '1px solid red';
@@ -264,7 +270,10 @@ const onload = async function (studyKey) {
                 targetViewportId = targetUid;
             } else {
                 if (targetViewportId) {
-                    document.getElementById(targetViewportId).style.border = '1px solid #fff';
+                    const targetViewport = document.getElementById(targetViewportId);
+                    if (targetViewport) {
+                        targetViewport.style.border = '1px solid #fff';
+                    }
                 }
                 targetViewportId = event.target.id;
                 document.getElementById(targetViewportId).style.border = '1px solid red';
@@ -276,10 +285,39 @@ const onload = async function (studyKey) {
                 const basicThumbnailViewportUID = 'thumbnailViewport';
                 const thumnailUID = e.target.parentElement.parentElement.dataset.viewportUid;
 
-                const wishIndex = parseInt(thumnailUID.slice(basicThumbnailViewportUID.length,thumnailUID.length));
+                const wishIndex = parseInt(thumnailUID.slice(basicThumbnailViewportUID.length, thumnailUID.length));
                 renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine);
             }
         });
+
+
+        const convertTools = function (selectedTool) {
+            toolGroup.setToolPassive(currentTool);
+
+            toolGroup.setToolActive(selectedTool, {
+                bindings: [{mouseButton: MouseBindings.Primary}],
+            });
+
+            currentTool = selectedTool;
+        }
+
+        const toolistSection = document.getElementById("tool-list");
+
+        toolistSection.addEventListener('click', (e) => {
+            if (e.target.className === "tools") {
+                convertTools(e.target.id);
+            }
+        })
+
+        const seriesRowColumnCheckBox = document.getElementById("check-row-column-by-series");
+
+        seriesRowColumnCheckBox.addEventListener('click', (e) => {
+            if (e.target.className === "row-column-box") {
+                const row = parseInt(e.target.dataset.row);
+                const col = parseInt(e.target.dataset.column);
+                renderSizeChange(row, col);
+            }
+        })
     }
 }
 

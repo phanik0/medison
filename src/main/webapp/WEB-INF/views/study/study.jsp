@@ -22,6 +22,53 @@
 </head>
 <body>
 <h1>Study DICOM Viewer</h1>
+<div id="tool-list">
+    <button class="tools" id="StackScroll">Default</button>
+    <button class="tools" id="Zoom">Zoom</button>
+    <button class="tools" id="Magnify">Magnify</button>
+    <button class="tools" id="Pan">Pan</button>
+    <button class="tools" id="WindowLevel">WindowLevel</button>
+    <button class="tools" id="PlanarRotate">PlanarRotate</button>
+    <button class="tools" id="Length">Length</button>
+    <button class="tools" id="Angle">Angle</button>
+    <button class="tools" id="Height">Height</button>
+    <button class="tools" id="Probe">Probe</button>
+    <button class="tools" id="RectangleROI">RectangleROI</button>
+    <button class="tools" id="EllipticalROI">EllipticalROI</button>
+    <button class="tools" id="CircleROI">CircleROI</button>
+    <button class="tools" id="Bidirectional">Bidirectional</button>
+    <button class="tools" id="CobbAngle">CobbAngle</button>
+    <button class="tools" id="ArrowAnnotate">ArrowAnnotate</button>
+    <button class="tools" id="Eraser">Eraser</button>
+    <button class="tools" id="PlanarFreehandROI">PlanarFreehandROI</button>
+    <div id="check-row-column-by-series">
+        <div class="row-column-box" data-row="1" data-column="1"></div>
+        <div class="row-column-box" data-row="1" data-column="2"></div>
+        <div class="row-column-box" data-row="1" data-column="3"></div>
+        <div class="row-column-box" data-row="1" data-column="4"></div>
+        <div class="row-column-box" data-row="1" data-column="5"></div>
+        <div class="row-column-box" data-row="2" data-column="1"></div>
+        <div class="row-column-box" data-row="2" data-column="2"></div>
+        <div class="row-column-box" data-row="2" data-column="3"></div>
+        <div class="row-column-box" data-row="2" data-column="4"></div>
+        <div class="row-column-box" data-row="2" data-column="5"></div>
+        <div class="row-column-box" data-row="3" data-column="1"></div>
+        <div class="row-column-box" data-row="3" data-column="2"></div>
+        <div class="row-column-box" data-row="3" data-column="3"></div>
+        <div class="row-column-box" data-row="3" data-column="4"></div>
+        <div class="row-column-box" data-row="3" data-column="5"></div>
+        <div class="row-column-box" data-row="4" data-column="1"></div>
+        <div class="row-column-box" data-row="4" data-column="2"></div>
+        <div class="row-column-box" data-row="4" data-column="3"></div>
+        <div class="row-column-box" data-row="4" data-column="4"></div>
+        <div class="row-column-box" data-row="4" data-column="5"></div>
+        <div class="row-column-box" data-row="5" data-column="1"></div>
+        <div class="row-column-box" data-row="5" data-column="2"></div>
+        <div class="row-column-box" data-row="5" data-column="3"></div>
+        <div class="row-column-box" data-row="5" data-column="4"></div>
+        <div class="row-column-box" data-row="5" data-column="5"></div>
+    </div>
+</div>
 <div id="thumbnail-list">
     <h2>PastStudyList</h2>
     <div>

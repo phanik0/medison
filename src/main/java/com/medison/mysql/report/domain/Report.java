@@ -16,7 +16,6 @@ public class Report {
     @Id
     private int studykey;
     private String preDoctor;
-    private String doctor;
     private String finalDoctor;
     private String patientCode;
     private int existingStatus;
