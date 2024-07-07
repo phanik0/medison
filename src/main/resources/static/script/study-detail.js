@@ -26,7 +26,6 @@ const {
     StackScrollTool                         // 이미지 스크롤
 } = cornerstoneTools;
 const {MouseBindings} = csToolsEnums;
-
 const toolGroupId = 'myToolGroup';
 cornerstoneTools.init();
 cornerstoneTools.addTool(StackScrollTool);
@@ -95,11 +94,11 @@ const init = async () => {
 
 window.onload = () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
-    init();
     onload(studyKey);
 }
 
 const onload = async function (studyKey) {
+    await init();
     const fetchDetailData = await fetch(`/images/${studyKey}`);
     const studyInfo = await fetchDetailData.json();
     console.log("파일 로드 완료");
@@ -243,7 +242,7 @@ const onload = async function (studyKey) {
             clearAndCreateViewports(row, column);
             await renderMainImages(row, column);
             const targetViewport = document.getElementById(targetViewportId);
-            if(targetViewport){
+            if (targetViewport) {
                 targetViewport.style.border = '1px solid red';
             }
         }
@@ -311,13 +310,51 @@ const onload = async function (studyKey) {
 
         const seriesRowColumnCheckBox = document.getElementById("check-row-column-by-series");
 
+        const gridItems = document.querySelectorAll('.row-column-box');
+
         seriesRowColumnCheckBox.addEventListener('click', (e) => {
-            if (e.target.className === "row-column-box") {
+            if (e.target.className === "row-column-box highlight") {
                 const row = parseInt(e.target.dataset.row);
                 const col = parseInt(e.target.dataset.column);
                 renderSizeChange(row, col);
             }
         })
+
+        // 각 gridItem에 마우스 이벤트 리스너 추가
+        gridItems.forEach(item => {
+            // 마우스를 올리면 해당 셀 강조
+            item.addEventListener('mouseenter', () => {
+                const row = parseInt(item.dataset.row);
+                const col = parseInt(item.dataset.column);
+                highlightCells(row, col);
+            });
+
+            // 마우스를 떼면 강조 해제
+            item.addEventListener('mouseleave', () => {
+                clearHighlights();
+            });
+        });
+
+        // 셀 강조
+        function highlightCells(row, col) {
+            gridItems.forEach(item => {
+                const itemRow = parseInt(item.dataset.row);
+                const itemCol = parseInt(item.dataset.column);
+
+                if (itemRow <= row && itemCol <= col) {
+                    item.classList.add('highlight');
+                } else {
+                    item.classList.remove('highlight');
+                }
+            });
+        }
+
+        // 강조 해제
+        function clearHighlights() {
+            gridItems.forEach(item => {
+                item.classList.remove('highlight');
+            });
+        }
     }
 }
 
