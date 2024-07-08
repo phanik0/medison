@@ -91,7 +91,7 @@ $(function() {
     $("#bookmarkModal").dialog({
         autoOpen: false,
         width: 550, // 너비 설정
-        height: 200, // 높이 설정
+        height: 250, // 높이 설정
         modal: true,
         buttons: {
             "추가": function() {
