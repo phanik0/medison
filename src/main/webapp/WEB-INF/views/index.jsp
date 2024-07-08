@@ -7,5 +7,13 @@
     <title>Login Page</title>
 </head>
 <body>
+    <c:choose>
+        <c:when test="${empty user}">
+            <c:redirect url="/user/login"></c:redirect>
+        </c:when>
+        <c:otherwise>
+            <c:redirect url="/admin"></c:redirect>
+        </c:otherwise>
+    </c:choose>
 </body>
 </html>
