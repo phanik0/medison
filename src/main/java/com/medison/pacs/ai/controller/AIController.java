@@ -1,6 +1,7 @@
 package com.medison.pacs.ai.controller;
 
 import com.medison.pacs.ai.domain.AI;
+import com.medison.pacs.ai.domain.PrContent;
 import com.medison.pacs.ai.domain.ProcessedPrData;
 import com.medison.pacs.ai.service.AIService;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +21,38 @@ public class AIController {
     private final AIService service;
 
     @ResponseBody
+    @GetMapping("/ai1/{studyKey}")
+    public ResponseEntity<List<ProcessedPrData>>getProcessedPrContentByStudyKey(@PathVariable long studyKey){
+        List<ProcessedPrData> processedPrData = processPrContentData(studyKey);
+        return ResponseEntity.ok(processedPrData);
+    }
+    @ResponseBody
     @GetMapping("/ai/{studyKey}")
-    public ResponseEntity<List<AI>>findPrContentByStudyKey(@PathVariable long studyKey){
-        List<AI> ai= service.findAIByStudyKey(studyKey);
-        return ResponseEntity.ok(ai);
+    public ResponseEntity<List<PrContent>>getPrContentByStudyKey(@PathVariable long studyKey){
+        List<AI>AIList = service.findAIByStudyKey(studyKey);
+        List<PrContent>prContentList = new ArrayList<>();
+        for(AI ai : AIList){
+            PrContent prContent = ai.getPrContentData();
+            prContentList.add(prContent);
+
+        }
+        return ResponseEntity.ok(prContentList);
     }
 
-    public ProcessedPrData processPrContentData(long studyKey){
-        ProcessedPrData processdPrData = new ProcessedPrData();
-        List<AI>listByStudyKey = service.findAIByStudyKey(studyKey);
 
 
+    public List<ProcessedPrData> processPrContentData(long studyKey){
+        List<ProcessedPrData> processedPrDataList = new ArrayList<>();
+        List<AI> listByStudyKey = service.findAIByStudyKey(studyKey);
 
-
-        return  processdPrData;
+        for(AI ai : listByStudyKey){
+            PrContent prContent = ai.getPrContentData();
+            if(prContent != null){
+                ProcessedPrData processedPrData = new ProcessedPrData();
+                processedPrDataList.add(processedPrData.convertToProcessedPrData(prContent));
+            }
+        }
+        return processedPrDataList;
     }
+
 }

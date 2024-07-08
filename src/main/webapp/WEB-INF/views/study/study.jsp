@@ -1,12 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    HttpSession userSession = request.getSession(false);
-    if (userSession == null || userSession.getAttribute("user") == null) {
-        response.sendRedirect(request.getContextPath() + "/user/login");
-        return;
-    }
-%>
+<%--<%--%>
+<%--    HttpSession userSession = request.getSession(false);--%>
+<%--    if (userSession == null || userSession.getAttribute("user") == null) {--%>
+<%--        response.sendRedirect(request.getContextPath() + "/user/login");--%>
+<%--        return;--%>
+<%--    }--%>
+<%--%>--%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,7 +80,9 @@
 <div id="main-viewer">
     <!-- Main image viewer -->
     <div id="viewportGrid">
-
+        <div id="overlay">
+        <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
+        </div>
     </div>
 </div>
 <input type="hidden" id="studyKey" value="${study.studykey}">
