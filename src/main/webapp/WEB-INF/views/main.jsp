@@ -16,6 +16,8 @@
     String userName = user.getName();
     String userPosition = user.getPosition();
     int userDepartmentCode = user.getDepartmentCode();
+
+    session.setAttribute("userId", userId);
 %>
 
 <!DOCTYPE html>
@@ -95,14 +97,14 @@
         function handleClick(studykey, pid) {
             if (clickTimer === null) {
                 clickTimer = setTimeout(function () {
-                    showPatientDetails(pid); // 클릭 시 환자 상세 정보를 표시하는 함수 호출
-                    showReportDetails(studykey); // 클릭 시 검사 리포트 상세 정보를 표시하는 함수 호출
+                    showPatientDetails(pid);
+                    showReportDetails(studykey);
                     clickTimer = null;
                 }, 300); // 300ms 지연 시간 설정
             } else {
                 clearTimeout(clickTimer);
                 clickTimer = null;
-                redirectToStudy(studykey); // 더블클릭 시 리디렉션하는 함수 호출
+                redirectToStudy(studykey);
             }
         }
 
@@ -128,7 +130,17 @@
             <p class="member-id"><%= userId %>
             </p>
             <p class="member-name"><span id="userName"> </span><span id="userPosition"></span></p>
-            <button class="info-update" onClick="location.href='/user/update/me'">정보수정</button>
+            <c:set var="userId" value="${sessionScope.userId}"/>
+
+            <c:choose>
+                <c:when test="${userId eq 'admin'}">
+                    <button class="info-update" onClick="location.href='http://localhost:8080/admin/manage'">회원정보수정
+                    </button>
+                </c:when>
+                <c:otherwise>
+                    <button class="info-update" onClick="location.href='/user/update/me'">정보수정</button>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     <div class="main-content">

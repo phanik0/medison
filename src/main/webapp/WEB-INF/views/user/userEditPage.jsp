@@ -20,7 +20,7 @@
 
 <div id="user-update-container" class="container"
      data-user-id="${user.id}">
-    <h1 class="title">${user.id} 수정</h1>
+    <h1 class="title">비밀번호 변경</h1>
     <form id="registerForm">
         <div class="form-group">
             <label for="cur-password">현재 비밀번호</label>

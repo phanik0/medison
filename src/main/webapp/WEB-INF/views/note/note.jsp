@@ -34,12 +34,21 @@
         <tr>
             <td class="label">1. 성명</td>
             <td class="value">${demoNote.pName}</td>
-            <td class="label">2. 생년월일</td>
-            <td class="value">${demoNote.pBirth}</td>
+            <td class="label">2. 성별</td>
+            <td class="value">
+                <c:choose>
+                    <c:when test="${demoNote.pSex == 'F'}">여성</c:when>
+                    <c:otherwise>남성</c:otherwise>
+                </c:choose>
+            </td>
+        </tr>
+        <tr>
+            <td class="label">3. 생년월일</td>
+            <td colspan="3" class="value">${demoNote.pBirth}</td>
         </tr>
         <tr>
             <td class="label">4. 병명</td>
-            <td colspan="3" class="value" style="padding: 0 5px 0 8px"><input style="width: 98%;border: none;font-size: 100%;" type="text" id="disease"></td>
+            <td colspan="3"><input class="value" type="text" value="${demoNote.disease}" /></td>
         </tr>
         <tr>
             <td class="label">5. 진료 기간</td>
@@ -75,25 +84,6 @@
                 <textarea class="wide-textarea" id="remark">${demoNote.remark}</textarea></td>
         </tr>
     </table>
-    <div class="signature">
-        <div class="row">
-            <div class="label">담당의사 면허번호</div>
-            <div class="value"><span id="userId"><%= userId %></span></div>
-        </div>
-        <div class="row">
-            <div class="label">성명</div>
-            <div class="value" id="finalDoctorName">${demoNote.finalDoctorName}</div>
-        </div>
-        <div class="row">
-            <div class="label">의료기관 주소</div>
-            <div class="value">서울특별시 종로구 대학로 101</div>
-        </div>
-    </div>
-    <div class="footer">
-        <div class="hospital-name">메가병원장</div>
-        <div class="stamp"><img src="${pageContext.request.contextPath}/image/seal.png" alt="seal"></div>
-    </div>
-    <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
 </div>
 <div class="btn-container">
     <button id="saveButton" onclick="confirmSave()">저장</button>

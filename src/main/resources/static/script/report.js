@@ -171,25 +171,31 @@ function saveFinalReport() {
         return;
     }
 
-    if (!confirm("최종 판독을 저장하시겠습니까?")) {
-        return;
-    }
-
     const studykey = document.getElementById('report-details').dataset.studykey;
-    const patientCode = document.getElementById('report-patientCode').textContent;
-    const comments = document.getElementById('comments').value;
-    const finding = document.getElementById('finding').value;
-    const futureComment = document.getElementById('futureComment').value;
-
-    if (!comments || !finding || !futureComment) {
-        alert('진료의사 의견, 검사 소견 및 향후 치료 의견을 입력해 주세요.');
-        return;
-    }
 
     fetch(`/report?studykey=${studykey}`)
         .then(response => response.json())
         .then(data => {
             const existingReport = data.report;
+
+            if (existingReport.preDoctor === userId) {
+                alert("예비판독의는 최종판독을 할 수 없습니다.");
+                throw new Error("예비판독의는 최종판독을 할 수 없습니다.");
+            }
+
+            if (!confirm("최종 판독을 저장하시겠습니까?")) {
+                return;
+            }
+
+            const comments = document.getElementById('comments').value;
+            const finding = document.getElementById('finding').value;
+            const futureComment = document.getElementById('futureComment').value;
+
+            if (!comments || !finding || !futureComment) {
+                alert('진료의사 의견, 검사 소견 및 향후 치료 의견을 입력해 주세요.');
+                return;
+            }
+
             const updatedReport = {
                 ...existingReport,
                 status: 6,

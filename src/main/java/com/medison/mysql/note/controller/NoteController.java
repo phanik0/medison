@@ -2,6 +2,7 @@ package com.medison.mysql.note.controller;
 
 import com.medison.mysql.note.domain.Note;
 import com.medison.mysql.note.domain.NoteRepository;
+import com.medison.mysql.note.dto.NoteRequestDto;
 import com.medison.mysql.note.service.NoteService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
@@ -31,7 +32,7 @@ public class NoteController {
             return new ModelAndView("redirect:/main");
         }
 
-        Note note = noteService.getNoteByStudyKey(studykey);
+        Note note = noteService.getNoteByStudykey(studykey);
 
         ModelAndView mv = new ModelAndView("note/note");
         Map<String, String> demoNote = noteService.createDemoNote(studykey);
@@ -40,25 +41,25 @@ public class NoteController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveNote(@RequestBody Note note, HttpSession session) {
+    public ResponseEntity<String> saveNote(@RequestBody NoteRequestDto noteRequest, HttpSession session) {
         String userId = (String) session.getAttribute("userId"); // 세션에서 사용자 ID를 가져옴
         if (userId == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
-        Report report = reportService.getReportByStudyKey(note.getStudykey());
+        Report report = reportService.getReportByStudyKey(noteRequest.getStudykey());
         if (!userId.equals(report.getFinalDoctor())) {
             return ResponseEntity.status(403).body("최종 판독 의사만 노트를 저장할 수 있습니다.");
         }
 
-        noteService.saveNote(note);
+        noteService.saveNote(noteRequest);
         return ResponseEntity.ok("노트가 저장되었습니다.");
     }
 
     @RequestMapping("/printNote/{studykey}")
     public ModelAndView printNotePage(@PathVariable int studykey) {
 
-        if  (noteService.getNoteByStudykey(studykey) == null) {
+        if (noteService.getNoteByStudykey(studykey) == null) {
             return new ModelAndView("redirect:/main");
         }
 
