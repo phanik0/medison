@@ -1,8 +1,15 @@
 #thumbnail-list {
-    width: 20%;
+    margin-left: 100px;
+    padding: 20px;
+    width:15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     float: left;
     overflow-y: auto;
     background-color: #333;
+    border-radius: 10px;
     color: #fff;
     height: 100vh;
 }
@@ -12,19 +19,21 @@
     margin-bottom: 5px;
 }
 #main-viewer {
-    width: 80%;
+    width: 74%;
     height: 100vh;
+    margin-right: 100px;
     float: right;
     background-color: #000;
+    border-radius: 5px;
 }
 
 #viewportGrid{
     width: 100%;
     height: 100vh;
     display: flex;
+    justify-content: space-around;
     flex-direction: row;
     flex-wrap: wrap;
-
 }
 
 .viewport {
@@ -47,17 +56,19 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100px;
-    height: 100px;
+    width: 170px;
+    height: 170px;
     gap: 3px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
     padding: 3px;
-    background-color: #333333;
+
 }
 
 .row-column-box{
-    width: 16px;
-    height: 16px;
-    background-color: blue;
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff;
 }
 
 .row-column-box:hover{
@@ -65,6 +76,66 @@
 }
 
 .row-column-box.highlight{
-    background-color: black;
+    background-color: #696969;
+}
+
+.tools{
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    filter: invert(100%);
+}
+
+.tools:not(#Probe,#Bidirectional,#PlanarFreehandROI){
+    margin-right: 20px;
+}
+
+.tools:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+
+#annotation-tool{
+    width: 250px;
+    display: flex;
+    border: 1px solid lightgrey;
+    background-color: dimgrey;
+    border-radius: 5px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+    margin-right: 20px;
+}
+
+#top-bar{
+    margin: 10px 100px 10px 100px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    border-radius: 10px;
+    background-color: #333333;
+}
+
+.tool-button{
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-right: 20px;
+    filter: invert(100%);
+}
+
+.tool-button:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+
+#annotation-tool {
+    display: none;
+}
+
+#check-row-column-by-series {
+    display: none;
 }
 

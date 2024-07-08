@@ -182,6 +182,7 @@ const onload = async function (studyKey) {
         for (let i = 0; i < imageIdsBySeries.length; i++) {
             const thumnailImageId = imageIdsBySeries[i][0];
             const thumbnailViewportId = 'thumbnailViewport' + i;
+            const seriesDiv = document.createElement('div');
             const element = document.createElement('div');
 
             element.className = 'thumbnail';
@@ -189,13 +190,26 @@ const onload = async function (studyKey) {
             element.style.width = '150px';
             element.style.height = '150px';
 
-            thumbnailList.append(element);
+            const p = document.createElement('p');
+            p.style.fontSize = '12px';
+            p.innerHTML = `시리즈 번호 : ${i+1}`;
+
+            seriesDiv.style.display = 'flex';
+            seriesDiv.style.flexDirection = 'column';
+            seriesDiv.style.alignItems = 'center';
+
+            seriesDiv.append(element);
+            seriesDiv.append(p);
+
+
+            thumbnailList.append(seriesDiv);
 
             await renderImageInViewport(thumbnailViewportId, [thumnailImageId], thumnailRenderingEngine);
         }
         console.log("썸네일 렌더링 완료");
 
         let currentTool = StackScrollTool.toolName;
+        document.getElementById(currentTool).style.backgroundColor = 'lightgrey';
 
         const toolGroupInitailize = function (viewportId, rederingEngineId) {
             toolGroup.addViewport(viewportId, rederingEngineId);
@@ -308,11 +322,13 @@ const onload = async function (studyKey) {
             toolGroup.setToolActive(selectedTool, {
                 bindings: [{mouseButton: MouseBindings.Primary}],
             });
-
+            document.getElementById(currentTool).style.backgroundColor = 'transparent';
             currentTool = selectedTool;
+            document.getElementById(currentTool).style.backgroundColor = 'grey';
+
         }
 
-        const toolistSection = document.getElementById("tool-list");
+        const toolistSection = document.getElementById("top-bar");
 
         toolistSection.addEventListener('click', (e) => {
             if (e.target.className === "tools") {
@@ -367,6 +383,26 @@ const onload = async function (studyKey) {
                 item.classList.remove('highlight');
             });
         }
+
+        document.getElementById("annotation-list").addEventListener('click', () => {
+            const annotationBox = document.getElementById("annotation-tool");
+            if (annotationBox.style.display === 'none' || annotationBox.style.display === '') {
+                annotationBox.style.display = 'flex';
+                annotationBox.style.flexDirection = 'row';
+            } else {
+                annotationBox.style.display = 'none';
+            }
+        });
+
+        document.getElementById("row-column-button").addEventListener('click', () => {
+            const rowColumnBox = document.getElementById("check-row-column-by-series");
+            if (rowColumnBox.style.display === 'none' || rowColumnBox.style.display === '') {
+                rowColumnBox.style.display = 'flex';
+            } else {
+                rowColumnBox.style.display = 'none';
+            }
+        });
+
     }
 }
 
