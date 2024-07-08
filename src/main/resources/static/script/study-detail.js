@@ -92,8 +92,20 @@ const init = async () => {
     cornerstoneDICOMImageLoader.webWorkerManager.initialize(config);
 };
 
-window.onload = () => {
+window.onload = async () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
+    const userId = document.getElementById('userId').value;
+    await fetch(`/log?userId=${userId}&studykey=${studyKey}`,{
+        method:'POST',
+    })
+        .then(response=>{
+            if(response){
+                alert("출입 로그가 남았습니다.")
+            }else{
+                alert("로그 남기기 실패.")
+                window.location.href = '/main';
+            }
+        })
     onload(studyKey);
 }
 
@@ -101,8 +113,6 @@ const onload = async function (studyKey) {
     await init();
     const fetchDetailData = await fetch(`/images/${studyKey}`);
     const studyInfo = await fetchDetailData.json();
-    console.log("파일 로드 완료");
-    console.log(fetchDetailData);
 
     const loadFiles = async (filePath) => {
         try {
@@ -138,7 +148,6 @@ const onload = async function (studyKey) {
                 imageIdsBySeries.push(seriesImageIds);
             });
             await Promise.all(promises);
-            console.log("이미지 아이디 생성완료");
             return imageIdsBySeries;
         }
 
@@ -170,6 +179,7 @@ const onload = async function (studyKey) {
         for (let i = 0; i < imageIdsBySeries.length; i++) {
             const thumnailImageId = imageIdsBySeries[i][0];
             const thumbnailViewportId = 'thumbnailViewport' + i;
+            const seriesDiv = document.createElement('div');
             const element = document.createElement('div');
 
             element.className = 'thumbnail';
@@ -177,13 +187,25 @@ const onload = async function (studyKey) {
             element.style.width = '150px';
             element.style.height = '150px';
 
-            thumbnailList.append(element);
+            const p = document.createElement('p');
+            p.style.fontSize = '12px';
+            p.innerHTML = `시리즈 번호 : ${i+1}`;
+
+            seriesDiv.style.display = 'flex';
+            seriesDiv.style.flexDirection = 'column';
+            seriesDiv.style.alignItems = 'center';
+
+            seriesDiv.append(element);
+            seriesDiv.append(p);
+
+
+            thumbnailList.append(seriesDiv);
 
             await renderImageInViewport(thumbnailViewportId, [thumnailImageId], thumnailRenderingEngine);
         }
-        console.log("썸네일 렌더링 완료");
 
         let currentTool = StackScrollTool.toolName;
+        document.getElementById(currentTool).style.backgroundColor = 'lightgrey';
 
         const toolGroupInitailize = function (viewportId, rederingEngineId) {
             toolGroup.addViewport(viewportId, rederingEngineId);
@@ -221,7 +243,6 @@ const onload = async function (studyKey) {
                 viewportGrid.append(element);
             }
 
-            console.log("메인 뷰포트 생성완료");
         }
 
         const renderMainImages = async function (row, column) {
@@ -235,7 +256,6 @@ const onload = async function (studyKey) {
                 promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine));
             }
             await Promise.all(promises);
-            console.log("메인 이미지 렌더링 완료.");
         }
 
         const renderSizeChange = async (row, column) => {
@@ -296,11 +316,13 @@ const onload = async function (studyKey) {
             toolGroup.setToolActive(selectedTool, {
                 bindings: [{mouseButton: MouseBindings.Primary}],
             });
-
+            document.getElementById(currentTool).style.backgroundColor = 'transparent';
             currentTool = selectedTool;
+            document.getElementById(currentTool).style.backgroundColor = 'grey';
+
         }
 
-        const toolistSection = document.getElementById("tool-list");
+        const toolistSection = document.getElementById("top-bar");
 
         toolistSection.addEventListener('click', (e) => {
             if (e.target.className === "tools") {
@@ -355,6 +377,26 @@ const onload = async function (studyKey) {
                 item.classList.remove('highlight');
             });
         }
+
+        document.getElementById("annotation-list").addEventListener('click', () => {
+            const annotationBox = document.getElementById("annotation-tool");
+            if (annotationBox.style.display === 'none' || annotationBox.style.display === '') {
+                annotationBox.style.display = 'flex';
+                annotationBox.style.flexDirection = 'row';
+            } else {
+                annotationBox.style.display = 'none';
+            }
+        });
+
+        document.getElementById("row-column-button").addEventListener('click', () => {
+            const rowColumnBox = document.getElementById("check-row-column-by-series");
+            if (rowColumnBox.style.display === 'none' || rowColumnBox.style.display === '') {
+                rowColumnBox.style.display = 'flex';
+            } else {
+                rowColumnBox.style.display = 'none';
+            }
+        });
+
     }
 }
 

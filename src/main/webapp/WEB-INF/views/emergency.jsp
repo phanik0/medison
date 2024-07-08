@@ -36,7 +36,7 @@
                     <c:set var="study" value="${item['study']}"/>
                     <c:set var="status" value="${item['status']}"/>
                     <tr class="clickable"
-                        onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                        onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')" ondblclick="location.href='/study/${study.studykey}'">
                         <td>${study.pid}</td>
                         <td>${study.pname}</td>
                         <td>${study.modality}</td>
