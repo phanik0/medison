@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     setupButtons();
+    setupSaveButton();
+    setupSaveTempButton();
 });
 
 function setupButtons() {
@@ -17,43 +19,58 @@ function setupButtons() {
     }
 }
 
-function confirmSave() {
-    if (confirm("저장하시겠습니까?")) {
-        saveNote();
+function setupSaveButton() {
+    document.getElementById('saveButton').addEventListener('click', () => handleSave(1));
+}
+
+function setupSaveTempButton() {
+    document.getElementById('saveTempButton').addEventListener('click', () => handleSave(0));
+}
+
+function handleSave(status) {
+    const finalDoctor = document.getElementById('finalDoctor').value;
+    const currentUserIdElement = document.getElementById('currentUserId');
+
+    if (!currentUserIdElement) {
+        alert('현재 사용자 ID를 찾을 수 없습니다.');
+        return;
     }
-}
 
-function saveNote() {
-    const status = 1;
+    const currentUserId = currentUserIdElement.value;
+
+    if (finalDoctor !== currentUserId) {
+        alert('최종판독의만 작성이 가능합니다');
+        return;
+    }
+
+    if (status === 1 && !validateNoteFields()) {
+        alert('병명, 검사 소견, 진료의사 의견 및 향후 치료 의견을 입력해 주세요.');
+        return;
+    }
+
     saveNoteWithStatus(status);
 }
 
-function saveTemporaryNote() {
-    const status = 0;
-    saveNoteWithStatus(status);
-}
-
-function saveNoteWithStatus(status) {
+function validateNoteFields() {
     const disease = document.getElementById('disease').value;
     const finding = document.getElementById('finding').value;
     const comments = document.getElementById('doctorComment').value;
     const futureComment = document.getElementById('futureComment').value;
 
-    if (status === 1 && (!disease || !finding || !comments || !futureComment)) {
-        alert('병명, 검사 소견, 진료의사 의견 및 향후 치료 의견을 입력해 주세요.');
-        return;
-    }
+    return disease && finding && comments && futureComment;
+}
 
+function saveNoteWithStatus(status) {
     const noteData = {
         studykey: document.getElementById('studykey').value,
         status: status,
         finalDoctor: document.getElementById('finalDoctor').value,
         patientCode: document.getElementById('patientCode').value,
-        disease: disease,
+        disease: document.getElementById('disease').value,
         treatmentPeriod: document.getElementById('treatmentPeriod').value,
-        finding: finding,
-        comments: comments,
-        futureComment: futureComment,
+        finding: document.getElementById('finding').value,
+        comments: document.getElementById('doctorComment').value,
+        futureComment: document.getElementById('futureComment').value,
         remark: document.getElementById('remark').value
     };
 
