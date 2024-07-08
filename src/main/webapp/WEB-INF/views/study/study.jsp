@@ -4,13 +4,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Study DICOM Viewer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<%--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>--%>
-<%--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>--%>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/study.css">
     <script src="${pageContext.request.contextPath}/dist/bundle.js"></script>
-
 </head>
 <jsp:include page="../module/header.jsp"></jsp:include>
 <body>
@@ -34,7 +30,7 @@
         <img class="tools" id="WindowLevel" src="https://cdn-icons-png.flaticon.com/128/12148/12148999.png">
         <img class="tools" id="PlanarRotate" src="https://cdn-icons-png.flaticon.com/128/4716/4716164.png">
     </div>
-    <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/5187/5187826.png">
+    <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/8596/8596640.png">
     <div id="annotation-tool">
         <img class="tools" id="Length" src="https://cdn-icons-png.flaticon.com/128/6644/6644036.png">
         <img class="tools" id="Angle" src="https://cdn-icons-png.flaticon.com/128/262/262070.png">

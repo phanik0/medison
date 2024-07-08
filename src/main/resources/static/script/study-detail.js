@@ -113,8 +113,6 @@ const onload = async function (studyKey) {
     await init();
     const fetchDetailData = await fetch(`/images/${studyKey}`);
     const studyInfo = await fetchDetailData.json();
-    console.log("파일 로드 완료");
-    console.log(fetchDetailData);
 
     const loadFiles = async (filePath) => {
         try {
@@ -150,7 +148,6 @@ const onload = async function (studyKey) {
                 imageIdsBySeries.push(seriesImageIds);
             });
             await Promise.all(promises);
-            console.log("이미지 아이디 생성완료");
             return imageIdsBySeries;
         }
 
@@ -206,7 +203,6 @@ const onload = async function (studyKey) {
 
             await renderImageInViewport(thumbnailViewportId, [thumnailImageId], thumnailRenderingEngine);
         }
-        console.log("썸네일 렌더링 완료");
 
         let currentTool = StackScrollTool.toolName;
         document.getElementById(currentTool).style.backgroundColor = 'lightgrey';
@@ -247,7 +243,6 @@ const onload = async function (studyKey) {
                 viewportGrid.append(element);
             }
 
-            console.log("메인 뷰포트 생성완료");
         }
 
         const renderMainImages = async function (row, column) {
@@ -261,7 +256,6 @@ const onload = async function (studyKey) {
                 promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine));
             }
             await Promise.all(promises);
-            console.log("메인 이미지 렌더링 완료.");
         }
 
         const renderSizeChange = async (row, column) => {
