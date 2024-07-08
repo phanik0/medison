@@ -89,7 +89,6 @@ function saveNoteWithStatus(status) {
         })
         .then(result => {
             alert(result);
-            // 필요에 따라 페이지를 리로드하거나 다른 작업 수행
         })
         .catch(error => {
             console.error('노트 저장 중 오류가 발생했습니다:', error);

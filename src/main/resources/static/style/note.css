@@ -7,7 +7,7 @@ body {
 
 .container {
     width: 210mm;
-    height: 297mm;
+    height: 240mm;
     margin: 0 auto;
     padding: 10px;
     border: 1px solid #000;
@@ -51,54 +51,11 @@ body {
     flex: 1;
 }
 
-.signature {
-    margin-top: 20px;
-    border-top: 1px solid #000;
-    padding-top: 10px;
-}
-
-.signature .row {
-    display: flex;
-    margin-bottom: 10px;
-}
-
-.signature .label {
-    width: 200px;
-}
-
-.signature .value {
-    flex: 1;
-}
-
-.footer {
-    margin-top: 20px;
-    text-align: center;
-}
-
-.hospital-name {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.stamp {
-    margin-top: 10px;
-}
-
 .note {
     margin-top: 20px;
     text-align: center;
     font-size: 12px;
     color: red;
-}
-
-@media print {
-    .container {
-        width: 210mm;
-        height: 297mm;
-        padding: 20mm;
-        border: none;
-        page-break-after: always;
-    }
 }
 
 .wide-textarea {
@@ -122,5 +79,12 @@ body {
 .btn-container {
     display: flex;
     justify-content: center;
+    gap: 20px;
     margin-top: 20px;
+}
+
+input[type="text"] {
+    width: 98%;
+    border: none;
+    font-size: 100%;
 }

@@ -27,8 +27,17 @@
             <tr>
                 <td class="label">1. 성명</td>
                 <td class="value">${demoNote.pName}</td>
-                <td class="label">2. 생년월일</td>
-                <td class="value">${demoNote.pBirth}</td>
+                <td class="label">2. 성별</td>
+                <td class="value">
+                    <c:choose>
+                        <c:when test="${demoNote.pSex == 'F'}">여성</c:when>
+                        <c:otherwise>남성</c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">3. 생년월일</td>
+                <td colspan="3" class="value">${demoNote.pBirth}</td>
             </tr>
             <tr>
                 <td class="label">4. 병명</td>
@@ -56,22 +65,18 @@
                 <td colspan="3" class="value">${demoNote.futureComment}</td>
             </tr>
             <tr class="size-up">
-                <td class="label">11. 비고</td>
+                <td class="label">10. 비고</td>
                 <td colspan="3" class="value">${demoNote.remark}</td>
             </tr>
         </table>
         <div class="signature">
-            <div class="row">
-                <div class="label">담당의사 면허번호</div>
-                <div class="value"><span id="userId">${userId}</span></div>
-            </div>
             <div class="row">
                 <div class="label">성명</div>
                 <div class="value" id="finalDoctorName">${demoNote.finalDoctorName}</div>
             </div>
             <div class="row">
                 <div class="label">의료기관 주소</div>
-                <div class="value">서울특별시 종로구 대학로 101</div>
+                <div class="value">서울특별시 강남구 역삼동</div>
             </div>
         </div>
         <div class="footer">
