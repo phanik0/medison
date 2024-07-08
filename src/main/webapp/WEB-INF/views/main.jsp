@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="javax.servlet.http.HttpSession" %>
 <%@ page import="javax.servlet.http.HttpServletRequest" %>
@@ -37,7 +37,7 @@
         var userDepartmentCode = <%= userDepartmentCode %>;
 
         function translatePosition(position) {
-            switch(position) {
+            switch (position) {
                 case 'professor':
                     return '교수';
                 case 'intern':
@@ -51,10 +51,10 @@
             }
         }
 
-        $(function() {
+        $(function () {
             $("#calendar").datepicker({
                 numberOfMonths: 1,
-                onSelect: function(dateText, inst) {
+                onSelect: function (dateText, inst) {
                     if (!this.startDate) {
                         this.startDate = dateText;
                         $("#startDate").val(dateText);
@@ -71,7 +71,7 @@
                 dateFormat: "yy-mm-dd"
             });
 
-            $("#searchForm").submit(function(event) {
+            $("#searchForm").submit(function (event) {
                 const startDate = $("#startDate").datepicker("getDate");
                 const endDate = $("#endDate").datepicker("getDate");
 
@@ -91,9 +91,10 @@
         });
 
         var clickTimer = null;
+
         function handleClick(studykey, pid) {
             if (clickTimer === null) {
-                clickTimer = setTimeout(function() {
+                clickTimer = setTimeout(function () {
                     showPatientDetails(pid); // 클릭 시 환자 상세 정보를 표시하는 함수 호출
                     showReportDetails(studykey); // 클릭 시 검사 리포트 상세 정보를 표시하는 함수 호출
                     clickTimer = null;
@@ -124,7 +125,8 @@
 
         <div class="member-info">
             <img src="${pageContext.request.contextPath}/image/profile.png" class="profile-image">
-            <p class="member-id"><%= userId %></p>
+            <p class="member-id"><%= userId %>
+            </p>
             <p class="member-name"><span id="userName"> </span><span id="userPosition"></span></p>
             <button class="info-update" onClick="location.href='/user/update/me'">정보수정</button>
         </div>
@@ -176,43 +178,51 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="item" items="${studies}">
-                    <c:set var="study" value="${item.study}" />
-                    <c:set var="bookmark" value="${bookmarks}" />
-                    <c:set var="status" value="${item.status}" />
-                <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
-                <td>
-                    <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}" id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}" data-code="${bookmark != null ? bookmark.code : ''}" data-bookmarked="${bookmark != null}" onclick="event.stopPropagation(); toggleBookmark('${study.studykey}', '${bookmark != null ? bookmark.code : ''}');">${bookmark != null ? '⭐' : '☆'}</button>
-                </td>
-                <td>${study.pid}</td>
-                <td>${study.pname}</td>
-                <td>${study.modality}</td>
-                <td>${study.studydesc}</td>
-                <td>${study.studydate}</td>
-                <td>
-                    <c:choose>
-                        <c:when test="${status == 3}">읽지않음</c:when>
-                        <c:when test="${status == 5}">예비판독</c:when>
-                        <c:when test="${status == 6}">판독완료</c:when>
-                    </c:choose>
-                </td>
-                <td>
-                    <c:choose>
-                        <c:when test="${study.examstatus == 1}">Y</c:when>
-                        <c:otherwise>N</c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-            </c:forEach>
+                <c:forEach var="item" items="${studies}">
+                    <c:set var="study" value="${item.study}"/>
+                    <c:set var="bookmark" value="${bookmarks}"/>
+                    <c:set var="status" value="${item.status}"/>
+                    <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
+                        <td>
+                            <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}"
+                                    id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}"
+                                    data-code="${bookmark != null ? bookmark.code : ''}"
+                                    data-bookmarked="${bookmark != null}"
+                                    onclick="event.stopPropagation(); toggleBookmark('${study.studykey}', '${bookmark != null ? bookmark.code : ''}');">${bookmark != null ? '⭐' : '☆'}</button>
+                        </td>
+                        <td>${study.pid}</td>
+                        <td>${study.pname}</td>
+                        <td>${study.modality}</td>
+                        <td>${study.studydesc}</td>
+                        <td>${study.studydate}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${status == 3}">읽지않음</c:when>
+                                <c:when test="${status == 5}">예비판독</c:when>
+                                <c:when test="${status == 6}">판독완료</c:when>
+                            </c:choose>
+                        </td>
+                        <td>
+                            <c:choose>
+                                <c:when test="${study.examstatus == 1}">Y</c:when>
+                                <c:otherwise>N</c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
             <div class="pagination">
                 <c:if test="${currentPage > 0}">
-                    <button onclick="location.href='/main?page=${currentPage - 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&lt;</button>
+                    <button onclick="location.href='/main?page=${currentPage - 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">
+                        &lt;
+                    </button>
                 </c:if>
                 <span>${currentPage + 1}</span> / <span>${totalPages}</span>
                 <c:if test="${currentPage + 1 < totalPages}">
-                    <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">&gt;</button>
+                    <button onclick="location.href='/main?page=${currentPage + 1}&patientCode=${param.patientCode}&patientName=${param.patientName}&modality=${param.modality}&reportStatus=${param.reportStatus}&examStatus=${param.examStatus}&startDate=${param.startDate}&endDate=${param.endDate}'">
+                        &gt;
+                    </button>
                 </c:if>
             </div>
             <div class="button-container">
@@ -224,40 +234,86 @@
             <section id="patient-details" class="detail-section">
                 <h2>환자 정보</h2>
                 <table>
-                    <tr><th>코드</th><td id="patient-code"></td></tr>
-                    <tr><th>이름</th><td id="patient-name"></td></tr>
-                    <tr><th>성별</th><td id="patient-sex"></td></tr>
-                    <tr><th>생년월일</th><td id="patient-birth"></td></tr>
-                    <tr><th>흡연</th><td>
-                        <select id="patient-smoking">
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </td></tr>
-                    <tr><th>음주</th><td>
-                        <select id="patient-drinking">
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </td></tr>
-                    <tr><th>의료 이력</th><td><input type="text" id="patient-history"></td></tr>
-                    <tr><th>주의 사항</th><td><input type="text" id="patient-caution"></td></tr>
+                    <tr>
+                        <th>코드</th>
+                        <td id="patient-code"></td>
+                    </tr>
+                    <tr>
+                        <th>이름</th>
+                        <td id="patient-name"></td>
+                    </tr>
+                    <tr>
+                        <th>성별</th>
+                        <td id="patient-sex"></td>
+                    </tr>
+                    <tr>
+                        <th>생년월일</th>
+                        <td id="patient-birth"></td>
+                    </tr>
+                    <tr>
+                        <th>흡연</th>
+                        <td>
+                            <select id="patient-smoking">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>음주</th>
+                        <td>
+                            <select id="patient-drinking">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>의료 이력</th>
+                        <td><input type="text" id="patient-history"></td>
+                    </tr>
+                    <tr>
+                        <th>주의 사항</th>
+                        <td><input type="text" id="patient-caution"></td>
+                    </tr>
                 </table>
                 <button id="save-button" style="display: none;" onclick="savePatientDetails()">저장</button>
             </section>
             <section id="report-details" class="detail-section">
                 <h2>검사 리포트</h2>
                 <table>
-                    <tr><th>예비판독의</th><td id="preDoctor"></td></tr>
-                    <tr><th>최종 판독의</th><td id="finalDoctor"></td></tr>
-                    <tr><th>환자코드</th><td id="report-patientCode"></td></tr>
-                    <tr><th>판독 상태</th><td id="status"></td></tr>
-                    <tr><th>코멘트</th><td><input type="text" id="comments"></td></tr>
-                    <tr><th>검사소견</th><td><input type="text" id="finding"></td></tr>
-                    <tr><th>향후 치료 의견</th><td><input type="text" id="futureComment"></td></tr>
+                    <tr>
+                        <th>예비판독의</th>
+                        <td id="preDoctor"></td>
+                    </tr>
+                    <tr>
+                        <th>최종 판독의</th>
+                        <td id="finalDoctor"></td>
+                    </tr>
+                    <tr>
+                        <th>환자코드</th>
+                        <td id="report-patientCode"></td>
+                    </tr>
+                    <tr>
+                        <th>판독 상태</th>
+                        <td id="status"></td>
+                    </tr>
+                    <tr>
+                        <th>코멘트</th>
+                        <td><input type="text" id="comments"></td>
+                    </tr>
+                    <tr>
+                        <th>검사소견</th>
+                        <td><input type="text" id="finding"></td>
+                    </tr>
+                    <tr>
+                        <th>향후 치료 의견</th>
+                        <td><input type="text" id="futureComment"></td>
+                    </tr>
                 </table>
                 <div class="button-container">
-                    <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독</button>
+                    <button id="preliminary-button" style="display: none;" onclick="savePreliminaryReport()">예비판독
+                    </button>
                     <button id="final-button" style="display: none;" onclick="saveFinalReport()">최종판독</button>
                     <button id="note-button" style="display: none;" onclick="showNote()">소견서 작성</button>
                 </div>

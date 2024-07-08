@@ -48,7 +48,28 @@
                     return position;
             }
         }
+
+        var clickTimer = null;
+
+        function handleClick(studykey, pid) {
+            if (clickTimer === null) {
+                clickTimer = setTimeout(function () {
+                    showPatientDetails(pid);
+                    showReportDetails(studykey);
+                    clickTimer = null;
+                }, 300);
+            } else {
+                clearTimeout(clickTimer);
+                clickTimer = null;
+                redirectToStudy(studykey);
+            }
+        }
+
+        function redirectToStudy(studykey) {
+            window.location.href = 'http://localhost:8080/study/' + studykey;
+        }
     </script>
+
 </head>
 <body>
 <main>
@@ -73,7 +94,7 @@
                     <c:forEach var="item" items="${bookmarkWithStudies}">
                         <c:set var="study" value="${item.study}" />
                         <c:set var="bookmark" value="${item.bookmark}" />
-                        <tr class="clickable" onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')">
+                        <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
                             <td>${bookmark.comments}</td>
 
                             <td>${study.pid}</td>
