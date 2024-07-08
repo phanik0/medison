@@ -25,9 +25,10 @@
     <h1 class="title">소견서</h1>
     <input type="hidden" id="studykey" value="${demoNote.studykey}"/> <!-- studykey 입력 필드 추가 -->
     <input type="hidden" id="patientCode" value="${demoNote.patientCode}"> <!-- patientCode 입력 필드 추가 -->
-    <input type="hidden" id="finalDoctor" value="${demoNote.finalDoctor}"> <!-- patientCode 입력 필드 추가 -->
-    <input type="hidden" id="treatmentPeriod" value="${demoNote.treatmentPeriod}"> <!-- patientCode 입력 필드 추가 -->
+    <input type="hidden" id="finalDoctor" value="${demoNote.finalDoctor}"> <!-- finalDoctor 입력 필드 추가 -->
+    <input type="hidden" id="treatmentPeriod" value="${demoNote.treatmentPeriod}"> <!-- treatmentPeriod 입력 필드 추가 -->
     <input type="hidden" id="noteStatus" value="${demoNote.status}">
+    <input type="hidden" id="currentUserId" value="<%= userId %>"> <!-- 현재 사용자 ID 입력 필드 추가 -->
 
     <table class="info-table">
         <tr>
