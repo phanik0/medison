@@ -1,12 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    HttpSession userSession = request.getSession(false);
-    if (userSession == null || userSession.getAttribute("user") == null) {
-        response.sendRedirect(request.getContextPath() + "/user/login");
-        return;
-    }
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +14,18 @@
 
 </head>
 <body>
+<c:choose>
+    <c:when test="${empty user}">
+        <c:redirect url="/user/login"></c:redirect>
+    </c:when>
+    <c:otherwise>
+        <input type="hidden" id="userId"  value="${user.id}">
+    </c:otherwise>
+</c:choose>
+<c:if test="${empty user}">
+    <c:redirect url="/user/login"></c:redirect>
+</c:if>
+
 <h1>Study DICOM Viewer</h1>
 <div id="tool-list">
     <button class="tools" id="StackScroll">Default</button>
@@ -153,10 +158,5 @@
         </div>
     </div>
 </div>
-
-
-<c:out value="${study}"></c:out>
-
-<c:out value="${study.studykey}"></c:out>
 </body>
 </html>

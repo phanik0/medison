@@ -92,8 +92,20 @@ const init = async () => {
     cornerstoneDICOMImageLoader.webWorkerManager.initialize(config);
 };
 
-window.onload = () => {
+window.onload = async () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
+    const userId = document.getElementById('userId').value;
+    await fetch(`/log?userId=${userId}&studykey=${studyKey}`,{
+        method:'POST',
+    })
+        .then(response=>{
+            if(response){
+                alert("출입 로그가 남았습니다.")
+            }else{
+                alert("로그 남기기 실패.")
+                window.location.href = '/main';
+            }
+        })
     onload(studyKey);
 }
 
