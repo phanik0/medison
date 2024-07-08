@@ -78,4 +78,12 @@ public ModelAndView renderStudy(@PathVariable long studykey) {
 
         return ResponseEntity.ok(modalityCount);
     }
+    @ResponseBody
+    @GetMapping("/test/{studykey}")
+    public ModelAndView testAI(@PathVariable long studykey){
+        ModelAndView modelAndView = new ModelAndView("study/AI");
+        Study study = getStudyByKey(studykey);
+        modelAndView.addObject("study", study);
+        return modelAndView;
+    }
 }
