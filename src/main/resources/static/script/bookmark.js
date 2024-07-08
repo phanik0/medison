@@ -1,5 +1,4 @@
 
-
 function openBookmarkModal(studyKey) {
     $('#bookmarkStudyKey').val(studyKey);
     $('#bookmarkModal').dialog('open');
@@ -85,4 +84,22 @@ function loadUserBookmarks() {
 $(document).on('click', '.delete-bookmark-btn', function() {
     var code = $(this).data('code');
     deleteBookmark(code);
+});
+
+$(function() {
+    // 북마크 모달 창 크기 설정
+    $("#bookmarkModal").dialog({
+        autoOpen: false,
+        width: 550, // 너비 설정
+        height: 200, // 높이 설정
+        modal: true,
+        buttons: {
+            "추가": function() {
+                saveBookmark(); // 북마크 추가 로직
+            },
+            "취소": function() {
+                $(this).dialog("close");
+            }
+        }
+    });
 });
