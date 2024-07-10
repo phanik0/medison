@@ -32,8 +32,18 @@ function cielabToRgb(l, a, bChannel) {
 }
 
 // Updated drawOverlay function
-function drawOverlay(element, studyKey) {
-    const overlayData = fetchProcessedPrDataList(studyKey);
+async function drawOverlay(element, studyKey) {
+    if (!element) {
+        console.error('Overlay element not found.');
+        return;
+    }
+
+    const overlayData = await fetchProcessedPrDataList(studyKey);
+    if (!overlayData) {
+        console.error('No overlay data found.');
+        return;
+    }
+    console.log(overlayData);
     const canvas = document.createElement('canvas');
     canvas.width = element.clientWidth;
     canvas.height = element.clientHeight;
@@ -41,44 +51,49 @@ function drawOverlay(element, studyKey) {
 
     overlayData.forEach(data => {
         context.beginPath();
-        const graphicObjectSequence = data.graphicObjectSequence;
-        graphicObjectSequence.forEach(obj => {
-            const point = graphicObjectSequence.graphicData;
-            const CIE = graphicObjectSequence.lineStyleSequence.patternOnColorCIELabValue;
-            const color = cielabToRgb(CIE.color.l, CIE.color.a, CIE.color.b);
-            const graphicType = graphicObjectSequence.graphicType;
-            const numberOfPoint = graphicObjectSequence.numberOfGraphicPoints;
-            context.strokeStyle = color;
-            context.lineWidth = data.lineThickness;
+        const graphicObjectSequence = data.GraphicObjectSequence;
+        console.log(graphicObjectSequence);
+        if(!graphicObjectSequence) {
+            graphicObjectSequence.forEach(graphic => {
+                const point = graphic.GraphicData;
+                const CIE = graphic.LineStyleSequence.PatternOnColorCIELabValue;
+                const color = cielabToRgb(CIE.color.l, CIE.color.a, CIE.color.b);
+                const graphicType = graphic.GraphicType;
+                const numberOfPoint = graphic.NumberOfGraphicPoints;
+                context.strokeStyle = color;
+                context.lineWidth = graphic.LineThickness;
 
-            if (graphicType === 'POLYLINE') {
-                point.forEach((point, index) => {
-                    const x = point.column / canvas.width * canvas.clientWidth;
-                    const y = point.row / canvas.height * canvas.clientHeight;
-                    if (index === 0) {
-                        context.moveTo(x, y);
-                    } else {
-                        context.lineTo(x, y);
-                    }
-                });
-            } else if (graphicType === 'ELLIPSE') {
-                const [x0, y0] = [point[0].column, point[0].row];
-                const [x1, y1] = [point[1].column, point[1].row];
-                const rx = Math.abs(x1 - x0) / 2;
-                const ry = Math.abs(y1 - y0) / 2;
-                const cx = (x0 + x1) / 2;
-                const cy = (y0 + y1) / 2;
-                context.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
-            }
+                if (graphicType === 'POLYLINE') {
+                    point.forEach((point, index) => {
+                        const x = point.column / canvas.width * canvas.clientWidth;
+                        const y = point.row / canvas.height * canvas.clientHeight;
+                        if (index === 0) {
+                            context.moveTo(x, y);
+                        } else {
+                            context.lineTo(x, y);
+                        }
+                    });
+                } else if (graphicType === 'ELLIPSE') {
+                    const [x0, y0] = [point[0].column, point[0].row];
+                    const [x1, y1] = [point[1].column, point[1].row];
+                    const rx = Math.abs(x1 - x0) / 2;
+                    const ry = Math.abs(y1 - y0) / 2;
+                    const cx = (x0 + x1) / 2;
+                    const cy = (y0 + y1) / 2;
+                    context.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
+                }
 
-            context.stroke();
-        })
-
+                context.stroke();
+            })
+        }
 
     });
 
     element.appendChild(canvas);
 }
-const studyKey = 25;
-const overlay = document.getElementById('overlay');
-drawOverlay(overlay, studyKey);
+document.addEventListener("DOMContentLoaded", () => {
+    const studyKey = 25;
+    const overlay = document.getElementById('overlay');
+    drawOverlay(overlay, studyKey).then(err,console.log(err));
+
+})
