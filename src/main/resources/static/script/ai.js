@@ -81,4 +81,4 @@ function drawOverlay(element, studyKey) {
 }
 const studyKey = 25;
 const overlay = document.getElementById('overlay');
-await drawOverlay(overlay, studyKey);
+drawOverlay(overlay, studyKey);

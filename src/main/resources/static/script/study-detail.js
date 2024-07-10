@@ -242,13 +242,10 @@ const onload = async function (studyKey) {
 
                 viewportGrid.append(element);
             }
-
         }
-
         const renderMainImages = async function (row, column) {
             const total = row * column;
             const targetLength = imageIdsBySeries.length >= total ? total : imageIdsBySeries.length;
-
             const promises = [];
             for (let i = 0; i < targetLength; i++) {
                 const mainImageIds = imageIdsBySeries[i];
