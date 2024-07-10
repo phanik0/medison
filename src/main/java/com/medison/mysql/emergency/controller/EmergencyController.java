@@ -23,7 +23,6 @@ public class EmergencyController {
     public ModelAndView getEmergency() {
         ModelAndView mv = new ModelAndView("emergency");
         List<Map<String,Object>> emergencies = emergencyService.getEmergencyStudies();
-        System.out.println(emergencies.size());
         mv.addObject("emergencies", emergencies);
         return mv;
     }

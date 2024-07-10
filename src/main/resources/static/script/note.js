@@ -101,6 +101,5 @@ function cancel() {
 
 function MovePrintNote() {
     const studykey = document.getElementById('studykey').value;
-    const url = `http://localhost:8080/note/printNote/${studykey}`;
-    window.open(url, '_blank');
+    window.location.href = `/note/printNote/${studykey}`;
 }

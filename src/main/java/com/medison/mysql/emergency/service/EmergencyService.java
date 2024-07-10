@@ -9,6 +9,7 @@ import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -22,6 +23,7 @@ public class EmergencyService {
     private final StudyService studyService;
     private final ReportService reportService;
 
+    @Transactional
     public List<Emergency> createEmergency() {
         emergencyRepository.truncateTable();
         List<Study> studies = studyService.getAllStudy();

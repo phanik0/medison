@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     // Replace this with your actual API endpoint
-    const apiEndpoint = 'http://localhost:8080/statistics/modality';
+    const apiEndpoint = '/statistics/modality';
 
     // Fetch data from the API
     fetch(apiEndpoint)

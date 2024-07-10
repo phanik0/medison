@@ -14,9 +14,9 @@
 <c:if test="${emergency gt 0}">
     <script>
         const result = confirm(`현재 긴급사항이 ${emergency}개 존재합니다. 확인하시겠습니까?`);
-        <%
-            session.removeAttribute("emergency");
-        %>
+<%--        <%--%>
+<%--            session.removeAttribute("emergency");--%>
+<%--        %>--%>
         if (result) {
             location.href = '/emergency';
         }else{

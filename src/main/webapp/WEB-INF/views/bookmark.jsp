@@ -66,7 +66,7 @@
         }
 
         function redirectToStudy(studykey) {
-            window.location.href = 'http://localhost:8080/study/' + studykey;
+            window.location.href = '/study/' + studykey;
         }
     </script>
 

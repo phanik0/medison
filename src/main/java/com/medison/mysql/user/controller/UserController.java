@@ -52,11 +52,11 @@ public class UserController {
         RedirectView redirectView = new RedirectView();
         if (result != null) {
             session.setAttribute("user", result);
-            redirectView.setUrl("http://localhost:8080/admin");
+            redirectView.setUrl("/admin");
             return redirectView;
         } else{
             session.setAttribute("loginError", "loginError");
-            redirectView.setUrl("http://localhost:8080/user/login");
+            redirectView.setUrl("/user/login");
             return redirectView;
         }
     }

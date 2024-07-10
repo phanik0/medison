@@ -35,7 +35,9 @@ public class UserService {
         String id = "doc";
         String code = makeCode(userRequestDto);
         String year = getNowYear();
-        String departmentCode = userRequestDto.getDepartmentCode() / 10 == 0 ? "0" + userRequestDto.getDepartmentCode() : "" + userRequestDto.getDepartmentCode();
+        String departmentCode = userRequestDto.getDepartmentCode() / 10 == 0
+                ? "0" + userRequestDto.getDepartmentCode()
+                : "" + userRequestDto.getDepartmentCode();
         id += year + departmentCode + code;
         String initialPassword = id;
         userRequestDto.setPassword(initialPassword);
@@ -49,9 +51,6 @@ public class UserService {
         List<User> users = userRepository.findByDepartmentCodeOrderByRegDateDesc(userRequestDto.getDepartmentCode());
         User user;
         String lastIdByDepartmentCode;
-        for (int i = 0; i < users.size(); i++) {
-            System.out.println("index" + i + " : " + users.get(i).getId());
-        }
         if (users.size() < 1)
             lastIdByDepartmentCode = "doc0000000";
         else {
@@ -68,15 +67,12 @@ public class UserService {
             code += "0";
         }
         code += "" + targetCode;
-        System.out.println("make code : " + code);
         return code;
     }
 
     private String getNowYear() {
         LocalDate now = LocalDate.now();
-        // 포맷 정의
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yy");
-        // 포맷 적용
         String year = now.format(formatter);
         return year;
     }
@@ -124,9 +120,9 @@ public class UserService {
         User user = userRepository.findById(userRequestDto.getId()).orElseThrow(
                 () -> new RuntimeException("user not found")
         );
-        System.out.println("departmentCode : " + userRequestDto.getDepartmentCode());
-        System.out.println("position null? : " + userRequestDto.getPosition().isEmpty());
-        System.out.println("phone null? : " + userRequestDto.getPhone().isEmpty());
+        if(user==null){
+            return false;
+        }
         user.updateByTheAdmin(userRequestDto);
         return true;
     }
