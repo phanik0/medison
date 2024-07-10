@@ -234,8 +234,6 @@ const loadDicom = async function(studyKey) {
                 const filePath = image.path + image.fname;
                 const arrayBuffer = await loadFiles(filePath);
                 const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], { type: 'application/dicom' }))}`;
-                //wadors 서버에서 스트리밍방식 => 서버에서가져옴
-                // dicomweb 이거는 로컬에서가져옴
                 seriesImageIds.push(imageId);
             }
             imageIdsBySeries.push(seriesImageIds);
@@ -267,15 +265,13 @@ const loadDicom = async function(studyKey) {
                     orientation: Enums.OrientationAxis.AXIAL,
                 },
             }));
-
             renderingEngine.setViewports(viewportInput);
-
             for (let i = 0; i < viewportIds.length; i++) {
                 const viewport = renderingEngine.getViewport(viewportIds[i]);
-                viewport.setStack(imageIdsBySeries[i % imageIdsBySeries.length], 0); // Load images by series
+                viewport.setStack(imageIdsBySeries[i % imageIdsBySeries.length], 0);
             }
-
             renderingEngine.render();
+
             console.log("imageIdsBySeries : ",imageIdsBySeries);
 
             viewportGrid.addEventListener('dblclick', (event) => {
@@ -285,8 +281,6 @@ const loadDicom = async function(studyKey) {
                 setupImageScroll(imageIdsBySeries[targetIndex], event.target.parentElement.parentElement); // Flatten the image ID array for scrolling
                 loadMainImage(imageIdsBySeries[targetIndex],event.target.parentElement.parentElement);
             });
-
-
         }
     }
 };
