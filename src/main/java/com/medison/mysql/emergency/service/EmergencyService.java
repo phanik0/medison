@@ -25,7 +25,7 @@ public class EmergencyService {
 
     @Transactional
     public List<Emergency> createEmergency() {
-        emergencyRepository.truncateTable();
+        emergencyRepository.deleteAll();
         List<Study> studies = studyService.getAllStudy();
 
         List<Emergency> emergencies = checkAndCreate(studies);
