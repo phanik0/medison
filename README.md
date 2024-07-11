@@ -2,7 +2,7 @@
 
 ### 프로젝트 개요
 <p align="center">
-  <img src="https://github.com/iconew123/familiary-server/assets/163233482/51f137e0-d89f-484e-b887-d7ef9c6838a5">
+  <img src="https://github.com/phanik0/medison/assets/163233482/8981ab92-5029-484a-8d1d-14fdce731cf6">
 </p>
 
 
