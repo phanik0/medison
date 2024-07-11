@@ -109,7 +109,7 @@
         }
 
         function redirectToStudy(studykey) {
-            window.location.href = 'http://localhost:8080/study/' + studykey;
+            window.location.href = '/study/' + studykey;
         }
     </script>
 </head>
@@ -134,7 +134,7 @@
 
             <c:choose>
                 <c:when test="${userId eq 'admin'}">
-                    <button class="info-update" onClick="location.href='http://localhost:8080/admin/manage'">회원정보수정
+                    <button class="info-update" onClick="location.href='/admin/manage'">회원정보수정
                     </button>
                 </c:when>
                 <c:otherwise>
