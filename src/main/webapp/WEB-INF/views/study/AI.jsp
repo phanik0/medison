@@ -10,8 +10,9 @@
 
 <html>
 <head>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/script/ai.js"></script>
     <title>Title</title>
 </head>
@@ -19,9 +20,7 @@
 <div id="main-viewer">
     <!-- Main image viewer -->
     <div id="viewportGrid">
-        <div id="overlay">
-            <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>
-        </div>
+        <canvas id="overlay" style="width: 100%; height: 100%; background-color: #cccccc;"></canvas> <!-- Add the overlay canvas element -->
     </div>
 </div>
 </body>
