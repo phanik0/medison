@@ -21,13 +21,17 @@ public class ReadLog extends Timestamped {
     private String userPhone;
     private String userBirth;
     private String userAddress;
+    private String department;
+    private String position;
     private int studykey;
 
-    public void save(User user,int studykey) {
-        this.userName = user.getName();
-        this.userPhone = user.getPhone();
-        this.userBirth = user.getBirth();
-        this.userAddress = user.getAddress();
+    public void save(String userName,String userPhone,String userBirth,String userAddress,String department,String position,int studykey) {
+        this.userName = userName;
+        this.userPhone = userPhone;
+        this.userBirth = userBirth;
+        this.userAddress = userAddress;
+        this.department = department;
+        this.position = position;
         this.studykey = studykey;
     }
 }

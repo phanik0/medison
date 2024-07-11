@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
     <script src="${pageContext.request.contextPath}/script/report.js"></script>
+    <script src="${pageContext.request.contextPath}/script/handleStudypage.js"></script>
 </head>
 <body>
 <div class="main-content">
@@ -36,7 +37,7 @@
                     <c:set var="study" value="${item['study']}"/>
                     <c:set var="status" value="${item['status']}"/>
                     <tr class="clickable"
-                        onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')" ondblclick="location.href='/study/${study.studykey}'">
+                        onclick="showPatientDetails('${study.pid}'); showReportDetails('${study.studykey}')" ondblclick=handleDblClick('${study.studykey}','${user.id}')>
                         <td>${study.pid}</td>
                         <td>${study.pname}</td>
                         <td>${study.modality}</td>

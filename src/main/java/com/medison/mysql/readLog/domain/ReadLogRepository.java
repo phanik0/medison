@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ReadLogRepository extends JpaRepository<ReadLog, Integer> {
+    public boolean existsByStudykeyAndUserNameAndUserPhoneAndUserBirth(int studykey, String userName, String userPhone, String userBirth);
 }

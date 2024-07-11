@@ -77,10 +77,11 @@ body {
 }
 
 .btn-container {
+    width: 50%;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     gap: 20px;
-    margin-top: 20px;
+    margin: 20px auto 0 auto;
 }
 
 input[type="text"] {

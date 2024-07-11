@@ -1,24 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="javax.servlet.http.HttpServletRequest" %>
-<%@ page import="com.medison.mysql.user.dto.UserResponseDto" %>
-
-<%
-    HttpSession userSession = request.getSession(false);
-    if (userSession == null || userSession.getAttribute("user") == null) {
-        response.sendRedirect(request.getContextPath() + "/user/login");
-        return;
-    }
-
-    UserResponseDto user = (UserResponseDto) userSession.getAttribute("user");
-    String userId = user.getId();
-    String userName = user.getName();
-    String userPosition = user.getPosition();
-    int userDepartmentCode = user.getDepartmentCode();
-
-    session.setAttribute("userId", userId);
-%>
 
 <!DOCTYPE html>
 <html>
@@ -27,94 +8,17 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
-    <script src="${pageContext.request.contextPath}/script/patient.js"></script>
-    <script src="${pageContext.request.contextPath}/script/report.js"></script>
-    <script>
-        var userId = '<%= userId %>';
-        var userName = '<%= userName %>';
-        var userPosition = '<%= userPosition %>';
-        var userDepartmentCode = <%= userDepartmentCode %>;
-
-        function translatePosition(position) {
-            switch (position) {
-                case 'professor':
-                    return '교수';
-                case 'intern':
-                    return '인턴';
-                case 'fellow':
-                    return '펠로우';
-                case 'resident':
-                    return '레지던트';
-                default:
-                    return position;
-            }
-        }
-
-        $(function () {
-            $("#calendar").datepicker({
-                numberOfMonths: 1,
-                onSelect: function (dateText, inst) {
-                    if (!this.startDate) {
-                        this.startDate = dateText;
-                        $("#startDate").val(dateText);
-                    } else if (!this.endDate) {
-                        this.endDate = dateText;
-                        $("#endDate").val(dateText);
-                        this.startDate = null;
-                        this.endDate = null;
-                    }
-                }
-            });
-
-            $("#startDate, #endDate").datepicker({
-                dateFormat: "yy-mm-dd"
-            });
-
-            $("#searchForm").submit(function (event) {
-                const startDate = $("#startDate").datepicker("getDate");
-                const endDate = $("#endDate").datepicker("getDate");
-
-                if (startDate && endDate) {
-                    const formattedStartDate = $.datepicker.formatDate("yy-mm-dd", startDate);
-                    const formattedEndDate = $.datepicker.formatDate("yy-mm-dd", endDate);
-
-                    $("#startDate").val(formattedStartDate);
-                    $("#endDate").val(formattedEndDate);
-                }
-            });
-
-            document.getElementById('userName').textContent = userName;
-            document.getElementById('userPosition').textContent = translatePosition(userPosition);
-
-            loadUserBookmarks();
-        });
-
-        var clickTimer = null;
-
-        function handleClick(studykey, pid) {
-            if (clickTimer === null) {
-                clickTimer = setTimeout(function () {
-                    showPatientDetails(pid);
-                    showReportDetails(studykey);
-                    clickTimer = null;
-                }, 300); // 300ms 지연 시간 설정
-            } else {
-                clearTimeout(clickTimer);
-                clickTimer = null;
-                redirectToStudy(studykey);
-            }
-        }
-
-        function redirectToStudy(studykey) {
-            window.location.href = '/study/' + studykey;
-        }
-    </script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/script/bookmark.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/script/patient.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/script/report.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/script/handleStudypage.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/script/main.js"></script>
 </head>
 <body>
 <main>
+    <input id="user-value" type="hidden" data-user-id="${user.id}" data-user-name="${user.name}" data-user-position="${user.position}" data-user-department-code="${user.departmentCode}">
     <div class="sidebar">
         <form id="searchForm" action="/main" method="get">
             <div class="calendar" id="calendar"></div>
@@ -127,13 +31,12 @@
 
         <div class="member-info">
             <img src="${pageContext.request.contextPath}/image/profile.png" class="profile-image">
-            <p class="member-id"><%= userId %>
+            <p class="member-id">${user.id}
             </p>
             <p class="member-name"><span id="userName"> </span><span id="userPosition"></span></p>
-            <c:set var="userId" value="${sessionScope.userId}"/>
 
             <c:choose>
-                <c:when test="${userId eq 'admin'}">
+                <c:when test="${user.admin}">
                     <button class="info-update" onClick="location.href='/admin/manage'">회원정보수정
                     </button>
                 </c:when>
@@ -194,13 +97,13 @@
                     <c:set var="study" value="${item.study}"/>
                     <c:set var="bookmark" value="${bookmarks}"/>
                     <c:set var="status" value="${item.status}"/>
-                    <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
+                    <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');" ondblclick="handleDblClick('${study.studykey}','${user.id}')">
                         <td>
                             <button class="bookmark-btn ${bookmark != null ? 'bookmarked' : 'not-bookmarked'}"
                                     id="bookmarkButton${study.studykey}" data-study-key="${study.studykey}"
                                     data-code="${bookmark != null ? bookmark.code : ''}"
                                     data-bookmarked="${bookmark != null}"
-                                    onclick="event.stopPropagation(); toggleBookmark('${study.studykey}', '${bookmark != null ? bookmark.code : ''}');">${bookmark != null ? '⭐' : '☆'}</button>
+                                    >${bookmark != null ? '⭐' : '☆'}</button>
                         </td>
                         <td>${study.pid}</td>
                         <td>${study.pname}</td>
@@ -238,7 +141,7 @@
                 </c:if>
             </div>
             <div class="button-container">
-                <button onclick="location.href='/bookmark/myList?userId=<%= userId %>'">북마크 목록 보기</button>
+                <button onclick="location.href=`/bookmark/myList?userId=${user.id}`">북마크 목록 보기</button>
                 <button class="emergency-button" onclick="location.href='/emergency'">긴급관리</button>
             </div>
         </section>
