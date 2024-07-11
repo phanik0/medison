@@ -24,4 +24,9 @@ public class ReadLogService {
         }
         return true;
     }
+
+    public boolean exist(String userId,int studykey){
+        User user = userService.getUserById(userId);
+        return readLogRepository.existsByStudykeyAndUserNameAndUserPhoneAndUserBirth(studykey,user.getName(),user.getPhone(),user.getBirth());
+    }
 }

@@ -19,4 +19,9 @@ public class ReadLogController {
         return readLogService.save(userId, studykey);
     }
 
+    @PostMapping("/log/{studykey}/{userId}")
+    @ResponseBody
+    public boolean existLogByStudykeyAndUserId(@PathVariable int studykey, @PathVariable String userId) {
+        return readLogService.exist(userId,studykey);
+    }
 }
