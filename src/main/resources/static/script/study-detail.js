@@ -100,13 +100,12 @@ window.onload = async () => {
     })
         .then(response=>{
             if(response){
-                alert("출입 로그가 남았습니다.")
+                onload(studyKey);
             }else{
                 alert("로그 남기기 실패.")
                 window.location.href = '/main';
             }
         })
-    onload(studyKey);
 }
 
 const onload = async function (studyKey) {

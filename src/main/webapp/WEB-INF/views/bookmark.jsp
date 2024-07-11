@@ -28,48 +28,7 @@
     <script src="${pageContext.request.contextPath}/script/bookmark.js"></script>
     <script src="${pageContext.request.contextPath}/script/patient.js"></script>
     <script src="${pageContext.request.contextPath}/script/report.js"></script>
-    <script>
-        var userId = '<%= userId %>';
-        var userName = '<%= userName %>';
-        var userPosition = '<%= userPosition %>';
-        var userDepartmentCode = <%= userDepartmentCode %>;
-
-        function translatePosition(position) {
-            switch(position) {
-                case 'professor':
-                    return '교수';
-                case 'intern':
-                    return '인턴';
-                case 'fellow':
-                    return '펠로우';
-                case 'resident':
-                    return '레지던트';
-                default:
-                    return position;
-            }
-        }
-
-        var clickTimer = null;
-
-        function handleClick(studykey, pid) {
-            if (clickTimer === null) {
-                clickTimer = setTimeout(function () {
-                    showPatientDetails(pid);
-                    showReportDetails(studykey);
-                    clickTimer = null;
-                }, 300);
-            } else {
-                clearTimeout(clickTimer);
-                clickTimer = null;
-                redirectToStudy(studykey);
-            }
-        }
-
-        function redirectToStudy(studykey) {
-            window.location.href = '/study/' + studykey;
-        }
-    </script>
-
+    <script src="${pageContext.request.contextPath}/script/handleStudypage.js"></script>
 </head>
 <body>
 <main>
@@ -94,7 +53,7 @@
                     <c:forEach var="item" items="${bookmarkWithStudies}">
                         <c:set var="study" value="${item.study}" />
                         <c:set var="bookmark" value="${item.bookmark}" />
-                        <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');">
+                        <tr class="clickable" onclick="handleClick('${study.studykey}', '${study.pid}');" ondblclick=handleDblClick('${study.studykey}','${user.id}')>
                             <td>${bookmark.comments}</td>
 
                             <td>${study.pid}</td>
