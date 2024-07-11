@@ -1,4 +1,4 @@
-# FAMILIARY
+# MEDISON
 
 ### 프로젝트 개요
 <p align="center">
