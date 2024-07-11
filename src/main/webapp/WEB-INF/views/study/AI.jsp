@@ -20,7 +20,7 @@
 <div id="main-viewer">
     <!-- Main image viewer -->
     <div id="viewportGrid">
-        <canvas id="overlay"></canvas> <!-- Add the overlay canvas element -->
+        <canvas id="overlay" style="width: 100%; height: 100%; background-color: #cccccc;"></canvas> <!-- Add the overlay canvas element -->
     </div>
 </div>
 </body>
