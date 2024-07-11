@@ -26,7 +26,7 @@
 
 ### 활용 기술
 <p align="center">
-  <img src="https://github.com/iconew123/familiary-server/assets/163233482/eba094e6-4e99-4168-899f-2dcca5cfd399](https://github.com/phanik0/medison/assets/163233482/e7c36098-36ec-40a3-9c94-8b98bb456424">
+  <img src="https://github.com/phanik0/medison/assets/163233482/e7c36098-36ec-40a3-9c94-8b98bb456424">
 </p>
 
 * Back-End
