@@ -3,10 +3,15 @@ package com.medison.mysql.readLog.service;
 import com.medison.mysql.department.service.DepartmentService;
 import com.medison.mysql.readLog.domain.ReadLog;
 import com.medison.mysql.readLog.domain.ReadLogRepository;
+import com.medison.mysql.readLog.domain.ReadLogResponseDto;
 import com.medison.mysql.user.domain.User;
 import com.medison.mysql.user.service.UserService;
+import com.medison.pacs.study.service.StudyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -14,6 +19,8 @@ public class ReadLogService {
     private final ReadLogRepository readLogRepository;
     private final UserService userService;
     private final DepartmentService departmentService;
+    private final StudyService studyService;
+
 
     public boolean save(String userId,int studykey){
         User user = userService.getUserById(userId);
@@ -40,7 +47,7 @@ public class ReadLogService {
     }
 
 
-    public String parsePosition(User user){
+    private String parsePosition(User user){
         String userPosition="";
         String temp = user.getPosition();
         if(temp.equals("fellow")){
@@ -53,5 +60,15 @@ public class ReadLogService {
             userPosition = "교수";
         }
         return userPosition;
+    }
+
+    public List<ReadLogResponseDto> findAll(){
+        List<ReadLog> readLogs = readLogRepository.findAll();
+        List<ReadLogResponseDto> readLogResponseDtos = new ArrayList<>();
+        for(ReadLog readLog : readLogs){
+            ReadLogResponseDto readLogResponseDto = new ReadLogResponseDto(readLog);
+            readLogResponseDtos.add(readLogResponseDto);
+        }
+        return readLogResponseDtos;
     }
 }
