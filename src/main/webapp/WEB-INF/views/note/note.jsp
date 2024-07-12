@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td class="label">4. 병명</td>
-            <td colspan="3"><input class="value" type="text" value="${demoNote.disease}" /></td>
+            <td colspan="3"><input class="value" id="disease" type="text" value="${demoNote.disease}" /></td>
         </tr>
         <tr>
             <td class="label">5. 진료 기간</td>
@@ -86,8 +86,8 @@
     </table>
 </div>
 <div class="btn-container">
-    <button id="saveButton" onclick="confirmSave()">저장</button>
-    <button id="saveTempButton" onclick="saveTemporaryNote()">임시저장</button>
+    <button id="saveButton" >저장</button>
+    <button id="saveTempButton">임시저장</button>
     <button id="printButton" onclick="MovePrintNote()">출력</button>
     <button onclick="cancel()">취소</button>
 </div>
