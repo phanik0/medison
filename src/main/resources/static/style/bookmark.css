@@ -17,7 +17,7 @@ main {
 
 /* 북마크 테이블 스타일 */
 .result-section {
-    width: 120%; /* 테이블 영역을 넓힘 */
+    width: 100%; /* 테이블 영역을 넓힘 */
     margin-bottom: 20px;
 }
 
@@ -45,7 +45,7 @@ main {
 
 /* 각 컬럼의 기본 너비를 설정 (필요시 조정 가능) */
 .result-section th:nth-child(1), .result-section td:nth-child(1) {
-    width: 25%; /* 북마크 컬럼 */
+    width: 25%; /* comments 컬럼 */
 }
 
 .result-section th:nth-child(2), .result-section td:nth-child(2) {
@@ -53,31 +53,35 @@ main {
 }
 
 .result-section th:nth-child(3), .result-section td:nth-child(3) {
-    width: 7%; /* 환자 이름 컬럼 */
+    width: 9%; /* 환자 이름 컬럼 */
 }
 
 .result-section th:nth-child(4), .result-section td:nth-child(4) {
-    width: 5%; /* 검사 장비 컬럼 */
+    width: 6%; /* 검사 장비 컬럼 */
 }
 
 .result-section th:nth-child(5), .result-section td:nth-child(5) {
-    width: 15%; /* 검사 부위 컬럼 */
+    width: 20%; /* 검사 부위 컬럼 */
 }
 
 .result-section th:nth-child(6), .result-section td:nth-child(6) {
-    width: 8%; /* 검사 날짜 컬럼 */
+    width: 7%; /* 검사 날짜 컬럼 */
 }
 
 .result-section th:nth-child(7), .result-section td:nth-child(7) {
-    width: 8%; /* 판독 상태 컬럼 */
+    width: 7%; /* AI 컬럼 */
 }
 
 .result-section th:nth-child(8), .result-section td:nth-child(8) {
-    width: 5%; /* Verify 컬럼 */
+    width: 9%; /* 판독상태 컬럼 */
 }
 
 .result-section th:nth-child(9), .result-section td:nth-child(9) {
-    width: 10%; /* comments 컬럼 */
+    width: 5%; /* Verify 컬럼 */
+}
+
+.result-section th:nth-child(10), .result-section td:nth-child(10) {
+    width: 5%; /* comments 컬럼 */
 }
 
 /* 페이지네이션 스타일 */
