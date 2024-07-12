@@ -276,7 +276,7 @@ const onload = async function (studyKey) {
                 if (targetViewportId) {
                     const targetViewport = document.getElementById(targetViewportId);
                     if (targetViewport) {
-                        targetViewport.style.border = '1px solid #fff';
+                        targetViewport.style.border = '1px solid #ccc';
                     }
                 }
 
@@ -379,8 +379,6 @@ const onload = async function (studyKey) {
             if (annotationBox.style.display === 'none' || annotationBox.style.display === '') {
                 annotationBox.style.display = 'flex';
                 annotationBox.style.flexDirection = 'row';
-            } else {
-                annotationBox.style.display = 'none';
             }
         });
 
@@ -388,11 +386,21 @@ const onload = async function (studyKey) {
             const rowColumnBox = document.getElementById("check-row-column-by-series");
             if (rowColumnBox.style.display === 'none' || rowColumnBox.style.display === '') {
                 rowColumnBox.style.display = 'flex';
-            } else {
-                rowColumnBox.style.display = 'none';
             }
         });
 
+        document.getElementById("show-absolute-row-column").addEventListener('mouseleave',()=>{
+            const rowColumnBox = document.getElementById("check-row-column-by-series");
+            if (rowColumnBox.style.display === 'flex' ){
+                rowColumnBox.style.display = 'none';
+            }
+        })
+        document.getElementById("show-absolute-tools").addEventListener('mouseleave',()=>{
+            const annotationBox = document.getElementById("annotation-tool");
+            if (annotationBox.style.display === 'flex' ){
+                annotationBox.style.display = 'none';
+            }
+        })
     }
 }
 

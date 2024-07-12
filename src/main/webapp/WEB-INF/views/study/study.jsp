@@ -30,48 +30,52 @@
         <img class="tools" id="WindowLevel" src="https://cdn-icons-png.flaticon.com/128/12148/12148999.png">
         <img class="tools" id="PlanarRotate" src="https://cdn-icons-png.flaticon.com/128/4716/4716164.png">
     </div>
-    <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/8596/8596640.png">
-    <div id="annotation-tool">
-        <img class="tools" id="Length" src="https://cdn-icons-png.flaticon.com/128/6644/6644036.png">
-        <img class="tools" id="Angle" src="https://cdn-icons-png.flaticon.com/128/262/262070.png">
-        <img class="tools" id="Height" src="https://cdn-icons-png.flaticon.com/128/3789/3789467.png">
-        <img class="tools" id="Probe" src="https://cdn-icons-png.flaticon.com/128/6664/6664962.png">
-        <img class="tools" id="RectangleROI" src="https://cdn-icons-png.flaticon.com/128/54/54538.png">
-        <img class="tools" id="EllipticalROI" src="https://cdn-icons-png.flaticon.com/128/1598/1598853.png">
-        <img class="tools" id="CircleROI" src="https://cdn-icons-png.flaticon.com/128/60/60722.png">
-        <img class="tools" id="Bidirectional" src="https://cdn-icons-png.flaticon.com/128/657/657023.png">
-        <img class="tools" id="CobbAngle" src="https://cdn-icons-png.flaticon.com/128/715/715800.png">
-        <img class="tools" id="ArrowAnnotate" src="https://cdn-icons-png.flaticon.com/128/21/21112.png">
-        <img class="tools" id="Eraser" src="https://cdn-icons-png.flaticon.com/128/15109/15109444.png">
-        <img class="tools" id="PlanarFreehandROI" src="https://cdn-icons-png.flaticon.com/128/1828/1828911.png">
+    <div id="show-absolute-tools">
+        <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/8596/8596640.png">
+        <div id="annotation-tool">
+            <img class="tools" id="Length" src="https://cdn-icons-png.flaticon.com/128/6644/6644036.png">
+            <img class="tools" id="Angle" src="https://cdn-icons-png.flaticon.com/128/262/262070.png">
+            <img class="tools" id="Height" src="https://cdn-icons-png.flaticon.com/128/3789/3789467.png">
+            <img class="tools" id="Probe" src="https://cdn-icons-png.flaticon.com/128/6664/6664962.png">
+            <img class="tools" id="RectangleROI" src="https://cdn-icons-png.flaticon.com/128/54/54538.png">
+            <img class="tools" id="EllipticalROI" src="https://cdn-icons-png.flaticon.com/128/1598/1598853.png">
+            <img class="tools" id="CircleROI" src="https://cdn-icons-png.flaticon.com/128/60/60722.png">
+            <img class="tools" id="Bidirectional" src="https://cdn-icons-png.flaticon.com/128/657/657023.png">
+            <img class="tools" id="CobbAngle" src="https://cdn-icons-png.flaticon.com/128/715/715800.png">
+            <img class="tools" id="ArrowAnnotate" src="https://cdn-icons-png.flaticon.com/128/21/21112.png">
+            <img class="tools" id="Eraser" src="https://cdn-icons-png.flaticon.com/128/15109/15109444.png">
+            <img class="tools" id="PlanarFreehandROI" src="https://cdn-icons-png.flaticon.com/128/1828/1828911.png">
+        </div>
     </div>
-    <img id="row-column-button" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/3/3467.png">
-    <div id="check-row-column-by-series">
-        <div class="row-column-box" data-row="1" data-column="1"></div>
-        <div class="row-column-box" data-row="1" data-column="2"></div>
-        <div class="row-column-box" data-row="1" data-column="3"></div>
-        <div class="row-column-box" data-row="1" data-column="4"></div>
-        <div class="row-column-box" data-row="1" data-column="5"></div>
-        <div class="row-column-box" data-row="2" data-column="1"></div>
-        <div class="row-column-box" data-row="2" data-column="2"></div>
-        <div class="row-column-box" data-row="2" data-column="3"></div>
-        <div class="row-column-box" data-row="2" data-column="4"></div>
-        <div class="row-column-box" data-row="2" data-column="5"></div>
-        <div class="row-column-box" data-row="3" data-column="1"></div>
-        <div class="row-column-box" data-row="3" data-column="2"></div>
-        <div class="row-column-box" data-row="3" data-column="3"></div>
-        <div class="row-column-box" data-row="3" data-column="4"></div>
-        <div class="row-column-box" data-row="3" data-column="5"></div>
-        <div class="row-column-box" data-row="4" data-column="1"></div>
-        <div class="row-column-box" data-row="4" data-column="2"></div>
-        <div class="row-column-box" data-row="4" data-column="3"></div>
-        <div class="row-column-box" data-row="4" data-column="4"></div>
-        <div class="row-column-box" data-row="4" data-column="5"></div>
-        <div class="row-column-box" data-row="5" data-column="1"></div>
-        <div class="row-column-box" data-row="5" data-column="2"></div>
-        <div class="row-column-box" data-row="5" data-column="3"></div>
-        <div class="row-column-box" data-row="5" data-column="4"></div>
-        <div class="row-column-box" data-row="5" data-column="5"></div>
+    <div id="show-absolute-row-column">
+        <img id="row-column-button" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/3/3467.png">
+        <div id="check-row-column-by-series">
+            <div class="row-column-box" data-row="1" data-column="1"></div>
+            <div class="row-column-box" data-row="1" data-column="2"></div>
+            <div class="row-column-box" data-row="1" data-column="3"></div>
+            <div class="row-column-box" data-row="1" data-column="4"></div>
+            <div class="row-column-box" data-row="1" data-column="5"></div>
+            <div class="row-column-box" data-row="2" data-column="1"></div>
+            <div class="row-column-box" data-row="2" data-column="2"></div>
+            <div class="row-column-box" data-row="2" data-column="3"></div>
+            <div class="row-column-box" data-row="2" data-column="4"></div>
+            <div class="row-column-box" data-row="2" data-column="5"></div>
+            <div class="row-column-box" data-row="3" data-column="1"></div>
+            <div class="row-column-box" data-row="3" data-column="2"></div>
+            <div class="row-column-box" data-row="3" data-column="3"></div>
+            <div class="row-column-box" data-row="3" data-column="4"></div>
+            <div class="row-column-box" data-row="3" data-column="5"></div>
+            <div class="row-column-box" data-row="4" data-column="1"></div>
+            <div class="row-column-box" data-row="4" data-column="2"></div>
+            <div class="row-column-box" data-row="4" data-column="3"></div>
+            <div class="row-column-box" data-row="4" data-column="4"></div>
+            <div class="row-column-box" data-row="4" data-column="5"></div>
+            <div class="row-column-box" data-row="5" data-column="1"></div>
+            <div class="row-column-box" data-row="5" data-column="2"></div>
+            <div class="row-column-box" data-row="5" data-column="3"></div>
+            <div class="row-column-box" data-row="5" data-column="4"></div>
+            <div class="row-column-box" data-row="5" data-column="5"></div>
+        </div>
     </div>
 </div>
 <div id="thumbnail-list">
@@ -82,9 +86,9 @@
 <div id="main-viewer">
     <!-- Main image viewer -->
     <div id="viewportGrid">
-<%--        <div id="overlay">--%>
-<%--        <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>--%>
-<%--        </div>--%>
+        <%--        <div id="overlay">--%>
+        <%--        <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>--%>
+        <%--        </div>--%>
     </div>
 
 </div>
