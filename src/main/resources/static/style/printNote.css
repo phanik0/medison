@@ -7,7 +7,7 @@ body {
 
 .container {
     width: 210mm;
-    height: auto;
+    height: 297mm;
     margin: 0 auto;
     padding: 15px; /* 패딩을 50% 증가 */
     border: 1px solid #000;
@@ -102,10 +102,15 @@ body {
 @media print {
     .container {
         width: 210mm;
-        height: auto;
+        height: 297mm;
         padding: 15mm; /* 패딩 50% 증가 */
         border: none;
         page-break-after: always;
+    }
+
+    @page  {
+        size: auto;  /* auto is the initial value */
+        margin: 0;  /* this affects the margin in the printer settings */
     }
 }
 
