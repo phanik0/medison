@@ -44,6 +44,7 @@
     height: 100%;
     border: 1px solid #ccc;
     margin: 0.5%;
+    background-color: black;
 }
 
 .thumbnail img {
