@@ -15,6 +15,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/note.css">
     <script src="${pageContext.request.contextPath}/script/note.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>

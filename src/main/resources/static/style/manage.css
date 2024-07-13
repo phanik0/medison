@@ -4,12 +4,22 @@
     box-sizing: border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: 1920px;*/
+/*    margin: auto;*/
+/*}*/
+
+#main-content{
+    margin: 0px auto;
+    width: 80vw;
     display: flex;
     flex-direction: column;
-    width: 1200px;
-    margin: auto;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 .add-button:hover {
@@ -21,11 +31,10 @@ h1 {
 }
 
 .profile-container {
-    margin: auto;
     /* width: 1000px; */
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
     padding: 20px;
 }
 
@@ -214,4 +223,34 @@ h1 {
 
 .cancel-button:hover {
     background-color:#f72300;
+}
+
+/* manage.css */
+
+/* manage.css */
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    background-color: #003399;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.pagination button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination span {
+    font-size: 18px;
 }

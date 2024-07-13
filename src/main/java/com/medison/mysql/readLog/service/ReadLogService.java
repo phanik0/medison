@@ -63,7 +63,7 @@ public class ReadLogService {
     }
 
     public List<ReadLogResponseDto> findAll(){
-        List<ReadLog> readLogs = readLogRepository.findAll();
+        List<ReadLog> readLogs = readLogRepository.findByLogCodeGreaterThanOrderByRegDateDesc(1);
         List<ReadLogResponseDto> readLogResponseDtos = new ArrayList<>();
         for(ReadLog readLog : readLogs){
             ReadLogResponseDto readLogResponseDto = new ReadLogResponseDto(readLog);

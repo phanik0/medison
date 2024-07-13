@@ -1,0 +1,35 @@
+/* admin.css */
+#main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    margin: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.button-container button {
+    background-color: #004AAD;
+    border: 2px solid #004AAD;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    width: 150px; /* 버튼의 고정된 너비 */
+}
+
+.button-container button:hover {
+    background-color: #003A7D;
+    color: white;
+}
+
+.button-container button:focus {
+    outline: none;
+}
