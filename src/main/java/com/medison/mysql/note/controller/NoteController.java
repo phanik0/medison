@@ -6,6 +6,7 @@ import com.medison.mysql.note.dto.NoteRequestDto;
 import com.medison.mysql.note.service.NoteService;
 import com.medison.mysql.report.domain.Report;
 import com.medison.mysql.report.service.ReportService;
+import com.medison.mysql.user.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,6 @@ public class NoteController {
 
     @GetMapping("/{studykey}")
     public ModelAndView redirectToNote(@PathVariable int studykey) {
-
         Report report = reportService.getReportByStudyKey(studykey);
         if (report.getStatus() != 6) {
             return new ModelAndView("redirect:/main");
@@ -42,13 +42,13 @@ public class NoteController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveNote(@RequestBody NoteRequestDto noteRequest, HttpSession session) {
-        String userId = (String) session.getAttribute("userId"); // 세션에서 사용자 ID를 가져옴
-        if (userId == null) {
+        UserResponseDto user = (UserResponseDto) session.getAttribute("user"); // 세션에서 사용자 ID를 가져옴
+        if (user == null) {
             return ResponseEntity.status(401).body("로그인이 필요합니다.");
         }
 
         Report report = reportService.getReportByStudyKey(noteRequest.getStudykey());
-        if (!userId.equals(report.getFinalDoctor())) {
+        if (!user.getId().equals(report.getFinalDoctor())) {
             return ResponseEntity.status(403).body("최종 판독 의사만 노트를 저장할 수 있습니다.");
         }
 

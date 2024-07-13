@@ -44,6 +44,7 @@
                         <th>검사 장비</th>
                         <th>검사 부위</th>
                         <th>검사 날짜</th>
+                        <th>AI SCORE</th>
                         <th>판독 상태</th>
                         <th>Verify</th>
                         <th></th>
@@ -61,6 +62,7 @@
                             <td>${study.modality}</td>
                             <td>${study.studydesc}</td>
                             <td>${study.studydate}</td>
+                            <td>${study.aiScore}</td>
                             <td>
                                 <c:choose>
                                     <c:when test="${study.reportstatus == 3}">읽지않음</c:when>

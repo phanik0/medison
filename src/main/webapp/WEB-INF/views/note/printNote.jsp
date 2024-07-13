@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/printNote.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
-
+    <script src="${pageContext.request.contextPath}/script/print-note.js"></script>
 </head>
 <body>
 <div class="content-container">
@@ -86,37 +86,5 @@
         <div class="note">※ 본서에 본원의 직인이 없으면 무효임.</div>
     </div>
 </div>
-<script>
-    function printNote() {
-        const noteContent = document.getElementById('noteContent');
-
-        html2canvas(noteContent, {
-            useCORS: true,
-            scale: 2
-        }).then(canvas => {
-            const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF({
-                orientation: 'portrait',
-                unit: 'mm',
-                format: 'a4'
-            });
-            const imgWidth = 210; // A4 width in mm
-            const pageHeight = 297; // A4 height in mm
-            const imgHeight = canvas.height * imgWidth / canvas.width;
-
-            // If the image height exceeds the page height, scale it down
-            const scale = Math.min(1, pageHeight / imgHeight);
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth * scale, imgHeight * scale);
-
-            pdf.save('note.pdf');
-        }).catch(error => {
-            console.error('Error capturing the note content:', error);
-        });
-    }
-    // Call the print function when the page loads
-    window.onload = function() {
-        printNote();
-    }
-</script>
 </body>
 </html>

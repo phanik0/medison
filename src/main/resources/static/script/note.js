@@ -47,7 +47,7 @@ function handleSave(status) {
         alert('병명, 검사 소견, 진료의사 의견 및 향후 치료 의견을 입력해 주세요.');
         return;
     }
-
+    console.log("status : ",status)
     saveNoteWithStatus(status);
 }
 
@@ -61,8 +61,9 @@ function validateNoteFields() {
 }
 
 function saveNoteWithStatus(status) {
+    console.log("in saveNoteWithStatus")
     const noteData = {
-        studykey: document.getElementById('studykey').value,
+        studykey: parseInt(document.getElementById('studykey').value),
         status: status,
         finalDoctor: document.getElementById('finalDoctor').value,
         patientCode: document.getElementById('patientCode').value,

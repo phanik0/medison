@@ -1,5 +1,5 @@
 #thumbnail-list {
-    margin-left: 100px;
+    margin-left: 50px;
     padding: 20px;
     width:15%;
     display: flex;
@@ -8,9 +8,10 @@
     gap: 20px;
     float: left;
     overflow-y: auto;
-    background-color: #333;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
     border-radius: 10px;
-    color: #fff;
+    /*color: #fff;*/
     height: 100vh;
 }
 .thumbnail {
@@ -19,11 +20,13 @@
     margin-bottom: 5px;
 }
 #main-viewer {
-    width: 74%;
+    width: 79%;
     height: 100vh;
-    margin-right: 100px;
+    margin-right: 50px;
+
     float: right;
-    background-color: #000;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
     border-radius: 5px;
 }
 
@@ -39,8 +42,9 @@
 .viewport {
     width: 100%;
     height: 100%;
-    border: 1px solid #fff;
+    border: 1px solid #ccc;
     margin: 0.5%;
+    background-color: black;
 }
 
 .thumbnail img {
@@ -59,10 +63,14 @@
     width: 170px;
     height: 170px;
     gap: 3px;
+    background-color: #ccc;
     border: 1px solid lightgrey;
     border-radius: 5px;
     padding: 3px;
-
+    position: absolute;
+    left: 510px;
+    top:50px;
+    z-index: 1;
 }
 
 .row-column-box{
@@ -84,7 +92,7 @@
     height: 40px;
     padding: 5px;
     border-radius: 5px;
-    filter: invert(100%);
+    /*filter: invert(100%);*/
 }
 
 .tools:not(#Probe,#Bidirectional,#PlanarFreehandROI){
@@ -99,22 +107,28 @@
 #annotation-tool{
     width: 250px;
     display: flex;
-    border: 1px solid lightgrey;
-    background-color: dimgrey;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
     border-radius: 5px;
     flex-direction: row;
     flex-wrap: wrap;
     padding: 10px;
     margin-right: 20px;
+    position: absolute;
+    left: 450px;
+    top:50px;
+    z-index: 1;
 }
 
 #top-bar{
-    margin: 10px 100px 10px 100px;
+    margin: 10px 50px;
     padding: 10px;
     display: flex;
     flex-direction: row;
+    border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #333333;
+    background-color: #f9f9f9;
+    position: relative;
 }
 
 .tool-button{
@@ -123,7 +137,7 @@
     padding: 5px;
     border-radius: 5px;
     margin-right: 20px;
-    filter: invert(100%);
+    /*filter: invert(100%);*/
 }
 
 .tool-button:hover{
