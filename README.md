@@ -61,7 +61,7 @@
 
   * 회원 로그인 & 로그아웃 <br/>
    <p align="center">
-  <img width="1000" height="600" src="https://github.com/user-attachments/assets/96bf169c-b55b-4c5f-8a83-08a0a28ce496">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/614765f9-07e1-4a3c-b479-eb414081b4a6">
 </p>
       
   * 회원 생성 & 수정 & 삭제<br/>
