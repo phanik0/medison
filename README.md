@@ -75,7 +75,7 @@
 
 * 긴급 Alert창 & 긴급관리 페이지<br/>
  <p align="center">
-  <img width="1000" height="600" src="https://github.com/user-attachments/assets/ac51038d-1652-439e-afd1-f3db9fa47d28">
+  <img width="600" height="325" src="https://github.com/user-attachments/assets/ac51038d-1652-439e-afd1-f3db9fa47d28">
 </p>
 
 
