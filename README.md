@@ -58,28 +58,26 @@
 
 ### 데모
 #### 회원관리
+
+  * 회원 로그인 & 로그아웃 <br/>
+   <p align="center">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/96bf169c-b55b-4c5f-8a83-08a0a28ce496">
+</p>
       
   * 회원 생성 & 수정 & 삭제<br/>
    <p align="center">
   <img width="1000" height="600" src="">
 </p>
 
-  * 회원 로그인 <br/>
-   <p align="center">
-  <img width="1000" height="600" src="">
-</p>
+
 
 #### 긴급 관리
 
-* 긴급 Alert창 <br/>
+* 긴급 Alert창 & 긴급관리 페이지<br/>
  <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/ac51038d-1652-439e-afd1-f3db9fa47d28">
 </p>
 
-
-* 긴급관리 페이지<br/>
- <p align="center">
-  <img width="1000" height="600" src="">
 
 #### 북마크
 * 메인페이지(등록, 삭제)<br/>
