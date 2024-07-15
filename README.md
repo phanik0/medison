@@ -75,7 +75,7 @@
 
 * 긴급 Alert창 & 긴급관리 페이지<br/>
  <p align="center">
-  <img width="600" height="325" src="https://github.com/user-attachments/assets/c0921e64-9a54-4cd0-a8a0-1c433a922319">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/c0921e64-9a54-4cd0-a8a0-1c433a922319">
 </p>
 
 
@@ -96,7 +96,7 @@
 
 * 검색 기능<br/>
 <p align="center">
-  <img width="900" height="600" src="https://github.com/user-attachments/assets/03fc9df2-1b2f-41a1-bcd7-79b3456e175c">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/03fc9df2-1b2f-41a1-bcd7-79b3456e175c">
 </p>
 
 
@@ -106,13 +106,13 @@
 
   * 메인페이지 (리포트 작성)<br/>
  <p align="center">
-  <img width="900" height="600" src="https://github.com/user-attachments/assets/010c7f8e-df6c-4618-9986-0aea00767061">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/010c7f8e-df6c-4618-9986-0aea00767061">
 </p>
 
 
   * 상세페이지 (리포트 작성)<br/>
    <p align="center">
-  <img width="900" height="600" src="">
+  <img width="1000" height="600" src="">
 </p>
 
 
@@ -120,13 +120,13 @@
 #### 소견서 기능
   * 소견서 작성<br/>
   <p align="center">
-  <img width="900" height="600" src="">
+  <img width="1000" height="600" src="">
 </p>
 
 
   * 소견서 출력<br/>
    <p align="center">
-  <img width="900" height="600" src="">
+  <img width="1000" height="600" src="">
 </p>
 
 
