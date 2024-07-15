@@ -75,20 +75,20 @@
 
 * 긴급 Alert창 & 긴급관리 페이지<br/>
  <p align="center">
-  <img width="600" height="325" src="https://github.com/user-attachments/assets/ac51038d-1652-439e-afd1-f3db9fa47d28">
+  <img width="600" height="325" src="https://github.com/user-attachments/assets/c0921e64-9a54-4cd0-a8a0-1c433a922319">
 </p>
 
 
 #### 북마크
 * 메인페이지(등록, 삭제)<br/>
  <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/c077580b-819d-46fd-8fef-edd72bbf29c3">
 </p>
 
 
 * 북마크 페이지 (코멘트 확인, 삭제)<br/>
  <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/bea6a990-5801-4600-99f7-d9480c5077a7">
 </p>
 
 
@@ -96,9 +96,8 @@
 
 * 검색 기능<br/>
 <p align="center">
-  <img width="900" height="600" src="">
+  <img width="900" height="600" src="https://github.com/user-attachments/assets/03fc9df2-1b2f-41a1-bcd7-79b3456e175c">
 </p>
-
 
 
 
@@ -107,7 +106,7 @@
 
   * 메인페이지 (리포트 작성)<br/>
  <p align="center">
-  <img width="900" height="600" src="">
+  <img width="900" height="600" src="https://github.com/user-attachments/assets/010c7f8e-df6c-4618-9986-0aea00767061">
 </p>
 
 
@@ -125,7 +124,7 @@
 </p>
 
 
-  * 소견서 PDF 저장<br/>
+  * 소견서 출력<br/>
    <p align="center">
   <img width="900" height="600" src="">
 </p>
