@@ -43,3 +43,26 @@ header button:hover {
 header button:focus {
     outline: none;
 }
+footer {
+    background-color: #f9f9f9;
+    color: black;
+    padding: 20px;
+    text-align: center;
+}
+footer p {
+    margin: 10px 0;
+}
+footer a {
+    color: black; /* 링크 색상 변경 */
+    text-decoration: none;
+    margin-left: 10px;
+}
+.github-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.contact-info {
+    display: inline-block;
+    margin: 0 15px;
+}
