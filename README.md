@@ -132,3 +132,43 @@
 
 
 #### 상세보기 기능
+  * 확대 축소<br/>
+   <p align="center">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/ebe0f89b-e1ac-4d7a-9d15-52336c347765">
+</p>
+
+
+  * 돋보기<br/>
+   <p align="center">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/d6f84b0c-1994-437c-9271-9d430e944f64">
+</p>
+
+
+  * 이동<br/>
+   <p align="center">
+  <img width="1000" height="600" src="">
+</p>
+
+
+  * 밝기 조절<br/>
+   <p align="center">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/358f4522-b316-41f1-8883-82f45ad4d25a">
+</p>
+
+
+  * 회전<br/>
+   <p align="center">
+  <img width="1000" height="600" src="">
+</p>
+
+
+  * 주석<br/>
+   <p align="center">
+  <img width="1000" height="600" src="">
+</p>
+
+
+  * 그리드<br/>
+   <p align="center">
+  <img width="1000" height="600" src="">
+</p>
