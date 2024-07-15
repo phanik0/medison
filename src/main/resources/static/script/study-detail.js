@@ -95,13 +95,13 @@ const init = async () => {
 window.onload = async () => {
     const studyKey = document.getElementById('studyKey').value; // studyKey 값 가져오기
     const userId = document.getElementById('userId').value;
-    await fetch(`/log?userId=${userId}&studykey=${studyKey}`,{
-        method:'POST',
+    await fetch(`/log?userId=${userId}&studykey=${studyKey}`, {
+        method: 'POST',
     })
-        .then(response=>{
-            if(response){
+        .then(response => {
+            if (response) {
                 onload(studyKey);
-            }else{
+            } else {
                 alert("로그 남기기 실패.")
                 window.location.href = '/main';
             }
@@ -134,27 +134,102 @@ const onload = async function (studyKey) {
         const mainRenderingEngineId = "mainRenderingEngine";
         const mainRenderingEngine = new RenderingEngine(mainRenderingEngineId);
 
+        const getMetaDatas = function (arrayBuffer) {
+            const DICOM_TAGS = {
+                PatientName: 'x00100010',
+                PatientID: 'x00100020',
+                StudyDate: 'x00080020',
+                Modality: 'x00080060',
+                StudyDescription: 'x00081030',
+                SeriesDescription: 'x0008103E',
+                StudyInstanceUID: 'x0020000D',
+                SeriesInstanceUID: 'x0020000E',
+                StudyID: 'x00200010',
+                SeriesNumber: 'x00200011',
+                InstanceNumber: 'x00200013',
+                PatientBirthDate: 'x00100030',
+                PatientSex: 'x00100040'
+            };
+
+            const byteArray = new Uint8Array(arrayBuffer);
+
+            let metaData;
+
+            try {
+                const dataSet = dicomParser.parseDicom(byteArray);
+
+                const patientName = dataSet.string(DICOM_TAGS.PatientName);
+                const patientID = dataSet.string(DICOM_TAGS.PatientID);
+                const studyDate = dataSet.string(DICOM_TAGS.StudyDate);
+                const modality = dataSet.string(DICOM_TAGS.Modality);
+                const studyDescription = dataSet.string(DICOM_TAGS.StudyDescription);
+                const seriesDescription = dataSet.string(DICOM_TAGS.SeriesDescription);
+                const studyInstanceUID = dataSet.string(DICOM_TAGS.StudyInstanceUID);
+                const seriesInstanceUID = dataSet.string(DICOM_TAGS.SeriesInstanceUID);
+                const studyID = dataSet.string(DICOM_TAGS.StudyID);
+                const seriesNumber = dataSet.intString(DICOM_TAGS.SeriesNumber);
+                const instanceNumber = dataSet.intString(DICOM_TAGS.InstanceNumber);
+                const patientBirthDate = dataSet.string(DICOM_TAGS.PatientBirthDate);
+                const patientSex = dataSet.string(DICOM_TAGS.PatientSex);
+
+                metaData = {
+                    "patientName": patientName,
+                    "patientID": patientID,
+                    "studyDate": studyDate,
+                    "modality": modality,
+                    "studyDescription": studyDescription,
+                    "seriesDescription": seriesDescription,
+                    "patientBirthDate": patientBirthDate,
+                    "patientSex": patientSex,
+                    "studyID": studyID,
+                    "seriesNumber": seriesNumber,
+                }
+
+            } catch (error) {
+                console.error('parseError');
+            }
+            return metaData;
+        }
+
         const createImageBySeries = async function () {
             const imageIdsBySeries = [];
+            const metaDatasBySeries = [];
+
             const promises = studyInfo.map(async (series) => {
                 const seriesImageIds = [];
+                const seriesMetaDatas = [];
                 for (const image of series) {
                     const filePath = image.path + image.fname;
                     const arrayBuffer = await loadFiles(filePath);
+
+                    const metaData = getMetaDatas(arrayBuffer);
                     const imageId = `dicomweb:${URL.createObjectURL(new Blob([arrayBuffer], {type: 'application/dicom'}))}`;
+
+                    seriesMetaDatas.push(metaData);
                     seriesImageIds.push(imageId);
                 }
+                metaDatasBySeries.push(seriesMetaDatas);
                 imageIdsBySeries.push(seriesImageIds);
             });
             await Promise.all(promises);
-            return imageIdsBySeries;
+
+            const allData = {
+                "imageIds": imageIdsBySeries,
+                "metaDatas": metaDatasBySeries
+            }
+
+            return allData;
         }
 
-        const imageIdsBySeries = await createImageBySeries();
+        const allData = await createImageBySeries();
+
+        const imageIdsBySeries = allData.imageIds;
+        const metaDatasBySeries = allData.metaDatas;
+        console.log(metaDatasBySeries);
         // 썸네일 랜더링
         const thumnailRenderingEngine = new RenderingEngine('thumbnailRenderingEngine');
 
-        const renderImageInViewport = async function (viewportId, images, renderingEngine) {
+        const renderImageInViewport = async function (viewportId, images, renderingEngine,index=0) {
             renderingEngine.enableElement({
                 viewportId: viewportId,
                 element: document.getElementById(viewportId),
@@ -173,6 +248,69 @@ const onload = async function (studyKey) {
             targetViewport.setStack(images);
             cornerstoneTools.utilities.stackPrefetch.enable(targetViewport.element);
             await targetViewport.render();
+
+            if (renderingEngine.id === mainRenderingEngineId) {
+
+                if(document.getElementById(viewportId+"_patientInfo")){
+                    document.getElementById(viewportId+"_patientInfo").remove();
+                    document.getElementById(viewportId+"_studyInfo").remove();
+                    document.getElementById(viewportId+"_seriesInfo").remove();
+                }
+                const metaData = metaDatasBySeries[index][0];
+                const targetElement = document.getElementById(viewportId).firstElementChild;
+
+                const patientInfo = document.createElement('div');
+                patientInfo.setAttribute('id',viewportId+"_patientInfo");
+                patientInfo.setAttribute('class',"info");
+                patientInfo.innerHTML = `<span>PID : ${metaData.patientID}</span>
+                                    <span>PNAME : ${metaData.patientName}</span>
+                                    <span>PSEX : ${metaData.patientSex}</span>
+                                <span>PBIRTH : ${metaData.patientBirthDate}</span>`;
+                patientInfo.style.position = 'absolute';
+                patientInfo.style.display = "flex";
+                patientInfo.style.flexDirection = "column";
+                patientInfo.style.top = "10px";
+                patientInfo.style.left = "10px";
+                patientInfo.style.zIndex = "1";
+                patientInfo.style.color = 'white';
+
+                targetElement.appendChild(patientInfo);
+
+                const studyInfo  = document.createElement('div');
+                studyInfo.setAttribute('class',"info");
+                studyInfo.setAttribute('id',viewportId+"_studyInfo");
+                studyInfo.innerHTML = `<span>STUDYDATE : ${metaData.studyDate}</span>
+                                    <span>STUDYID : ${metaData.studyID}</span>
+                                    <span>MODALITY : ${metaData.modality}</span>
+                                    <span>STUDYDESCRIPTION : ${metaData.studyDescription}</span>
+                                `;
+                studyInfo.style.position = 'absolute';
+                studyInfo.style.display = "flex";
+                studyInfo.style.flexDirection = "column";
+                studyInfo.style.top = "10px";
+                studyInfo.style.right = "10px";
+                studyInfo.style.zIndex = "1";
+                studyInfo.style.color = 'white';
+
+                targetElement.appendChild(studyInfo);
+
+                const seriesInfo  = document.createElement('div');
+                seriesInfo.setAttribute('class',"info");
+                seriesInfo.setAttribute('id',viewportId+"_seriesInfo")
+                seriesInfo.innerHTML = `<span>SERIESNUM : ${metaData.seriesNumber}</span>
+                                    <span>SERIESDESCRIPTION : ${metaData.seriesDescription}</span>
+                                `;
+                seriesInfo.style.position = 'absolute';
+                seriesInfo.style.display = "flex";
+                seriesInfo.style.flexDirection = "column";
+                seriesInfo.style.bottom = "10px";
+                seriesInfo.style.left = "10px";
+                seriesInfo.style.zIndex = "1";
+                seriesInfo.style.color = 'white';
+
+                targetElement.appendChild(seriesInfo);
+
+            }
         }
 
         for (let i = 0; i < imageIdsBySeries.length; i++) {
@@ -188,7 +326,7 @@ const onload = async function (studyKey) {
 
             const p = document.createElement('p');
             p.style.fontSize = '12px';
-            p.innerHTML = `시리즈 번호 : ${i+1}`;
+            p.innerHTML = `시리즈 번호 : ${metaDatasBySeries[i][0].seriesNumber}`;
 
             seriesDiv.style.display = 'flex';
             seriesDiv.style.flexDirection = 'column';
@@ -249,7 +387,7 @@ const onload = async function (studyKey) {
             for (let i = 0; i < targetLength; i++) {
                 const mainImageIds = imageIdsBySeries[i];
                 const mainViewportId = 'CT_' + i;
-                promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine));
+                promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine,i));
             }
             await Promise.all(promises);
         }
@@ -259,7 +397,7 @@ const onload = async function (studyKey) {
             await renderMainImages(row, column);
             const targetViewport = document.getElementById(targetViewportId);
             if (targetViewport) {
-                targetViewport.style.border = '1px solid red';
+                targetViewport.style.border = '3px solid red';
             }
         }
 
@@ -269,7 +407,7 @@ const onload = async function (studyKey) {
             if (event.target.id === "viewportGrid")
                 return;
 
-            if (event.target.nodeName === "CANVAS") {
+            if (event.target.nodeName === "CANVAS"||event.target.className==="info") {
                 const targetElement = event.target.parentElement.parentElement;
                 const targetUid = targetElement.dataset.viewportUid;
 
@@ -280,10 +418,27 @@ const onload = async function (studyKey) {
                     }
                 }
 
-                targetElement.style.border = '1px solid red';
+                targetElement.style.border = '3px solid red';
 
                 targetViewportId = targetUid;
-            } else {
+            }else if(event.target.nodeName ==="SPAN"){
+
+                const targetElement = event.target.parentElement.parentElement.parentElement;
+                const targetUid = targetElement.dataset.viewportUid;
+
+                if (targetViewportId) {
+                    const targetViewport = document.getElementById(targetViewportId);
+                    if (targetViewport) {
+                        targetViewport.style.border = '1px solid #ccc';
+                    }
+                }
+
+                targetElement.style.border = '3px solid red';
+
+                targetViewportId = targetUid;
+
+            }
+            else {
                 if (targetViewportId) {
                     const targetViewport = document.getElementById(targetViewportId);
                     if (targetViewport) {
@@ -291,7 +446,7 @@ const onload = async function (studyKey) {
                     }
                 }
                 targetViewportId = event.target.id;
-                document.getElementById(targetViewportId).style.border = '1px solid red';
+                document.getElementById(targetViewportId).style.border = '3px solid red';
             }
         });
 
@@ -301,7 +456,7 @@ const onload = async function (studyKey) {
                 const thumnailUID = e.target.parentElement.parentElement.dataset.viewportUid;
 
                 const wishIndex = parseInt(thumnailUID.slice(basicThumbnailViewportUID.length, thumnailUID.length));
-                renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine);
+                renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine,wishIndex);
             }
         });
 
@@ -389,15 +544,15 @@ const onload = async function (studyKey) {
             }
         });
 
-        document.getElementById("show-absolute-row-column").addEventListener('mouseleave',()=>{
+        document.getElementById("show-absolute-row-column").addEventListener('mouseleave', () => {
             const rowColumnBox = document.getElementById("check-row-column-by-series");
-            if (rowColumnBox.style.display === 'flex' ){
+            if (rowColumnBox.style.display === 'flex') {
                 rowColumnBox.style.display = 'none';
             }
         })
-        document.getElementById("show-absolute-tools").addEventListener('mouseleave',()=>{
+        document.getElementById("show-absolute-tools").addEventListener('mouseleave', () => {
             const annotationBox = document.getElementById("annotation-tool");
-            if (annotationBox.style.display === 'flex' ){
+            if (annotationBox.style.display === 'flex') {
                 annotationBox.style.display = 'none';
             }
         })
