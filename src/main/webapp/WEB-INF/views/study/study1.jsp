@@ -5,19 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/study.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/study1.css">
     <script src="${pageContext.request.contextPath}/dist/bundle.js"></script>
 </head>
 <jsp:include page="../module/header.jsp"></jsp:include>
 <body>
-<c:choose>
-    <c:when test="${empty user}">
-        <c:redirect url="/user/login"></c:redirect>
-    </c:when>
-    <c:otherwise>
-        <input type="hidden" id="userId" value="${user.id}">
-    </c:otherwise>
-</c:choose>
 
 <div id="top-bar">
     <img class="tool-button" id="work-list" src="https://cdn-icons-png.flaticon.com/128/14203/14203876.png"
@@ -85,11 +77,12 @@
 </div>
 <div id="main-viewer">
     <!-- Main image viewer -->
-    <div id="overlay">
-    </div>
+    <div id="overlay"></div>
+
     <div id="viewportGrid">
     </div>
 </div>
+
 <input type="hidden" id="studyKey" value="${study.studykey}">
 
 
