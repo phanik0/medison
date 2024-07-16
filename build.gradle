@@ -53,7 +53,6 @@ dependencies {
 
     implementation 'com.itextpdf:itext7-core:7.2.0'
 }
-
 tasks.named('test') {
     useJUnitPlatform()
 }
@@ -68,7 +67,7 @@ tasks.withType(AbstractArchiveTask) {
 
 tasks.register('webpackBuild', Exec) {
     workingDir = file('src/main/resources/static')
-    commandLine 'npm.cmd', 'run', 'build'
+    commandLine 'npm.cmd', 'run', 'build' // Windows에서 npm.cmd, Unix 계열에서 npm
     environment 'PATH', System.getenv('PATH')
     inputs.dir 'src/main/resources/static'
     outputs.dir 'build/resources/main/static'
@@ -80,11 +79,17 @@ tasks.register('webpackBuild', Exec) {
     }
 }
 
-//processResources.dependsOn tasks.named('webpackBuild')
-processResources {
+tasks.processResources {
     inputs.files fileTree('src/main/resources/static')
     outputs.dir file('build/resources/main/static')
     dependsOn tasks.named('webpackBuild')
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    exclude '**/excluded-folder/**'
+    exclude '**/*.tmp'
+    from('src/main/resources') {
+        include '**/*.properties', '**/*.xml'
+        exclude '**/*.tmp'
+    }
     doFirst {
         println 'Processing resources...'
     }
@@ -92,12 +97,24 @@ processResources {
 
 gradle.taskGraph.whenReady { taskGraph ->
     if (taskGraph.hasTask(':processResources')) {
-        processResources {
+        tasks.processResources {
             inputs.files fileTree('src/main/resources/static') {
-                include '**/*.js', '**/*.html', '**/*.css'  // 필요한 파일만 포함
+                include '**/*.js', '**/*.html', '**/*.css' // 필요한 파일만 포함
             }
         }
     }
+}
+
+task copyResources(type: Copy) {
+    from 'src/main/resources'
+    into "$buildDir/resources/main"
+    include '**/*.properties', '**/*.xml'
+    exclude '**/*.tmp'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.processResources {
+    dependsOn copyResources
 }
 
 tasks.withType(JavaCompile) {
