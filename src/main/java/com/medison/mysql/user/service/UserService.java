@@ -22,7 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public List<UserResponseDto> getUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findByAdminFalseOrderByRegDateDesc();
         List<UserResponseDto> responseDtos = new ArrayList<>();
         for (User user : users) {
             responseDtos.add(new UserResponseDto(user, ActionType.VIEW));

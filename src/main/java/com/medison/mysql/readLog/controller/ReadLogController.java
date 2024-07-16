@@ -26,11 +26,22 @@ public class ReadLogController {
         return readLogService.exist(userId,studykey);
     }
 
+//    @GetMapping("/log")
+//    public ModelAndView getAllLog() {
+//        ModelAndView mv = new ModelAndView("user/adminLogCheckPage");
+//        List<ReadLogResponseDto> response = readLogService.findAll();
+//        mv.addObject("readLog", response);
+//        return mv;
+//    }
+
     @GetMapping("/log")
-    public ModelAndView getAllLog() {
-        ModelAndView mv = new ModelAndView("user/adminLogCheckPage");
-        List<ReadLogResponseDto> response = readLogService.findAll();
-        mv.addObject("readLog", response);
-        return mv;
+    public String logPage() {
+        return "user/adminLogCheckPage";
+    }
+
+    @ResponseBody
+    @GetMapping("/log/list")
+    public List<ReadLogResponseDto> getAllLog() {
+        return readLogService.findAll();
     }
 }

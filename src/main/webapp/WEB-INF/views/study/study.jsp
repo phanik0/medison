@@ -19,79 +19,81 @@
     </c:otherwise>
 </c:choose>
 
-<div id="top-bar">
-    <img class="tool-button" id="work-list" src="https://cdn-icons-png.flaticon.com/128/14203/14203876.png"
-         onclick="location.href='/main'">
-    <div id="pure-tool">
-        <img class="tools" id="StackScroll" src="https://cdn-icons-png.flaticon.com/128/482/482824.png">
-        <img class="tools" id="Zoom" src="https://cdn-icons-png.flaticon.com/128/8249/8249218.png">
-        <img class="tools" id="Magnify" src="https://cdn-icons-png.flaticon.com/128/16/16492.png">
-        <img class="tools" id="Pan" src="https://cdn-icons-png.flaticon.com/128/25/25476.png">
-        <img class="tools" id="WindowLevel" src="https://cdn-icons-png.flaticon.com/128/12148/12148999.png">
-        <img class="tools" id="PlanarRotate" src="https://cdn-icons-png.flaticon.com/128/4716/4716164.png">
-    </div>
-    <div id="show-absolute-tools">
-        <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/8596/8596640.png">
-        <div id="annotation-tool">
-            <img class="tools" id="Length" src="https://cdn-icons-png.flaticon.com/128/6644/6644036.png">
-            <img class="tools" id="Angle" src="https://cdn-icons-png.flaticon.com/128/262/262070.png">
-            <img class="tools" id="Height" src="https://cdn-icons-png.flaticon.com/128/3789/3789467.png">
-            <img class="tools" id="Probe" src="https://cdn-icons-png.flaticon.com/128/6664/6664962.png">
-            <img class="tools" id="RectangleROI" src="https://cdn-icons-png.flaticon.com/128/54/54538.png">
-            <img class="tools" id="EllipticalROI" src="https://cdn-icons-png.flaticon.com/128/1598/1598853.png">
-            <img class="tools" id="CircleROI" src="https://cdn-icons-png.flaticon.com/128/60/60722.png">
-            <img class="tools" id="Bidirectional" src="https://cdn-icons-png.flaticon.com/128/657/657023.png">
-            <img class="tools" id="CobbAngle" src="https://cdn-icons-png.flaticon.com/128/715/715800.png">
-            <img class="tools" id="ArrowAnnotate" src="https://cdn-icons-png.flaticon.com/128/21/21112.png">
-            <img class="tools" id="Eraser" src="https://cdn-icons-png.flaticon.com/128/15109/15109444.png">
-            <img class="tools" id="PlanarFreehandROI" src="https://cdn-icons-png.flaticon.com/128/1828/1828911.png">
+<section id="main-content">
+    <div id="top-bar">
+        <img class="tool-button" id="work-list" src="https://cdn-icons-png.flaticon.com/128/14203/14203876.png"
+             onclick="location.href='/main'">
+        <div id="pure-tool">
+            <img class="tools" id="StackScroll" src="https://cdn-icons-png.flaticon.com/128/482/482824.png">
+            <img class="tools" id="Zoom" src="https://cdn-icons-png.flaticon.com/128/8249/8249218.png">
+            <img class="tools" id="Magnify" src="https://cdn-icons-png.flaticon.com/128/16/16492.png">
+            <img class="tools" id="Pan" src="https://cdn-icons-png.flaticon.com/128/25/25476.png">
+            <img class="tools" id="WindowLevel" src="https://cdn-icons-png.flaticon.com/128/12148/12148999.png">
+            <img class="tools" id="PlanarRotate" src="https://cdn-icons-png.flaticon.com/128/4716/4716164.png">
+        </div>
+        <div id="show-absolute-tools">
+            <img id="annotation-list" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/8596/8596640.png">
+            <div id="annotation-tool">
+                <img class="tools" id="Length" src="https://cdn-icons-png.flaticon.com/128/6644/6644036.png">
+                <img class="tools" id="Angle" src="https://cdn-icons-png.flaticon.com/128/262/262070.png">
+                <img class="tools" id="Height" src="https://cdn-icons-png.flaticon.com/128/3789/3789467.png">
+                <img class="tools" id="Probe" src="https://cdn-icons-png.flaticon.com/128/6664/6664962.png">
+                <img class="tools" id="RectangleROI" src="https://cdn-icons-png.flaticon.com/128/54/54538.png">
+                <img class="tools" id="EllipticalROI" src="https://cdn-icons-png.flaticon.com/128/1598/1598853.png">
+                <img class="tools" id="CircleROI" src="https://cdn-icons-png.flaticon.com/128/60/60722.png">
+                <img class="tools" id="Bidirectional" src="https://cdn-icons-png.flaticon.com/128/657/657023.png">
+                <img class="tools" id="CobbAngle" src="https://cdn-icons-png.flaticon.com/128/715/715800.png">
+                <img class="tools" id="ArrowAnnotate" src="https://cdn-icons-png.flaticon.com/128/21/21112.png">
+                <img class="tools" id="Eraser" src="https://cdn-icons-png.flaticon.com/128/15109/15109444.png">
+                <img class="tools" id="PlanarFreehandROI" src="https://cdn-icons-png.flaticon.com/128/1828/1828911.png">
+            </div>
+        </div>
+        <div id="show-absolute-row-column">
+            <img id="row-column-button" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/3/3467.png">
+            <div id="check-row-column-by-series">
+                <div class="row-column-box" data-row="1" data-column="1"></div>
+                <div class="row-column-box" data-row="1" data-column="2"></div>
+                <div class="row-column-box" data-row="1" data-column="3"></div>
+                <div class="row-column-box" data-row="1" data-column="4"></div>
+                <div class="row-column-box" data-row="1" data-column="5"></div>
+                <div class="row-column-box" data-row="2" data-column="1"></div>
+                <div class="row-column-box" data-row="2" data-column="2"></div>
+                <div class="row-column-box" data-row="2" data-column="3"></div>
+                <div class="row-column-box" data-row="2" data-column="4"></div>
+                <div class="row-column-box" data-row="2" data-column="5"></div>
+                <div class="row-column-box" data-row="3" data-column="1"></div>
+                <div class="row-column-box" data-row="3" data-column="2"></div>
+                <div class="row-column-box" data-row="3" data-column="3"></div>
+                <div class="row-column-box" data-row="3" data-column="4"></div>
+                <div class="row-column-box" data-row="3" data-column="5"></div>
+                <div class="row-column-box" data-row="4" data-column="1"></div>
+                <div class="row-column-box" data-row="4" data-column="2"></div>
+                <div class="row-column-box" data-row="4" data-column="3"></div>
+                <div class="row-column-box" data-row="4" data-column="4"></div>
+                <div class="row-column-box" data-row="4" data-column="5"></div>
+                <div class="row-column-box" data-row="5" data-column="1"></div>
+                <div class="row-column-box" data-row="5" data-column="2"></div>
+                <div class="row-column-box" data-row="5" data-column="3"></div>
+                <div class="row-column-box" data-row="5" data-column="4"></div>
+                <div class="row-column-box" data-row="5" data-column="5"></div>
+            </div>
         </div>
     </div>
-    <div id="show-absolute-row-column">
-        <img id="row-column-button" class="tool-button" src="https://cdn-icons-png.flaticon.com/128/3/3467.png">
-        <div id="check-row-column-by-series">
-            <div class="row-column-box" data-row="1" data-column="1"></div>
-            <div class="row-column-box" data-row="1" data-column="2"></div>
-            <div class="row-column-box" data-row="1" data-column="3"></div>
-            <div class="row-column-box" data-row="1" data-column="4"></div>
-            <div class="row-column-box" data-row="1" data-column="5"></div>
-            <div class="row-column-box" data-row="2" data-column="1"></div>
-            <div class="row-column-box" data-row="2" data-column="2"></div>
-            <div class="row-column-box" data-row="2" data-column="3"></div>
-            <div class="row-column-box" data-row="2" data-column="4"></div>
-            <div class="row-column-box" data-row="2" data-column="5"></div>
-            <div class="row-column-box" data-row="3" data-column="1"></div>
-            <div class="row-column-box" data-row="3" data-column="2"></div>
-            <div class="row-column-box" data-row="3" data-column="3"></div>
-            <div class="row-column-box" data-row="3" data-column="4"></div>
-            <div class="row-column-box" data-row="3" data-column="5"></div>
-            <div class="row-column-box" data-row="4" data-column="1"></div>
-            <div class="row-column-box" data-row="4" data-column="2"></div>
-            <div class="row-column-box" data-row="4" data-column="3"></div>
-            <div class="row-column-box" data-row="4" data-column="4"></div>
-            <div class="row-column-box" data-row="4" data-column="5"></div>
-            <div class="row-column-box" data-row="5" data-column="1"></div>
-            <div class="row-column-box" data-row="5" data-column="2"></div>
-            <div class="row-column-box" data-row="5" data-column="3"></div>
-            <div class="row-column-box" data-row="5" data-column="4"></div>
-            <div class="row-column-box" data-row="5" data-column="5"></div>
+    <div id="thumbnail-list">
+        <button id="reportButton" class="btn btn-primary">보고서 작성</button>
+        <h2>썸네일</h2>
+        <!-- Thumbnails will be added here dynamically -->
+    </div>
+    <div id="main-viewer">
+        <!-- Main image viewer -->
+        <div id="viewportGrid">
+            <%--        <div id="overlay">--%>
+            <%--            <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>--%>
+            <%--        </div>--%>
         </div>
     </div>
-</div>
-<div id="thumbnail-list">
-    <button id="reportButton" class="btn btn-primary">보고서 작성</button>
-    <h2>썸네일</h2>
-    <!-- Thumbnails will be added here dynamically -->
-</div>
-<div id="main-viewer">
-    <!-- Main image viewer -->
-    <div id="viewportGrid">
-<%--        <div id="overlay">--%>
-<%--            <canvas id="overlayCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></canvas>--%>
-<%--        </div>--%>
-    </div>
-</div>
-<input type="hidden" id="studyKey" value="${study.studykey}">
+    <input type="hidden" id="studyKey" value="${study.studykey}">
+</section>
 
 
 <!-- 리포트 모달 -->

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, String> {
     public List<User> findByDepartmentCodeOrderByRegDateDesc(int departmentCode);
+    public List<User> findByAdminFalseOrderByRegDateDesc();
 }

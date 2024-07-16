@@ -1,6 +1,86 @@
 $(document).ready(function() {
+    const recordsPerPage = 15;
+    let currentPage = 1;
+    let doctors = [];
+
+    // 서버로부터 데이터를 가져옵니다
+    function fetchDoctors() {
+        $.ajax({
+            url: '/admin/manage',
+            type: 'POST',
+            contentType: 'application/json',
+            success: function(response) {
+                doctors = response;
+                displayDoctors();
+                setupPagination();
+            },
+            error: function() {
+                alert('데이터를 불러오는 중 오류가 발생했습니다.');
+            }
+        });
+    }
+
+    function displayDoctors() {
+        const startIndex = (currentPage - 1) * recordsPerPage;
+        const endIndex = Math.min(startIndex + recordsPerPage, doctors.length);
+        const doctorsToDisplay = doctors.slice(startIndex, endIndex);
+
+        let profileContainer = "";
+        doctorsToDisplay.forEach((doctor) => {
+            if (!doctor.admin) {
+                profileContainer += `
+                    <div class="profile-card">
+                        <div class="profile-image"><img src="${contextPath}/image/profile.png"></div>
+                        <div class="profile-details">
+                            <p>이름 : ${doctor.name}</p>
+                            <p>직급 : ${doctor.position === "professor" ? "교수" : doctor.position === "intern" ? "인턴" : doctor.position === "fellow" ? "펠로우" : "레지던트"}</p>
+                            <p>아이디 : ${doctor.id}</p>
+                            <p>연락처 : ${doctor.phone}</p>
+                            <div class="profile-actions">
+                                <button class="edit-button" data-id="${doctor.id}">수정</button>
+                                <button class="delete-button" data-id="${doctor.id}">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        $(".profile-container").html(profileContainer);
+    }
+
+    function setupPagination() {
+        const totalPages = Math.ceil(doctors.length / recordsPerPage);
+        $("#pageInfo").text(`${currentPage} / ${totalPages}`);
+
+        $("#prevPage").prop("disabled", currentPage === 1);
+        $("#nextPage").prop("disabled", currentPage === totalPages);
+    }
+
+    function changePage(page) {
+        currentPage = page;
+        displayDoctors();
+        setupPagination();
+    }
+
+    $("#prevPage").on("click", function() {
+        if (currentPage > 1) {
+            changePage(currentPage - 1);
+        }
+    });
+
+    $("#nextPage").on("click", function() {
+        const totalPages = Math.ceil(doctors.length / recordsPerPage);
+        if (currentPage < totalPages) {
+            changePage(currentPage + 1);
+        }
+    });
+
+    // 초기화
+    fetchDoctors();
+
     // 삭제 버튼 클릭 이벤트 핸들러
-    $(".delete-button").click(function() {
+    $(".profile-container").on("click", ".delete-button", function() {
         var doctorId = $(this).data("id");
         if (confirm("정말 삭제하시겠습니까?")) {
             $.ajax({
@@ -11,7 +91,7 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response) {
                         alert("삭제되었습니다.");
-                        location.reload(); // 페이지를 새로고침하여 삭제된 내용을 반영
+                        fetchDoctors(); // 페이지를 새로고침하지 않고 데이터를 다시 불러옴
                     } else {
                         alert("삭제에 실패하였습니다.");
                     }
@@ -31,7 +111,7 @@ $(document).ready(function() {
     const closeJoin = $('#close-join');
 
     // 수정 버튼 클릭 이벤트 핸들러
-    $('.edit-button').on('click', function() {
+    $('.profile-container').on('click', '.edit-button', function() {
         var doctorId = $(this).data('id');
         $.ajax({
             url: '/user/update/admin/' + doctorId,
@@ -61,11 +141,10 @@ $(document).ready(function() {
         joinModal.hide();
     });
 
-    $('.cancel-button').on('click',function (){
+    $('.cancel-button').on('click', function() {
         initializeValues();
         joinModal.hide();
-    })
-
+    });
 
     // 추가 버튼 클릭 이벤트 핸들러
     $('.add-button').on('click', function() {
@@ -84,16 +163,16 @@ $(document).ready(function() {
 
         if (!name || !position || !department || !birth || !phone || !address) {
             alert('모든 필드를 입력해 주세요.');
-        }else{
+        } else {
             const departmentCode = parseInt(department);
             const formData = {
-                "name" : name,
-                "position" : position,
-                "departmentCode" : departmentCode,
-                "birth" : birth,
-                "phone" : phone,
-                "address" : address
-            }
+                name: name,
+                position: position,
+                departmentCode: departmentCode,
+                birth: birth,
+                phone: phone,
+                address: address
+            };
 
             $.ajax({
                 url: '/user/join',
@@ -101,34 +180,33 @@ $(document).ready(function() {
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function(response) {
-                   if(response){
-                       alert('등록 완료.')
-                       location.reload(true);
-                   }else{
-                       alert('등록 실패')
-                   }
+                    if (response) {
+                        alert('등록 완료.');
+                        location.reload();
+                    } else {
+                        alert('등록 실패');
+                    }
                 },
                 error: function() {
                     alert('에러가 발생하였습니다.');
                 }
             });
         }
-
-    })
+    });
 
     // 모달 외부 클릭 시 모달 닫기 이벤트 핸들러
     $(window).on('click', function(event) {
         if ($(event.target).is(joinModal)) {
             initializeValues();
             joinModal.hide();
-        }else if ($(event.target).is(editModal)) {
+        } else if ($(event.target).is(editModal)) {
             editModal.hide();
             $('#edit-modal-body-content').html('');
         }
     });
 });
 
-function initializeValues(){
+function initializeValues() {
     $('#name').val("");
     $('#position').val("");
     $('#department').val("");
@@ -168,7 +246,7 @@ function initializeForm() {
             success: function(response) {
                 if (response) {
                     alert('수정되었습니다.');
-                    window.location.href = '/admin/manage';
+                    location.reload();
                 } else {
                     alert('수정에 실패하였습니다.');
                 }

@@ -30,13 +30,16 @@ public class UserController {
         return true;
     }
 
-    @ResponseBody
     @GetMapping("/admin/manage")
-    public ModelAndView getUsers() {
-        ModelAndView modelAndView = new ModelAndView("user/userManage");
+    public String userManagePage(){
+        return "user/userManage";
+    }
+
+    @ResponseBody
+    @PostMapping("/admin/manage")
+    public List<UserResponseDto> getUsers(){
         List<UserResponseDto> userResponseDtos = userService.getUsers();
-        modelAndView.addObject("infos", userResponseDtos);
-        return modelAndView;
+        return userResponseDtos;
     }
 
 

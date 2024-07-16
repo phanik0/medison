@@ -1,17 +1,17 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">
+<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">--%>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/5540/5540514.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -25,7 +25,12 @@
             <img src="${pageContext.request.contextPath}/image/logo.png" style="height: 50px;">
         </a>
     </h1>
-    <button onclick="logout()">Logout</button>
+    <div class="header-buttons">
+        <c:if test="${user.admin}">
+            <button onclick="location.href='/admin'">관리자 페이지</button>
+        </c:if>
+        <button onclick="logout()">Logout</button>
+    </div>
 </header>
 <script>
     function logout() {
