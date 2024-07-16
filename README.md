@@ -2,7 +2,7 @@
 
 ### 프로젝트 개요
 <p align="center">
-  <img src="https://github.com/phanik0/medison/assets/163233482/8981ab92-5029-484a-8d1d-14fdce731cf6">
+  <img src="https://github.com/user-attachments/assets/7ffe7ad1-f664-4c22-a59e-22c85201c701">
 </p>
 
 
@@ -20,7 +20,7 @@
 
 ### 서비스 시나리오
 <p align="center">
-  <img src="https://github.com/phanik0/medison/assets/163233482/dd783ce1-f2bc-4524-ac91-8157f6fb5d1e">
+  <img src="https://github.com/user-attachments/assets/9bd4ea9d-2af6-4d6e-9538-3d969006aa54">
 </p>
 
 
