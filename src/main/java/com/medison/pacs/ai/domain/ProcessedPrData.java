@@ -33,35 +33,10 @@ public class ProcessedPrData {
                 processedPrData.setColor(graphicObject.getLineStyleSequence().get(0).getPatternOnColorCIELabValue());
             }
 
-            System.out.println("numberOfGraphicPoints: " + graphicObject.getNumberOfGraphicPoints());
             processedPrData.setNumberOfGraphicPoints(graphicObject.getNumberOfGraphicPoints());
 
         }
 
         return processedPrData;
     }
-
-//    public ProcessedPrData convertToProcessedPrData(PrContent prContent) {
-//        ProcessedPrData processedPrData = new ProcessedPrData();
-//
-//        if (prContent.getGraphicObjectSequence() != null) {
-//            for (PrContent.GraphicObjectSequence graphicObject : prContent.getGraphicObjectSequence()) {
-//                processedPrData = getProcessedPrData(graphicObject);
-//
-//            }
-//        }
-//        return processedPrData;
-//    }
-
-//    private static ProcessedPrData getProcessedPrData(PrContent.GraphicObjectSequence graphicObject) {
-//        ProcessedPrData processedPrData = new ProcessedPrData();
-//        processedPrData.setCoordinate(graphicObject.getGraphicData());
-//        processedPrData.setGraphicType(graphicObject.getGraphicType());
-//        processedPrData.setColor(graphicObject.getLineStyleSequence() != null && !graphicObject.getLineStyleSequence().isEmpty() ?
-//                graphicObject.getLineStyleSequence().get(0).getPatternOnColorCIELabValue() : null);
-//        processedPrData.setNumberOfGraphicPoints(graphicObject.getNumberOfGraphicPoints());
-//
-//        return processedPrData;
-//    }
-
 }

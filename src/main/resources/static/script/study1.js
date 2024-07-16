@@ -141,7 +141,7 @@ const onload = async function (studyKey) {
             const promises = studyInfo.map(async (series) => {
                 const seriesImageIds = [];
                 console.log(series.imagecnt)
-                if(series.imagecnt !== 0) {
+                if (series.imagecnt !== 0) {
                     for (const image of series) {
                         if (image.fname) {
                             const filePath = image.path + image.fname;
@@ -554,7 +554,7 @@ const onload = async function (studyKey) {
 //         };
 
 
-        const drawTextObject = (textObject, context,scaleX, scaleY) => {
+        const drawTextObject = (textObject, context, scaleX, scaleY) => {
 
             const unformattedTextValue = textObject.UnformattedTextValue;
             const textStyleSequence = textObject.TextStyleSequence;
@@ -566,10 +566,10 @@ const onload = async function (studyKey) {
             // Drawing the bounding box
             context.beginPath();
             context.rect(
-                boundingBoxTopLeftHandCorner.Column*scaleX,
-                boundingBoxTopLeftHandCorner.Row*scaleY,
-                (boundingBoxBottomRightHandCorner.Column - boundingBoxTopLeftHandCorner.Column)*scaleX,
-                (boundingBoxBottomRightHandCorner.Row - boundingBoxTopLeftHandCorner.Row)*scaleY
+                boundingBoxTopLeftHandCorner.Column * scaleX,
+                boundingBoxTopLeftHandCorner.Row * scaleY,
+                (boundingBoxBottomRightHandCorner.Column - boundingBoxTopLeftHandCorner.Column) * scaleX,
+                (boundingBoxBottomRightHandCorner.Row - boundingBoxTopLeftHandCorner.Row) * scaleY
             );
             context.stroke();
             // 텍스트 스타일 설정
@@ -595,20 +595,20 @@ const onload = async function (studyKey) {
             // Drawing the text
             context.fillText(
                 unformattedTextValue,
-                boundingBoxTopLeftHandCorner.Column*scaleX,
-                boundingBoxTopLeftHandCorner.Row*scaleY
+                boundingBoxTopLeftHandCorner.Column * scaleX,
+                boundingBoxTopLeftHandCorner.Row * scaleY
             );
 
             // Drawing the anchor point if visible
             if (anchorPointVisibility === 'Y') {
                 context.beginPath();
-                context.arc(anchorPoint.Column*scaleX, anchorPoint.Row*scaleY, 5, 0, 2 * Math.PI);
+                context.arc(anchorPoint.Column * scaleX, anchorPoint.Row * scaleY, 5, 0, 2 * Math.PI);
                 context.fill();
             }
         };
 
 // Updated drawOverlay function
-        async function drawOverlay(element, studyKey,imageId) {
+        async function drawOverlay(element, studyKey, imageId) {
             if (!element) {
                 console.error('Overlay element not found.');
                 return;
@@ -637,7 +637,7 @@ const onload = async function (studyKey) {
             element.appendChild(canvas);
             console.log('Canvas size:', canvas.width, canvas.height);
 
-            element.style.width =`${viewportWidth}px`
+            element.style.width = `${viewportWidth}px`
             element.style.height = `${viewportHeight}px`;
             element.appendChild(canvas);
             console.log('Canvas created:', canvas);  // 캔버스 생성 확인
@@ -684,7 +684,7 @@ const onload = async function (studyKey) {
                             const {centerX, centerY, a, b, theta} = calculateEllipseParams(points);
                             context.ellipse(centerX * scaleX, centerY * scaleY, a * scaleX, b * scaleY, theta, 0, 2 * Math.PI);
                             // context.ellipse(centerX, centerY, a, b, theta, 0, 2 * Math.PI);
-                            console.log('centerX : ' + centerX*scaleX, 'centerY :' + centerY*scaleY);
+                            console.log('centerX : ' + centerX * scaleX, 'centerY :' + centerY * scaleY);
                         }
                         if (lineStyle.ShadowStyle === 'OUTLINED') {
                             const shadowCIE = lineStyle.ShadowColorCIELabValue;
@@ -701,7 +701,7 @@ const onload = async function (studyKey) {
                 }
                 if (textObject) {
                     textObject.forEach(text => {
-                        drawTextObject(text, context,scaleX,scaleY);
+                        drawTextObject(text, context, scaleX, scaleY);
                     })
                 }
             });
