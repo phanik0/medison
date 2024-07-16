@@ -19,7 +19,6 @@ $(document).ready(function() {
             }
         });
     }
-
     function displayDoctors() {
         const startIndex = (currentPage - 1) * recordsPerPage;
         const endIndex = Math.min(startIndex + recordsPerPage, doctors.length);

@@ -2,7 +2,7 @@ import * as cornerstone from '@cornerstonejs/core';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import * as cornerstoneDICOMImageLoader from '@cornerstonejs/dicom-image-loader';
 import * as dicomParser from 'dicom-parser';
-import {RenderingEngine} from "@cornerstonejs/core";
+import {imageLoader, RenderingEngine} from "@cornerstonejs/core";
 
 const {
     ZoomTool, ToolGroupManager,     // 줌
@@ -225,11 +225,10 @@ const onload = async function (studyKey) {
 
         const imageIdsBySeries = allData.imageIds;
         const metaDatasBySeries = allData.metaDatas;
-        console.log(metaDatasBySeries);
         // 썸네일 랜더링
         const thumnailRenderingEngine = new RenderingEngine('thumbnailRenderingEngine');
 
-        const renderImageInViewport = async function (viewportId, images, renderingEngine,index=0) {
+        const renderImageInViewport = async function (viewportId, images, renderingEngine, index = 0) {
             renderingEngine.enableElement({
                 viewportId: viewportId,
                 element: document.getElementById(viewportId),
@@ -251,17 +250,17 @@ const onload = async function (studyKey) {
 
             if (renderingEngine.id === mainRenderingEngineId) {
 
-                if(document.getElementById(viewportId+"_patientInfo")){
-                    document.getElementById(viewportId+"_patientInfo").remove();
-                    document.getElementById(viewportId+"_studyInfo").remove();
-                    document.getElementById(viewportId+"_seriesInfo").remove();
+                if (document.getElementById(viewportId + "_patientInfo")) {
+                    document.getElementById(viewportId + "_patientInfo").remove();
+                    document.getElementById(viewportId + "_studyInfo").remove();
+                    document.getElementById(viewportId + "_seriesInfo").remove();
                 }
                 const metaData = metaDatasBySeries[index][0];
                 const targetElement = document.getElementById(viewportId).firstElementChild;
 
                 const patientInfo = document.createElement('div');
-                patientInfo.setAttribute('id',viewportId+"_patientInfo");
-                patientInfo.setAttribute('class',"info");
+                patientInfo.setAttribute('id', viewportId + "_patientInfo");
+                patientInfo.setAttribute('class', "info");
                 patientInfo.innerHTML = `<span>PID : ${metaData.patientID}</span>
                                     <span>PNAME : ${metaData.patientName}</span>
                                     <span>PSEX : ${metaData.patientSex}</span>
@@ -276,9 +275,9 @@ const onload = async function (studyKey) {
 
                 targetElement.appendChild(patientInfo);
 
-                const studyInfo  = document.createElement('div');
-                studyInfo.setAttribute('class',"info");
-                studyInfo.setAttribute('id',viewportId+"_studyInfo");
+                const studyInfo = document.createElement('div');
+                studyInfo.setAttribute('class', "info");
+                studyInfo.setAttribute('id', viewportId + "_studyInfo");
                 studyInfo.innerHTML = `<span>STUDYDATE : ${metaData.studyDate}</span>
                                     <span>STUDYID : ${metaData.studyID}</span>
                                     <span>MODALITY : ${metaData.modality}</span>
@@ -294,9 +293,9 @@ const onload = async function (studyKey) {
 
                 targetElement.appendChild(studyInfo);
 
-                const seriesInfo  = document.createElement('div');
-                seriesInfo.setAttribute('class',"info");
-                seriesInfo.setAttribute('id',viewportId+"_seriesInfo")
+                const seriesInfo = document.createElement('div');
+                seriesInfo.setAttribute('class', "info");
+                seriesInfo.setAttribute('id', viewportId + "_seriesInfo")
                 seriesInfo.innerHTML = `<span>SERIESNUM : ${metaData.seriesNumber}</span>
                                     <span>SERIESDESCRIPTION : ${metaData.seriesDescription}</span>
                                 `;
@@ -387,7 +386,7 @@ const onload = async function (studyKey) {
             for (let i = 0; i < targetLength; i++) {
                 const mainImageIds = imageIdsBySeries[i];
                 const mainViewportId = 'CT_' + i;
-                promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine,i));
+                promises.push(renderImageInViewport(mainViewportId, mainImageIds, mainRenderingEngine, i));
             }
             await Promise.all(promises);
         }
@@ -407,7 +406,7 @@ const onload = async function (studyKey) {
             if (event.target.id === "viewportGrid")
                 return;
 
-            if (event.target.nodeName === "CANVAS"||event.target.className==="info") {
+            if (event.target.nodeName === "CANVAS" || event.target.className === "info") {
                 const targetElement = event.target.parentElement.parentElement;
                 const targetUid = targetElement.dataset.viewportUid;
 
@@ -421,7 +420,7 @@ const onload = async function (studyKey) {
                 targetElement.style.border = '3px solid red';
 
                 targetViewportId = targetUid;
-            }else if(event.target.nodeName ==="SPAN"){
+            } else if (event.target.nodeName === "SPAN") {
 
                 const targetElement = event.target.parentElement.parentElement.parentElement;
                 const targetUid = targetElement.dataset.viewportUid;
@@ -437,8 +436,7 @@ const onload = async function (studyKey) {
 
                 targetViewportId = targetUid;
 
-            }
-            else {
+            } else {
                 if (targetViewportId) {
                     const targetViewport = document.getElementById(targetViewportId);
                     if (targetViewport) {
@@ -456,7 +454,7 @@ const onload = async function (studyKey) {
                 const thumnailUID = e.target.parentElement.parentElement.dataset.viewportUid;
 
                 const wishIndex = parseInt(thumnailUID.slice(basicThumbnailViewportUID.length, thumnailUID.length));
-                renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine,wishIndex);
+                renderImageInViewport(targetViewportId, imageIdsBySeries[wishIndex], mainRenderingEngine, wishIndex);
             }
         });
 
@@ -556,8 +554,285 @@ const onload = async function (studyKey) {
                 annotationBox.style.display = 'none';
             }
         })
+        const fetchProcessedPrDataList = async (studyKey) => {
+            try {
+                const response = await fetch(`/ai/${studyKey}`);
+                const data = await response.json();
+                if (data && data.length > 0) {
+                    return data;
+                } else {
+                    console.error('No images found for this study.');
+                    return null;
+                }
+            } catch (err) {
+                console.error('Error fetching study info:', err);
+                return null;
+            }
+        }
+
+        function decodeCIELab(encodedL, encodedA, encodedB) {
+            const L = (encodedL / 65535) * 100;
+            const a = ((encodedA / 65535) * 255) - 128;
+            const b = ((encodedB / 65535) * 255) - 128;
+
+            return {L, a, b};
+        }
+
+        function cielabToRgb(l, a, bChannel) {
+            let y = (l + 16) / 116;
+            let x = a / 500 + y;
+            let z = y - bChannel / 200;
+
+            [x, y, z] = [x, y, z].map(value => {
+                if (value ** 3 > 0.008856) {
+                    return value ** 3;
+                }
+                return (value - 16 / 116) / 7.787;
+            });
+
+            [x, y, z] = [
+                x * 0.95047,
+                y * 1.00000,
+                z * 1.08883
+            ];
+
+            let r = x * 3.2406 + y * -1.5372 + z * -0.4986;
+            let g = x * -0.9689 + y * 1.8758 + z * 0.0415;
+            let b = x * 0.0557 + y * -0.2040 + z * 1.0570;
+
+            [r, g, b] = [r, g, b].map(value => {
+                if (value > 0.0031308) {
+                    return 1.055 * (value ** (1 / 2.4)) - 0.055;
+                }
+                return 12.92 * value;
+            });
+
+            r = Math.min(Math.max(Math.round(r * 255), 0), 255);
+            g = Math.min(Math.max(Math.round(g * 255), 0), 255);
+            b = Math.min(Math.max(Math.round(b * 255), 0), 255);
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+// Function to calculate ellipse parameters from 4 points
+        function calculateEllipseParams(points) {
+            const xMean = points.reduce((sum, p) => sum + p.Column, 0) / points.length;
+            const yMean = points.reduce((sum, p) => sum + p.Row, 0) / points.length;
+
+            const covXX = points.reduce((sum, p) => sum + Math.pow(p.Column - xMean, 0), 0) / points.length;
+            const covXY = points.reduce((sum, p) => sum + (p.Column - xMean) * (p.Row - yMean), 0) / points.length;
+            const covYY = points.reduce((sum, p) => sum + Math.pow(p.Row - yMean, 2), 0) / points.length;
+
+            const lambda1 = (covXX + covYY) / 2 + Math.sqrt(Math.pow((covXX - covYY) / 2, 2) + Math.pow(covXY, 2));
+            const lambda2 = (covXX + covYY) / 2 - Math.sqrt(Math.pow((covXX - covYY) / 2, 2) + Math.pow(covXY, 2));
+
+            const a = 2 * Math.sqrt(lambda1);
+            const b = 2 * Math.sqrt(lambda2);
+
+            const theta = Math.atan2(2 * covXY, covXX - covYY) / 2;
+
+            return {centerX: xMean, centerY: yMean, a, b, theta};
+        }
+
+        const loadImage = async (imageId) => {
+            try {
+                const image = await imageLoader.loadImage(imageId);
+                return image;
+            } catch (error) {
+                console.error('Error loading image:', error);
+                throw error;
+            }
+        };
+
+// 이미지 크기 가져오기 함수
+        const getImageSize = async (imageId) => {
+            const image = await loadImage(imageId);
+            return {width: image.width, height: image.height};
+        };
+
+        const drawTextObject = (textObject, context, scaleX, scaleY) => {
+
+            const unformattedTextValue = textObject.UnformattedTextValue;
+            const textStyleSequence = textObject.TextStyleSequence;
+            const boundingBoxTopLeftHandCorner = textObject.BoundingBoxTopLeftHandCorner;
+            const boundingBoxBottomRightHandCorner = textObject.BoundingBoxBottomRightHandCorner;
+            const anchorPoint = textObject.AnchorPoint;
+            const anchorPointVisibility = textObject.AnchorPointVisibility;
+
+            // Drawing the bounding box
+            context.beginPath();
+            context.rect(
+                boundingBoxTopLeftHandCorner.Column * scaleX,
+                boundingBoxTopLeftHandCorner.Row * scaleY,
+                (boundingBoxBottomRightHandCorner.Column - boundingBoxTopLeftHandCorner.Column) * scaleX,
+                (boundingBoxBottomRightHandCorner.Row - boundingBoxTopLeftHandCorner.Row) * scaleY
+            );
+            context.stroke();
+            // 텍스트 스타일 설정
+            if (textStyleSequence && textStyleSequence[0]) {
+                const textStyle = textStyleSequence[0];
+                context.font = `${textStyle.Bold === 'Y' ? 'bold' : ''} ${textStyle.Italic === 'Y' ? 'italic' : ''} ${textStyle.Underlined === 'Y' ? 'underline' : ''} ${textStyle.CSSFontName}`;
+                const encodedCIE = textStyle.TextColorCIELabValue;
+                const decodedCIE = decodeCIELab(encodedCIE.L, encodedCIE.a, encodedCIE.b);
+                const textColor = cielabToRgb(decodedCIE.L, decodedCIE.a, decodedCIE.b);
+                context.fillStyle = textColor;
+
+                // 그림자 스타일 설정
+                if (textStyle.ShadowStyle === 'OUTLINED') {
+                    const shadowCIE = textStyle.ShadowColorCIELabValue;
+                    const decodedShadowCIE = decodeCIELab(shadowCIE.L, shadowCIE.a, shadowCIE.b);
+                    const shadowColor = cielabToRgb(decodedShadowCIE.L, decodedShadowCIE.a, decodedShadowCIE.b);
+                    context.shadowColor = shadowColor;
+                    context.shadowOffsetX = textStyle.ShadowOffsetX;
+                    context.shadowOffsetY = textStyle.ShadowOffsetY;
+                    context.shadowBlur = textStyle.ShadowOpacity * 10; // shadowOpacity를 블러로 변환
+                }
+            }
+            // Drawing the text
+            context.fillText(
+                unformattedTextValue,
+                boundingBoxTopLeftHandCorner.Column * scaleX,
+                boundingBoxTopLeftHandCorner.Row * scaleY
+            );
+
+            // Drawing the anchor point if visible
+            if (anchorPointVisibility === 'Y') {
+                context.beginPath();
+                context.arc(anchorPoint.Column * scaleX, anchorPoint.Row * scaleY, 5, 0, 2 * Math.PI);
+                context.fill();
+            }
+        };
+
+// Updated drawOverlay function
+        async function drawOverlay(element, studyKey, imageId) {
+            if (!element) {
+                console.error('Overlay element not found.');
+                return;
+            }
+
+            const overlayData = await fetchProcessedPrDataList(studyKey);
+
+            if (!overlayData || overlayData.length === 0) {
+                console.error('No overlay data found.');
+                return;
+            }
+            const {width: imageWidth, height: imageHeight} = await getImageSize(imageId);
+
+            // viewport 크기를 가져오기
+            const viewport = $('.viewport')[0];
+            const viewportWidth = viewport.offsetWidth;
+            const viewportHeight = viewport.offsetHeight;
+
+
+            // overlay 크기를 viewport 크기와 일치시키기
+            const canvas = document.createElement('canvas');
+            canvas.width = viewportWidth;
+            canvas.height = viewportHeight;
+            element.appendChild(canvas);
+
+            element.style.width = `${viewportWidth}px`
+            element.style.height = `${viewportHeight}px`;
+            element.appendChild(canvas);
+            const context = canvas.getContext('2d');
+
+            const scaleX = parseFloat($('.viewport').css('width')) / imageWidth;
+            const scaleY = parseFloat($('.viewport').css('height')) / imageHeight;
+
+            overlayData.forEach((data, index) => {
+                const graphicObjectSequence = data.GraphicObjectSequence;
+                const textObject = data.TextObjectSequence
+                if (graphicObjectSequence) {
+                    graphicObjectSequence.forEach(graphic => {
+                        const points = graphic.GraphicData;
+                        const lineStyle = graphic.LineStyleSequence;
+                        const CIE = lineStyle[0].PatternOnColorCIELabValue;
+                        const graphicType = graphic.GraphicType;
+                        const encodedCIE = CIE;
+                        const decodedCIE = decodeCIELab(encodedCIE.L, encodedCIE.a, encodedCIE.b);
+
+                        const color = cielabToRgb(decodedCIE.L, decodedCIE.a, decodedCIE.b);
+
+                        context.strokeStyle = color;
+                        context.lineWidth = lineStyle[0].LineThickness
+                        context.beginPath();
+                        if (graphicType === 'POLYLINE') {
+                            points.forEach((point, idx) => {
+                                const x = point.Column * scaleX;
+                                const y = point.Row * scaleY;
+
+                                if (idx === 0) {
+                                    context.moveTo(x, y);
+                                } else {
+                                    context.lineTo(x, y);
+                                }
+
+                            });
+                        } else if (graphicType === 'ELLIPSE') {
+
+                            const {centerX, centerY, a, b, theta} = calculateEllipseParams(points);
+                            context.ellipse(centerX * scaleX, centerY * scaleY, a * scaleX, b * scaleY, theta, 0, 2 * Math.PI);
+                            // context.ellipse(centerX, centerY, a, b, theta, 0, 2 * Math.PI);
+                        }
+                        if (lineStyle.ShadowStyle === 'OUTLINED') {
+                            const shadowCIE = lineStyle.ShadowColorCIELabValue;
+                            const decodedShadowCIE = decodeCIELab(shadowCIE.L, shadowCIE.a, shadowCIE.b);
+                            const shadowColor = cielabToRgb(decodedShadowCIE.L, decodedShadowCIE.a, decodedShadowCIE.b);
+                            context.shadowColor = shadowColor;
+                            context.shadowOffsetX = lineStyle.ShadowOffsetX;
+                            context.shadowOffsetY = lineStyle.ShadowOffsetY;
+                            context.shadowBlur = lineStyle.ShadowOpacity * 10; // shadowOpacity를 블러로 변환
+                        }
+                        context.stroke();
+                    });
+                }
+                if (textObject) {
+                    textObject.forEach(text => {
+                        drawTextObject(text, context, scaleX, scaleY);
+                    })
+                }
+            });
+        }
+
+        const main = async () => {
+            let imageId = '';
+            imageIdsBySeries.forEach(id => {
+                if (id) {
+                    imageId = id[0];
+                }
+            })
+            const overlay = document.getElementById('overlay');
+            await drawOverlay(overlay, studyKey, imageId);
+        };
+
+        main().catch(console.error);
     }
 }
 
+function updateOverlayPosition() {
+    const viewport = document.querySelector('.viewport');
+    const overlay = document.getElementById('overlay');
+
+    if (viewport && overlay) {
+        const rect = viewport.getBoundingClientRect();
+        overlay.style.position = 'absolute';
+        overlay.style.top = `${rect.top}px`;
+        overlay.style.left = `${rect.left}px`;
+        overlay.style.width = `${rect.width}px`;
+        overlay.style.height = `${rect.height}px`;
+    }
+}
+
+// 이벤트 리스너 추가
+window.addEventListener('resize', updateOverlayPosition);
+// cornerstone.events.addEventListener('cornerstoneimagerendered', updateOverlayPosition);
+window.onload = async () => {
+    const studyKey = document.getElementById('studyKey').value;
+    // const userId = document.getElementById('userId').value;
+    try {
+        await onload(studyKey);
+    } catch (error) {
+        console.error('Error loading study:', error);
+    }
+};
 
 

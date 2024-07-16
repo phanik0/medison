@@ -45,6 +45,7 @@ header button:hover {
 header button:focus {
     outline: none;
 }
+
 footer {
     background-color: #f9f9f9;
     color: black;

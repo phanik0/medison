@@ -11,7 +11,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/style/header.css">
-<%--    <link rel="stylesheet" href="${pageContext.request.contextPath}/style/main.css">--%>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/128/5540/5540514.png">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
