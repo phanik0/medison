@@ -141,5 +141,6 @@
         <button onclick="location.href='/main'">메인으로 돌아가기</button>
     </div>
 </main>
+<jsp:include page="module/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -96,5 +96,6 @@
         <!-- 페이지 번호가 여기에 삽입됩니다 -->
     </div>
 </div>
+<jsp:include page="../module/footer.jsp"></jsp:include>
 </body>
 </html>
