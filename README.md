@@ -64,7 +64,13 @@
   <img width="1000" height="600" src="https://github.com/user-attachments/assets/614765f9-07e1-4a3c-b479-eb414081b4a6">
 </p>
       
-  * 회원 생성 & 수정 & 삭제<br/>
+  * 회원 생성<br/>
+   <p align="center">
+  <img width="1000" height="600" src="">
+</p>
+
+
+  * 회원 수정 & 삭제<br/>
    <p align="center">
   <img width="1000" height="600" src="">
 </p>
@@ -120,13 +126,13 @@
 #### 소견서 기능
   * 소견서 작성<br/>
   <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/5c65b4ae-24a6-45c1-86b1-d2c7a2f071ca">
 </p>
 
 
   * 소견서 출력<br/>
    <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/cd5e062d-4d90-429e-9195-b6ce32329767">
 </p>
 
 
@@ -164,11 +170,11 @@
 
   * 주석<br/>
    <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/14a29491-1fcc-4bec-b8f5-60244d7bb4d2">
 </p>
 
 
   * 그리드<br/>
    <p align="center">
-  <img width="1000" height="600" src="">
+  <img width="1000" height="600" src="https://github.com/user-attachments/assets/20dcfce7-62e2-49d3-9f53-c1518cd1399b">
 </p>
