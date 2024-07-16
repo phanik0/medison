@@ -18,6 +18,7 @@
     border-radius: 10px;
     /*color: #fff;*/
     height: 100vh;
+    z-index: 10; /* 추가된 z-index */
 }
 .thumbnail {
     width: 100%;
@@ -33,9 +34,23 @@
     background-color: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 5px;
+    position: relative;
+    z-index: 5; /* 추가된 z-index */
+}
+#overlay {
+    /*width: 500px;*/
+    /*height: 500px; !* main-viewer와 동일한 크기 *!*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
 }
 
 #viewportGrid{
+    position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -50,6 +65,9 @@
     border: 1px solid #ccc;
     margin: 0.5%;
     background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .thumbnail img {
@@ -59,6 +77,7 @@
 .viewport div{
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
 #check-row-column-by-series{
@@ -75,7 +94,7 @@
     position: absolute;
     left: 510px;
     top:50px;
-    z-index: 2;
+    z-index: 20;
 }
 
 .row-column-box{
@@ -121,8 +140,7 @@
     margin-right: 20px;
     position: absolute;
     left: 450px;
-    top:50px;
-    z-index: 2;
+    top:50px;z-index: 15;
 }
 
 #top-bar{
