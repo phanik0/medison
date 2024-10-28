@@ -52,7 +52,7 @@
 </p>
 
 
-4. [프로젝트 기획서](https://www.canva.com/design/DAGIeFhMhFA/Vm2owdPONBYgkYIwXdXNTg/edit)
+4. [프로젝트 기획서](https://drive.google.com/file/d/18N9Qpnyfk7IfLIJ5GwsXe8aq4URg1nk7/view?usp=sharing)
 5. [화면설계서](https://ovenapp.io/project/B4e18fqQBycT7wGUzBnwTuLBgTodbz15#4Cnk5)
 6. [WBS](https://docs.google.com/spreadsheets/d/1wBi7_pHoukmeYZXmRgF6tczntNdSy5O_/edit?gid=1420454799#gid=1420454799)
 
